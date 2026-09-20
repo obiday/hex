@@ -316,7 +316,7 @@
         if(tabId === 'donateTab' && !isFetchedDonate) fetchTopDonate();
     }
 
-    // --- PHẦN 1: LOGIC SỬA TÊN & HEX VIEWER (2 CỘT CHUẨN IOS) ---
+    // --- PHẦN 1: LOGIC SỬA TÊN & HEX VIEWER ---
     const fileInput = document.getElementById('fileInput');
     const boxSection = document.getElementById('boxSection');
     const oldNameInput = document.getElementById('oldNameInput');
@@ -377,7 +377,7 @@
             statusBox.style.color = 'var(--success)';
             statusText.innerHTML = `Đã tìm thấy: <b>${oldName}</b> (ở ${foundOffsets.length} chỗ)`;
             
-            // Render Hex Dump 2 Cột (Offset & String) - 8 Bytes/Row
+            // Render Hex Dump
             renderHexDump(fileBuffer, foundOffsets[0], targetLength);
 
             newNameInput.disabled = false;
@@ -393,8 +393,6 @@
 
     function renderHexDump(buffer, offset, matchLen) {
         const uint8 = new Uint8Array(buffer);
-        
-        // Căn lùi lại 2 dòng (16 byte), hiển thị tổng cộng 8 dòng
         let start = Math.max(0, offset - 16);
         start = Math.floor(start / 8) * 8; 
         let end = Math.min(uint8.length, start + 64);
@@ -422,7 +420,6 @@
                     }
                 }
             }
-            // Nối 2 cột: Cột Địa Chỉ + Cột Chữ
             hexHTML += `<span class="hex-offset">${rowOffset}</span>${rowAscii.trimEnd()}\n`;
         }
 
@@ -474,20 +471,41 @@
         URL.revokeObjectURL(url);
     });
 
-    // --- PHẦN 2: TẠO QR & LỌC DỮ LIỆU TỪ WEB ---
+    // --- PHẦN 2: TẠO QR (ĐÃ FIX LỖI) & LỌC DỮ LIỆU TỪ WEB ---
     function generateDonateQR() {
-        const amount = document.getElementById('donateAmount').value || 0;
+        const amountInput = document.getElementById('donateAmount').value;
+        // Chỉ lấy số, nếu không nhập thì để null
+        const amount = amountInput ? parseInt(amountInput) : null; 
+        
         let name = document.getElementById('donateName').value.trim();
         let message = document.getElementById('donateMessage').value.trim();
         
         if (!name) name = "An Danh";
         
         let rawContent = `DONATE0704 ${name}`;
-        if (message) rawContent += ` - ${message}`;
+        if (message) rawContent += ` ${message}`; // Bỏ dấu gạch ngang (-) để an toàn
 
-        const safeContent = rawContent.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D');
+        // Lọc tiếng Việt và CHỈ giữ lại chữ cái, số, khoảng trắng
+        const safeContent = rawContent.normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/đ/g, 'd').replace(/Đ/g, 'D')
+            .replace(/[^a-zA-Z0-9 ]/g, '') // Xóa các ký tự đặc biệt
+            .trim();
 
-        const qrUrl = `https://img.vietqr.io/image/MB-0364583885-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(safeContent)}&accountName=NGO%20SON%20LAM`;
+        // Sử dụng URLSearchParams để build URL an toàn
+        const baseUrl = 'https://img.vietqr.io/image/MB-0364583885-compact2.png';
+        const params = new URLSearchParams();
+        
+        // Nếu có nhập số tiền > 0 thì mới thêm tham số amount
+        if (amount && amount > 0) {
+            params.append('amount', amount);
+        }
+        
+        params.append('addInfo', safeContent);
+        params.append('accountName', 'NGO SON LAM');
+
+        // Tạo URL cuối cùng
+        const qrUrl = `${baseUrl}?${params.toString()}`;
         
         document.getElementById('qrImage').src = qrUrl;
         document.getElementById('qrResultArea').style.display = 'block';
