@@ -144,20 +144,13 @@
         .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; flex-shrink: 0; text-align: right;} 
         .loading-text { text-align: center; font-size: 13px; color: var(--text-muted); font-weight: 700; padding: 15px; }
 
-        /* MODAL CHUNG & QR MODAL */
-        .key-modal-overlay, .success-overlay, .qr-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 15px; }
-        .key-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 340px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; gap: 12px; max-height: 90vh; overflow-y: auto;}
+        /* MODAL CHUNG */
+        .key-modal-overlay, .success-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 15px; }
+        .key-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; gap: 15px; max-height: 80vh; overflow-y: auto;}
         @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .key-modal h3 { margin: 0 0 5px 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
+        .key-modal h3 { margin: 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
+        .key-modal input { text-align: center; font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 700; color: #D84315; padding: 12px; border-radius: 10px; border: 2px solid rgba(198, 156, 133, 0.3); background: var(--input-bg); width: 100%; box-sizing: border-box; outline: none; }
         
-        .qr-info-box { background: var(--input-bg); border: 1px solid rgba(198, 156, 133, 0.3); border-radius: 12px; padding: 12px; text-align: left; display: flex; flex-direction: column; gap: 8px;}
-        .qr-info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; color: var(--text-main); }
-        .qr-info-row span { font-family: 'Fira Code', monospace; color: #D84315; }
-        .btn-copy-sm { background: var(--primary); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 800; transition: 0.3s;}
-        .btn-copy-sm:hover { background: var(--primary-hover); }
-
-        .qr-modal-img { width: 160px; height: 160px; border-radius: 10px; margin: 0 auto; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: contain; }
-
         .modal-buttons { display: flex; gap: 8px; justify-content: center; }
         .btn-copy-modal, .btn-close-modal { border: none; padding: 10px 15px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; flex: 1; font-family: 'Nunito', sans-serif; color: #fff;}
         .btn-copy-modal { background: #8BA888; }
@@ -165,6 +158,51 @@
         .btn-close-modal { background: var(--text-muted); }
         .btn-close-modal:hover { background: var(--text-main); }
 
+        /* BẢNG QUÉT QR CHUYỂN KHOẢN (THIẾT KẾ GIỐNG HÌNH MẪU 100%) */
+        .qr-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(92, 75, 65, 0.5); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(4px); padding: 15px; }
+        .qr-modal-box {
+            background: #FAF5EF; /* Nền kem nhẹ nhàng */
+            padding: 24px; border-radius: 24px; text-align: center; 
+            width: 100%; max-width: 340px; 
+            box-shadow: 0 15px 40px rgba(92, 75, 65, 0.15); 
+            animation: bounceIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            display: flex; flex-direction: column; gap: 16px; 
+        }
+        
+        .qr-modal-box h3 { margin: 0; color: #5C4B41; font-weight: 900; font-size: 17px; }
+        
+        /* Cập nhật Box Ảnh QR ngang bằng với Box sao chép */
+        .qr-img-container {
+            width: 100%; background: #FFFFFF; padding: 15px; border-radius: 16px;
+            box-sizing: border-box; display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .qr-modal-img { width: 100%; max-width: 240px; height: auto; object-fit: contain; border-radius: 8px;}
+        
+        .qr-info-box { 
+            background: #FFFFFF; border-radius: 16px; padding: 16px; 
+            width: 100%; box-sizing: border-box; text-align: left; 
+            display: flex; flex-direction: column; gap: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        .qr-info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; color: #5C4B41; }
+        .qr-info-row span { font-family: 'Fira Code', monospace; color: #A65A46; }
+        
+        .btn-copy-sm { 
+            background: #C49F89; color: #fff; border: none; padding: 6px 12px; 
+            border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 800; 
+            transition: 0.3s; font-family: 'Nunito', sans-serif;
+        }
+        .btn-copy-sm:hover { background: #B0856D; }
+
+        .btn-close-qr { 
+            background: #8C7B70; color: #fff; border: none; padding: 14px; 
+            border-radius: 14px; font-size: 14px; font-weight: 900; cursor: pointer; 
+            transition: 0.3s; width: 100%; font-family: 'Nunito', sans-serif;
+        }
+        .btn-close-qr:hover { background: #736359; }
+
+        /* DANH SÁCH LỊCH SỬ KEY */
         .history-list { text-align: left; overflow-y: auto; max-height: 250px; padding: 5px; margin-bottom: 10px; font-family: 'Fira Code', monospace; font-size: 13px; }
         .history-item { padding: 10px 0; border-bottom: 1px dashed rgba(198, 156, 133, 0.3); }
         .history-item:last-child { border-bottom: none; }
@@ -175,7 +213,6 @@
         .check-wrap { position: relative; width: 70px; height: 70px; margin: 0 auto 15px; }
         .check-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 4px dashed var(--success); border-radius: 50%; animation: spin 3s linear infinite; box-sizing: border-box; }
         .check-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: var(--success); }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .success-modal p.name { font-size: 14px; color: var(--text-muted); font-weight: 800; margin: 5px 0; }
         .success-modal h1.amount { margin: 10px 0 10px 0; font-size: 26px; color: #D84315; font-family: 'Fira Code', monospace; } 
@@ -234,7 +271,6 @@
             <h3><i class="fa-solid fa-bolt" style="color: #F4D03F;"></i> Chuyển Tiền Tự Động Xử Lý</h3>
             <div class="form-row"><input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)"></div>
             <div class="form-row">
-                <!-- Chỉ có ô nhập Tên -->
                 <input type="text" id="donateName" placeholder="Tên hiển thị (Tự động xóa dấu)">
             </div>
             <button class="btn-generate" onclick="openQrModal()"><i class="fa-solid fa-qrcode"></i> Tạo Mã QR Chuyển Khoản</button>
@@ -262,11 +298,14 @@
     </div>
 </div>
 
-<!-- BẢNG HIỆN QR & THÔNG TIN CHUYỂN KHOẢN RIÊNG -->
+<!-- BẢNG HIỆN QR CẬP NHẬT THEO HÌNH MẪU MỚI -->
 <div class="qr-modal-overlay" id="qrModalOverlay">
-    <div class="key-modal">
+    <div class="qr-modal-box">
         <h3>Quét Mã QR Chuyển Khoản</h3>
-        <img id="qrImage" class="qr-modal-img" src="" alt="Mã QR Chuyển khoản">
+        
+        <div class="qr-img-container">
+            <img id="qrImage" class="qr-modal-img" src="" alt="Mã QR Chuyển khoản">
+        </div>
         
         <div class="qr-info-box">
             <div class="qr-info-row">
@@ -283,11 +322,11 @@
             </div>
             <div class="qr-info-row">
                 <span id="modalAmountText">Số tiền: 0đ</span>
-                <button class="btn-copy-sm" onclick="copyText(currentAmountVal, this)"><i class="fa-solid fa-copy"></i> Sao chép</button>
+                <button class="btn-copy-sm" onclick="copyText(currentAmountVal, this)"><i class="fa-solid fa-check"></i> Xong</button>
             </div>
         </div>
 
-        <button class="btn-close-modal" onclick="closeQrModal()" style="width: 100%;">Đóng Bảng</button>
+        <button class="btn-close-qr" onclick="closeQrModal()">Đóng Bảng</button>
     </div>
 </div>
 
@@ -406,8 +445,8 @@
 
     function closeKeyModal() { document.getElementById('keyModalOverlay').style.display = 'none'; }
     function closeHistoryModal() { document.getElementById('historyModalOverlay').style.display = 'none'; }
-
-    function copyToClip(inputId, btn, color='#728F6F', colorRe='#8BA888') {
+    
+    function copyToClip(inputId, btn, color='#8BA888', colorRe='#9CAF88') {
         document.getElementById(inputId).select(); document.execCommand('copy');
         const originalHtml = btn.innerHTML;
         btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép'; btn.style.background = color;
@@ -416,23 +455,34 @@
     document.getElementById('copyKeyBtn').addEventListener('click', function() { copyToClip('modalKeyInput', this); });
     document.getElementById('copyBankKeyBtn').addEventListener('click', function() { copyToClip('bankKeyInput', this); });
 
+    // Hàm copy trên bảng thông tin QR 
     function copyText(text, btn) {
-        navigator.clipboard.writeText(text).then(() => {
+        // Chỉ lưu text là số khi copy số tiền
+        let copyStr = text;
+        if (typeof text === 'string' && text.includes('đ')) {
+            copyStr = text.replace(/[^0-9]/g, '');
+        }
+        
+        navigator.clipboard.writeText(copyStr).then(() => {
             let original = btn.innerHTML;
             btn.innerHTML = '<i class="fa-solid fa-check"></i> Xong';
-            setTimeout(() => { btn.innerHTML = original; }, 1500);
+            btn.style.background = '#8BA888';
+            setTimeout(() => { 
+                btn.innerHTML = original; 
+                btn.style.background = '#C49F89';
+            }, 1500);
         });
     }
 
-    // --- XỬ LÝ NHẬP TÊN KHÔNG DẤU VÀ TẠO QR ---
+    // --- XỬ LÝ NHẬP TÊN KHÔNG DẤU VÀ TẠO QR (API GỐC) ---
     const donateNameInput = document.getElementById('donateName');
     
     // Tự động xóa dấu và chuyển thành chữ HOA khi gõ
     donateNameInput.addEventListener('input', function() {
         let val = this.value;
-        val = val.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Bỏ dấu
-        val = val.replace(/đ/g, 'd').replace(/Đ/g, 'D'); // Chữ Đ
-        val = val.replace(/[^a-zA-Z0-9\s]/g, ''); // Bỏ kí tự đặc biệt
+        val = val.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); 
+        val = val.replace(/đ/g, 'd').replace(/Đ/g, 'D'); 
+        val = val.replace(/[^a-zA-Z0-9\s]/g, ''); 
         this.value = val.toUpperCase();
     });
 
@@ -445,10 +495,8 @@
         let rawName = donateNameInput.value.trim();
         if (!rawName) rawName = "AN DANH";
 
-        // Cú pháp chuẩn xác gửi lên ngân hàng: DONATE0704 [TÊN]
         let qrContent = `DONATE0704 ${rawName}`;
         
-        // Lưu ngầm nội dung QR vào máy hiện tại để làm chìa khóa kích hoạt pháo hoa
         let myPendingDonations = JSON.parse(localStorage.getItem('myPendingDonations') || '[]');
         myPendingDonations.push(qrContent);
         localStorage.setItem('myPendingDonations', JSON.stringify(myPendingDonations));
@@ -526,16 +574,13 @@
                 
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
-                        // Trích xuất tên gốc từ nội dung API gửi về (Phía sau chữ DONATE0704)
                         let extracted = tx.description.substring(tx.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                         let parsedName = "Ẩn Danh";
                         if (extracted) {
-                            // Viết hoa chữ cái đầu (VD: ANH NAM -> Anh Nam)
                             parsedName = extracted.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                             if (parsedName.toUpperCase() === "AN DANH") parsedName = "Ẩn Danh";
                         }
                         
-                        // Kiểm tra nếu mã giao dịch nằm trong bộ nhớ máy này -> Bật pháo hoa
                         let isMyDonation = false;
                         myPendingDonations.forEach(pending => {
                             if (tx.description.toUpperCase().includes(pending.toUpperCase())) isMyDonation = true;
@@ -551,15 +596,13 @@
             
             txs.sort((a, b) => b.timestamp - a.timestamp || a.originalIndex - b.originalIndex);
             
-            const topTxs = txs.slice(0, 15);
             loader.style.display = 'none';
             let newHTML = '';
 
-            topTxs.forEach((gd) => {
+            txs.forEach((gd) => {
                 const amountFormatted = Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 const timeString = timeAgo(gd.transactionDate);
                 
-                // Trích xuất hiển thị tên trực tiếp từ API (Không dùng Dictionary nữa)
                 let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                 let displayName = "Ẩn Danh"; 
                 
