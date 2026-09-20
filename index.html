@@ -67,7 +67,7 @@
         h2 { margin: 0 0 5px 0; font-size: 24px; font-weight: 900; text-align: center; }
         p.subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 20px; font-weight: 700; }
 
-        /* SỬA TÊN & HEX VIEWER CSS (Giữ nguyên) */
+        /* SỬA TÊN & HEX VIEWER CSS */
         .file-upload label { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary); color: #fff; padding: 15px; border-radius: 15px; cursor: pointer; font-weight: 800; transition: 0.3s; }
         .file-upload label:hover { background: var(--primary-hover); transform: translateY(-2px); }
         .file-upload input[type="file"] { display: none; }
@@ -105,42 +105,36 @@
         .qr-result img { width: 100%; max-width: 240px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .qr-result p { font-size: 13px; font-weight: 800; color: var(--text-main); margin-top: 10px; }
 
-        /* BẢNG XẾP HẠNG UI (MỚI) */
-        .top-donate-box { background: rgba(255, 255, 255, 0.8); border-radius: 18px; padding: 20px; flex-grow: 1; border: 1px solid rgba(198, 156, 133, 0.2); position: relative;}
+        /* BẢNG XẾP HẠNG UI (Khung đồng bộ, Gọn gàng) */
+        .top-donate-box { background: rgba(255, 255, 255, 0.8); border-radius: 18px; padding: 20px; flex-grow: 1; border: 1px solid rgba(198, 156, 133, 0.2); }
         .top-donate-box h3 { margin: 0 0 15px 0; font-size: 18px; text-align: center; font-weight: 900; color: #d35400;}
-        .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+        .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
         
-        .donate-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 12px 15px; border-radius: 15px; transition: transform 0.2s; position: relative; overflow: hidden; }
+        .donate-item { 
+            display: flex; align-items: center; justify-content: space-between; 
+            background: #fff; padding: 12px 15px; border-radius: 15px; 
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid rgba(198, 156, 133, 0.15); 
+            transition: transform 0.2s; 
+        }
+        .donate-item:hover { transform: scale(1.02); }
         
-        /* Style Top 1 */
-        .donate-item.top-1 { background: linear-gradient(135deg, #FFF9C4 0%, #FFF176 100%); border: 2px solid #FFD700; transform: scale(1.03); box-shadow: 0 5px 15px rgba(255,215,0,0.3); padding: 18px 15px; z-index: 3;}
-        .donate-item.top-1 .donate-name { font-size: 18px; color: #D84315; }
-        .donate-item.top-1 .donate-amount { font-size: 18px; color: #D84315; }
-        .donate-item.top-1 .donate-rank i { font-size: 32px; color: #FFD700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
+        .donate-rank { width: 40px; text-align: center; flex-shrink: 0; display: flex; justify-content: center; align-items: center;}
+        .rank-icon-1 { color: #FFD700; font-size: 24px; text-shadow: 0 2px 4px rgba(255,215,0,0.4); }
+        .rank-icon-2 { color: #C0C0C0; font-size: 22px; text-shadow: 0 2px 4px rgba(192,192,192,0.4); }
+        .rank-icon-3 { color: #CD7F32; font-size: 22px; text-shadow: 0 2px 4px rgba(205,127,50,0.4); }
+        .rank-text { color: #B0BEC5; font-size: 16px; font-weight: 900; }
+
+        .donate-info { flex-grow: 1; display: flex; flex-direction: column; margin-left: 10px; overflow: hidden; }
         
-        /* Style Top 2 */
-        .donate-item.top-2 { background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%); border: 1px solid #BDBDBD; padding: 15px; transform: scale(1.01); z-index: 2;}
-        .donate-item.top-2 .donate-name { font-size: 16px; color: #424242; }
-        .donate-item.top-2 .donate-rank i { font-size: 26px; color: #9E9E9E; }
+        .info-top { display: flex; justify-content: space-between; align-items: center; width: 100%; }
+        .donate-name { font-size: 15px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; white-space: nowrap; }
         
-        /* Style Top 3 */
-        .donate-item.top-3 { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); border: 1px solid #FFCC80; padding: 15px; z-index: 1;}
-        .donate-item.top-3 .donate-name { font-size: 15px; color: #E65100; }
-        .donate-item.top-3 .donate-rank i { font-size: 24px; color: #FF9800; }
-        
-        /* Style Bthg (Top 4+) */
-        .donate-item.normal { border: 1px solid #F0F0F0; background: #FAFAFA; box-shadow: none; }
-        .donate-item.normal .donate-rank { font-size: 15px; font-weight: 900; color: #B0BEC5; }
-        
-        .donate-rank { width: 45px; text-align: center; flex-shrink: 0; }
-        .donate-info { flex-grow: 1; display: flex; flex-direction: column; margin-left: 8px; overflow: hidden; }
-        .donate-name { font-size: 14px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .donate-msg { font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
-        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; text-align: right; margin-left: 10px; flex-shrink: 0; }
+        .donate-msg { font-size: 13px; font-weight: 700; color: var(--text-muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
         
         .loading-text { text-align: center; font-size: 14px; color: var(--text-muted); font-weight: 700; padding: 15px; }
 
-        /* --- POPUP SUCCESS THÔNG BÁO DONATE MỚI --- */
+        /* POPUP SUCCESS THÔNG BÁO DONATE */
         .success-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.6); z-index: 9999;
@@ -154,28 +148,19 @@
         }
         @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
-        /* Tích Xanh Quay Tròn */
         .check-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 15px; }
         .check-circle { 
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             border: 4px dashed var(--success); border-radius: 50%;
             animation: spin 3s linear infinite; box-sizing: border-box;
         }
-        .check-icon { 
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 40px; color: var(--success);
-        }
+        .check-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: var(--success); }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         .success-modal h3 { margin: 0 0 5px 0; color: var(--success); font-weight: 900; font-size: 22px; }
         .success-modal p.name { font-size: 15px; color: var(--text-muted); font-weight: 700; margin: 5px 0; }
         .success-modal h1.amount { margin: 10px 0 20px 0; font-size: 28px; color: #D84315; font-family: 'Fira Code', monospace; }
-        
-        .btn-ok {
-            background: var(--success); color: #fff; border: none; padding: 12px 40px;
-            border-radius: 20px; font-size: 16px; font-weight: 900; font-family: 'Nunito', sans-serif;
-            cursor: pointer; transition: 0.3s;
-        }
+        .btn-ok { background: var(--success); color: #fff; border: none; padding: 12px 40px; border-radius: 20px; font-size: 16px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; }
         .btn-ok:hover { background: var(--success-hover); transform: scale(1.05); }
 
     </style>
@@ -184,15 +169,11 @@
 
 <div class="container">
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(this, 'editTab')">
-            <i class="fa-solid fa-file-signature"></i> Hex Patcher
-        </button>
-        <button class="tab-btn" onclick="switchTab(this, 'donateTab')">
-            <i class="fa-solid fa-crown"></i> Bảng Vàng
-        </button>
+        <button class="tab-btn active" onclick="switchTab(this, 'editTab')"><i class="fa-solid fa-file-signature"></i> Hex Patcher</button>
+        <button class="tab-btn" onclick="switchTab(this, 'donateTab')"><i class="fa-solid fa-crown"></i> Bảng Vàng</button>
     </div>
 
-    <!-- TAB 1: SỬA TÊN (Giữ nguyên) -->
+    <!-- TAB 1: SỬA TÊN -->
     <div id="editTab" class="tab-content active">
         <h2>0704Cheat - Patch</h2>
         <p class="subtitle">Hex Edit File 1.0.0</p>
@@ -204,10 +185,7 @@
         <div class="box-section" id="boxSection">
             <div class="input-group">
                 <label>1. Tên cũ cần thay:</label>
-                <div class="input-with-btn">
-                    <input type="text" id="oldNameInput" placeholder="VD: 0704">
-                    <button class="btn-search" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Tìm</button>
-                </div>
+                <div class="input-with-btn"><input type="text" id="oldNameInput" placeholder="VD: 0704"><button class="btn-search" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Tìm</button></div>
             </div>
             <div class="status-box" id="statusBox"><i class="fa-solid fa-circle-check"></i> <span id="statusText"></span></div>
             <div class="hex-viewer-container" id="hexViewerContainer">
@@ -227,24 +205,20 @@
     <div id="donateTab" class="tab-content">
         <div class="qr-generator">
             <h3><i class="fa-solid fa-bolt" style="color: #F4D03F;"></i> Chuyển Tiền Tự Động Xử Lý</h3>
-            <div class="form-row">
-                <input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)">
-            </div>
+            <div class="form-row"><input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)"></div>
             <div class="form-row" style="flex-direction: column;">
                 <input type="text" id="donateName" placeholder="Tên hiển thị của bạn" maxlength="15">
                 <input type="text" id="donateMessage" placeholder="Lời nhắn gửi (Tùy chọn)" maxlength="35">
             </div>
-            <button class="btn-generate" onclick="generateDonateQR()">
-                <i class="fa-solid fa-qrcode"></i> Lấy Mã QR Quét
-            </button>
+            <button class="btn-generate" onclick="generateDonateQR()"><i class="fa-solid fa-qrcode"></i> Lấy Mã QR Quét</button>
             <div class="qr-result" id="qrResultArea">
                 <img id="qrImage" src="" alt="Mã QR Chuyển khoản">
-                <p><i class="fa-solid fa-mobile-screen"></i> Quét mã này - Web tự nhận ngay sau 2s</p>
+                <p><i class="fa-solid fa-mobile-screen"></i> Quét mã này - Web tự nhận ngay sau vài giây</p>
             </div>
         </div>
 
         <div class="top-donate-box">
-            <h3><i class="fa-solid fa-ranking-star"></i> VINH DANH VIP</h3>
+            <h3><i class="fa-solid fa-ranking-star"></i> BẢNG VÀNG DONATE</h3>
             <div id="loadingDonate" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
             <ul class="donate-list" id="donateList"></ul>
         </div>
@@ -254,10 +228,7 @@
 <!-- MODAL PHÁO HOA THÀNH CÔNG -->
 <div class="success-overlay" id="successOverlay">
     <div class="success-modal">
-        <div class="check-wrap">
-            <div class="check-circle"></div>
-            <i class="fa-solid fa-check check-icon"></i>
-        </div>
+        <div class="check-wrap"><div class="check-circle"></div><i class="fa-solid fa-check check-icon"></i></div>
         <h3>Donate Thành Công!</h3>
         <p class="name" id="modalName">Cảm ơn Ẩn Danh</p>
         <h1 class="amount" id="modalAmount">+20.000đ</h1>
@@ -266,35 +237,29 @@
 </div>
 
 <script>
-    // CHUYỂN TAB
     function switchTab(btn, tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
+        document.getElementById(tabId).classList.add('active'); btn.classList.add('active');
         if(tabId === 'donateTab') fetchTopDonate();
     }
 
-    // --- PHẦN 1: HEX PATCHER (Logic giữ nguyên) ---
+    // --- PHẦN 1: HEX PATCHER ---
     const fileInput = document.getElementById('fileInput'), boxSection = document.getElementById('boxSection');
     const oldNameInput = document.getElementById('oldNameInput'), searchBtn = document.getElementById('searchBtn');
     const statusBox = document.getElementById('statusBox'), statusText = document.getElementById('statusText');
     const newNameInput = document.getElementById('newNameInput'), charCounter = document.getElementById('charCounter');
-    const saveBtn = document.getElementById('saveBtn'), hexViewerContainer = document.getElementById('hexViewerContainer');
-    const hexBody = document.getElementById('hexBody');
+    const saveBtn = document.getElementById('saveBtn'), hexViewerContainer = document.getElementById('hexViewerContainer'), hexBody = document.getElementById('hexBody');
     let fileBuffer = null, foundOffsets = [], currentFileName = '', targetLength = 0; const encoder = new TextEncoder();
     
     fileInput.addEventListener('change', function(e) {
         const file = e.target.files[0]; if (!file) return;
-        currentFileName = file.name;
-        document.getElementById('fileName').innerHTML = `<i class="fa-solid fa-check"></i> Đang xử lý: ${currentFileName}`;
+        currentFileName = file.name; document.getElementById('fileName').innerHTML = `<i class="fa-solid fa-check"></i> Đang xử lý: ${currentFileName}`;
         const reader = new FileReader();
         reader.onload = function(event) {
             fileBuffer = event.target.result; boxSection.style.display = 'flex'; statusBox.style.display = 'none';
-            hexViewerContainer.style.display = 'none'; newNameInput.disabled = true; saveBtn.disabled = true;
-            newNameInput.value = ''; charCounter.textContent = '0/0 kí tự';
-        };
-        reader.readAsArrayBuffer(file);
+            hexViewerContainer.style.display = 'none'; newNameInput.disabled = true; saveBtn.disabled = true; newNameInput.value = ''; charCounter.textContent = '0/0 kí tự';
+        }; reader.readAsArrayBuffer(file);
     });
 
     searchBtn.addEventListener('click', function() {
@@ -308,20 +273,17 @@
         }
         statusBox.style.display = 'flex';
         if (foundOffsets.length > 0) {
-            statusBox.style.color = 'var(--success)';
-            statusText.innerHTML = `Đã tìm thấy: <b>${oldName}</b> (ở ${foundOffsets.length} chỗ)`;
+            statusBox.style.color = 'var(--success)'; statusText.innerHTML = `Đã tìm thấy: <b>${oldName}</b> (ở ${foundOffsets.length} chỗ)`;
             renderHexDump(fileBuffer, foundOffsets[0], targetLength);
             newNameInput.disabled = false; newNameInput.value = ''; validateAndPad();
         } else {
-            statusBox.style.color = 'var(--danger)'; statusText.innerHTML = `Không tìm thấy trong file!`;
-            hexViewerContainer.style.display = 'none'; newNameInput.disabled = true;
+            statusBox.style.color = 'var(--danger)'; statusText.innerHTML = `Không tìm thấy trong file!`; hexViewerContainer.style.display = 'none'; newNameInput.disabled = true;
         }
     });
 
     function renderHexDump(buffer, offset, matchLen) {
         const uint8 = new Uint8Array(buffer);
-        let start = Math.floor(Math.max(0, offset - 16) / 8) * 8, end = Math.min(uint8.length, start + 64);
-        let hexHTML = '';
+        let start = Math.floor(Math.max(0, offset - 16) / 8) * 8, end = Math.min(uint8.length, start + 64), hexHTML = '';
         for (let i = start; i < end; i += 8) {
             let rowOffset = i.toString(16).padStart(8, '0').toUpperCase(), rowAscii = '';
             for (let j = 0; j < 8; j++) {
@@ -351,19 +313,20 @@
         for(let i = 0; i < targetLength; i++) finalBytes[i] = i < inputBytes.length ? inputBytes[i] : 0x00;
         foundOffsets.forEach(offset => { for (let i = 0; i < targetLength; i++) outputUint8[offset + i] = finalBytes[i]; });
         const blob = new Blob([outputUint8], { type: "application/octet-stream" });
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "FixedName_" + currentFileName;
-        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "FixedName_" + currentFileName; document.body.appendChild(a); a.click(); document.body.removeChild(a);
     });
 
 
-    // --- PHẦN 2: QR & CHECK LỊCH SỬ SIÊU NHANH ---
+    // --- PHẦN 2: QR & API (CHỈNH SỬA XÓA TU: ZION & CHỈNH BỐ CỤC UI) ---
     function generateDonateQR() {
         const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
         let name = document.getElementById('donateName').value.trim() || "An Danh";
         let message = document.getElementById('donateMessage').value.trim();
-        let rawContent = `DONATE0704 ${name}` + (message ? ` ${message}` : '');
         
-        const safeContent = rawContent.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 ]/g, '').trim();
+        // Dùng dấu gạch ngang (-) làm vách ngăn để tách Tên và Lời Nhắn chính xác
+        let rawContent = `DONATE0704 ${name}` + (message ? ` - ${message}` : '');
+        
+        const safeContent = rawContent.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 \-]/g, '').trim();
         const params = new URLSearchParams();
         if (amount && amount > 0) params.append('amount', amount);
         params.append('addInfo', safeContent); params.append('accountName', 'NGO SON LAM');
@@ -392,105 +355,94 @@
                 return;
             }
 
-            // CHECK GIAO DỊCH MỚI ĐỂ HIỆN PHÁO HOA
+            // AUTO CHECK PHÁO HOA GIAO DỊCH MỚI
             if (!isFirstLoad) {
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
-                        // Giao dịch mới vừa tinh tinh
-                        let rawDesc = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim().split(" ");
-                        triggerSuccessPopup(Number(tx.creditAmount), rawDesc[0] || "Ẩn Danh");
+                        let parsedName = "Ẩn Danh";
+                        let descText = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim();
+                        descText = descText.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                        let parts = descText.split("-");
+                        if(parts[0].trim()) parsedName = parts[0].trim();
+                        triggerSuccessPopup(Number(tx.creditAmount), parsedName);
                     }
                 });
             }
 
-            // Cập nhật bộ nhớ ID giao dịch
             txs.forEach(tx => knownTransactionIds.add(tx.refNo));
             isFirstLoad = false;
 
-            // Xắp sếp vẽ Top VIP
+            // Xắp xếp lấy TOP
             txs.sort((a, b) => Number(b.creditAmount) - Number(a.creditAmount));
-            const topTxs = txs.slice(0, 10); // Hiển thị 10 người
+            const topTxs = txs.slice(0, 10);
 
             loader.style.display = 'none';
             let newHTML = '';
 
             topTxs.forEach((gd, index) => {
-                const amountFormatted = Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
+                const amountFormatted = "+" + Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 
+                // --- XỬ LÝ LỌC RÁC "TU: ZION" ---
                 let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 11).trim();
-                const firstSpaceIndex = extracted.indexOf(" ");
+                extracted = extracted.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                
                 let displayName = "Ẩn Danh";
                 let displayMsg = "";
-
-                if(firstSpaceIndex === -1) {
-                    if(extracted.length > 0) displayName = extracted;
-                } else {
-                    displayName = extracted.substring(0, firstSpaceIndex);
-                    displayMsg = extracted.substring(firstSpaceIndex + 1);
+                
+                let parts = extracted.split("-");
+                if (parts[0].trim() !== "") {
+                    displayName = parts[0].trim();
+                }
+                if (parts.length > 1) {
+                    displayMsg = parts.slice(1).join("-").trim();
                 }
 
                 const msgHtml = displayMsg ? `<div class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</div>` : '';
 
-                // PHÂN LOẠI STYLE THEO TOP
-                let itemClass = "donate-item normal";
-                let rankHTML = `<span style="font-size:16px;">#${index+1}</span>`;
-                
-                if (index === 0) {
-                    itemClass = "donate-item top-1";
-                    rankHTML = '<i class="fa-solid fa-crown"></i>';
-                } else if (index === 1) {
-                    itemClass = "donate-item top-2";
-                    rankHTML = '<i class="fa-solid fa-medal"></i>';
-                } else if (index === 2) {
-                    itemClass = "donate-item top-3";
-                    rankHTML = '<i class="fa-solid fa-award"></i>';
-                }
+                // LOGO TOP VIP
+                let rankHTML = '';
+                if (index === 0) rankHTML = '<i class="fa-solid fa-crown rank-icon-1"></i>';
+                else if (index === 1) rankHTML = '<i class="fa-solid fa-medal rank-icon-2"></i>';
+                else if (index === 2) rankHTML = '<i class="fa-solid fa-award rank-icon-3"></i>';
+                else rankHTML = `<span class="rank-text">#${index+1}</span>`;
 
                 newHTML += `
-                    <li class="${itemClass}">
+                    <li class="donate-item">
                         <div class="donate-rank">${rankHTML}</div>
                         <div class="donate-info">
-                            <div class="donate-name">${displayName}</div>
+                            <div class="info-top">
+                                <span class="donate-name">${displayName}</span>
+                                <span class="donate-amount">${amountFormatted}</span>
+                            </div>
                             ${msgHtml}
                         </div>
-                        <div class="donate-amount">+${amountFormatted}</div>
                     </li>
                 `;
             });
-
             listUI.innerHTML = newHTML;
 
         } catch (error) { console.error("Lỗi get data", error); }
     }
 
-    // AUTO CHECK MỖI 4 GIÂY (DUYỆT SIÊU NHANH)
+    // DUYỆT NGẦM 4 GIÂY/LẦN
     setInterval(() => {
-        // Chỉ quét liên tục khi người dùng đang ở tab Donate
-        if (document.getElementById('donateTab').classList.contains('active')) {
-            fetchTopDonate();
-        }
+        if (document.getElementById('donateTab').classList.contains('active')) fetchTopDonate();
     }, 4000);
 
-    // --- LOGIC PHÁO HOA & POPUP ---
+    // CHẠY PHÁO HOA
     function triggerSuccessPopup(amount, name) {
         document.getElementById('modalName').innerText = `Cảm ơn ${name} ❤️`;
         document.getElementById('modalAmount').innerText = `+${amount.toLocaleString('vi-VN')}đ`;
         document.getElementById('successOverlay').style.display = 'flex';
         
-        // Bắn pháo hoa rực rỡ
-        var duration = 3000;
-        var end = Date.now() + duration;
+        var duration = 3000, end = Date.now() + duration;
         (function frame() {
             confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42'] });
             confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42'] });
             if (Date.now() < end) requestAnimationFrame(frame);
         }());
     }
-
-    function closeSuccessModal() {
-        document.getElementById('successOverlay').style.display = 'none';
-    }
-
+    function closeSuccessModal() { document.getElementById('successOverlay').style.display = 'none'; }
 </script>
 
 </body>
