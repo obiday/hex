@@ -4,8 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hex Name Patcher & Donate 🧋</title>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Thư viện Font & Icon -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&family=Fira+Code:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Thư viện Pháo Hoa -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         :root {
@@ -48,175 +51,133 @@
             display: flex;
             flex-direction: column;
             min-height: 650px;
-            height: auto;
         }
 
         /* TABS */
-        .tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid rgba(198, 156, 133, 0.2);
-            padding-bottom: 10px;
-        }
-
+        .tabs { display: flex; gap: 10px; margin-bottom: 20px; border-bottom: 2px solid rgba(198, 156, 133, 0.2); padding-bottom: 10px; }
         .tab-btn {
-            flex: 1; background: none; border: none;
-            font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
-            color: var(--tab-inactive); cursor: pointer; padding: 12px;
-            border-radius: 12px; transition: all 0.3s;
+            flex: 1; background: none; border: none; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 800;
+            color: var(--tab-inactive); cursor: pointer; padding: 12px; border-radius: 12px; transition: all 0.3s;
         }
-
         .tab-btn.active { color: #fff; background: var(--tab-active); box-shadow: 0 4px 10px rgba(158, 135, 122, 0.3); }
         .tab-content { display: none; flex-direction: column; animation: fadeIn 0.4s ease; flex-grow: 1; }
         .tab-content.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        h2 { margin: 0 0 5px 0; font-size: 24px; font-weight: 900; text-align: center; }
+        p.subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 20px; font-weight: 700; }
 
-        h2 { margin: 0 0 5px 0; font-size: 24px; font-weight: 800; text-align: center; }
-        p.subtitle { font-size: 14px; color: var(--text-muted); text-align: center; margin-bottom: 20px; font-weight: 600; }
-
-        /* UPLOAD & FORM SỬA TÊN */
-        .file-upload label {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            background: var(--primary); color: #fff; padding: 15px;
-            border-radius: 15px; cursor: pointer; font-weight: 800; font-size: 15px; transition: 0.3s;
-        }
+        /* SỬA TÊN & HEX VIEWER CSS (Giữ nguyên) */
+        .file-upload label { display: flex; align-items: center; justify-content: center; gap: 10px; background: var(--primary); color: #fff; padding: 15px; border-radius: 15px; cursor: pointer; font-weight: 800; transition: 0.3s; }
         .file-upload label:hover { background: var(--primary-hover); transform: translateY(-2px); }
         .file-upload input[type="file"] { display: none; }
         #fileName { display: block; text-align: center; margin-top: 10px; font-size: 14px; font-weight: 700; color: var(--primary-hover); }
-
-        .box-section {
-            background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 18px; border: 1px dashed var(--primary);
-            display: none; flex-direction: column; gap: 15px; margin-top: 10px;
-        }
-
+        .box-section { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 18px; border: 1px dashed var(--primary); display: none; flex-direction: column; gap: 15px; margin-top: 10px; }
         .input-group label { font-size: 14px; font-weight: 800; margin-bottom: 8px; display: block; }
         .input-with-btn { display: flex; gap: 10px; }
-        
-        input[type="text"], input[type="number"] {
-            flex: 1; padding: 14px; border-radius: 12px;
-            border: 2px solid rgba(198, 156, 133, 0.3); background: var(--input-bg);
-            font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 600; outline: none; transition: 0.3s;
-        }
+        input[type="text"], input[type="number"] { flex: 1; padding: 14px; border-radius: 12px; border: 2px solid rgba(198, 156, 133, 0.3); background: var(--input-bg); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 600; outline: none; transition: 0.3s; }
         input[type="text"]:focus, input[type="number"]:focus { border-color: var(--primary); }
         input:disabled { background: #eaeaea; cursor: not-allowed; border-color: transparent; }
-
         button.btn-search { background: var(--text-muted); color: white; border: none; padding: 0 18px; border-radius: 12px; font-weight: 800; cursor: pointer; }
         button.btn-search:hover { background: var(--text-main); }
         .status-box { font-size: 14px; font-weight: 700; display: none; align-items: center; gap: 6px; }
-        
         .counter { font-size: 13px; font-weight: 800; text-align: right; margin-top: 5px; }
-        .counter.match { color: var(--success); }
-        .counter.warning { color: #D98C00; }
-        .counter.error { color: var(--danger); }
-
-        /* GIAO DIỆN HEX VIEWER (CHUẨN iOS FILZA) */
-        .hex-viewer-container {
-            display: none;
-            background: #000000; /* Nền đen tuyền */
-            border-radius: 12px;
-            padding: 15px 20px;
-            margin-top: 5px;
-            overflow-x: auto;
-            text-align: left; /* Căn trái */
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
+        .counter.match { color: var(--success); } .counter.warning { color: #D98C00; } .counter.error { color: var(--danger); }
         
-        .hex-header {
-            font-size: 12px; color: #fff; font-weight: 700; margin-bottom: 12px;
-            display: flex; justify-content: space-between; align-items: center;
-            opacity: 0.7;
-        }
+        .hex-viewer-container { display: none; background: #000000; border-radius: 12px; padding: 15px 20px; margin-top: 5px; overflow-x: auto; text-align: left; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .hex-header { font-size: 12px; color: #fff; font-weight: 700; margin-bottom: 12px; display: flex; justify-content: space-between; opacity: 0.7; }
+        .hex-body { font-family: 'Fira Code', monospace; font-size: 14px; color: #ffffff; white-space: pre; line-height: 1.6; }
+        .hex-offset { color: #5B85D9; margin-right: 20px; }
+        .hex-highlight { color: #FF3B30; font-weight: bold; background: rgba(255, 59, 48, 0.2); border-radius: 3px; }
         
-        .hex-body {
-            font-family: 'Fira Code', monospace;
-            font-size: 14px;
-            color: #ffffff;
-            white-space: pre;
-            line-height: 1.6;
-        }
-
-        .hex-offset {
-            color: #5B85D9; /* Màu xanh dương đặc trưng của Offset iOS */
-            margin-right: 20px;
-        }
-        
-        .hex-highlight {
-            color: #FF3B30; /* Đỏ tươi nổi bật chữ tìm thấy */
-            font-weight: bold;
-            background: rgba(255, 59, 48, 0.2);
-            border-radius: 3px;
-        }
-
-        .btn-save {
-            background: var(--success); color: white; border: none; padding: 16px; margin-top: 5px;
-            border-radius: 15px; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s;
-        }
+        .btn-save { background: var(--success); color: white; border: none; padding: 16px; margin-top: 5px; border-radius: 15px; font-size: 16px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; }
         .btn-save:hover:not(:disabled) { background: var(--success-hover); transform: translateY(-2px); }
         .btn-save:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* FORM TẠO QR ĐỘNG */
-        .qr-generator {
-            background: rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px;
-            border: 1px solid rgba(198, 156, 133, 0.2);
-        }
-        .qr-generator h3 { margin: 0 0 15px 0; font-size: 17px; color: var(--text-main); text-align: center; }
-        
+        /* TAB DONATE CSS */
+        .qr-generator { background: rgba(255, 255, 255, 0.7); border-radius: 18px; padding: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 20px; border: 1px solid rgba(198, 156, 133, 0.2); }
+        .qr-generator h3 { margin: 0 0 15px 0; font-size: 17px; text-align: center; font-weight: 900;}
         .form-row { display: flex; gap: 10px; margin-bottom: 12px; }
         .form-row input { font-family: 'Nunito', sans-serif; padding: 12px; width: 100%; box-sizing: border-box; font-size: 14px; }
-        
-        .btn-generate {
-            background: var(--primary); color: white; border: none; width: 100%; padding: 14px;
-            border-radius: 12px; font-size: 15px; font-weight: 800; font-family: 'Nunito', sans-serif;
-            cursor: pointer; transition: 0.3s; margin-top: 5px;
-        }
+        .btn-generate { background: var(--primary); color: white; border: none; width: 100%; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 5px; font-family: 'Nunito', sans-serif;}
         .btn-generate:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-        .qr-result {
-            display: none; text-align: center; margin-top: 15px; padding-top: 15px;
-            border-top: 1px dashed var(--primary); animation: fadeIn 0.4s ease;
-        }
+        .qr-result { display: none; text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--primary); animation: fadeIn 0.4s ease; }
         .qr-result img { width: 100%; max-width: 240px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .qr-result p { font-size: 13px; font-weight: 700; color: var(--text-main); margin-top: 10px; }
+        .qr-result p { font-size: 13px; font-weight: 800; color: var(--text-main); margin-top: 10px; }
 
-        /* TOP DONATE */
-        .top-donate-box {
-            background: rgba(255, 255, 255, 0.8); border-radius: 18px; padding: 20px; flex-grow: 1;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.02); border: 1px solid rgba(198, 156, 133, 0.2);
-        }
-        .top-donate-box h3 { margin: 0 0 15px 0; font-size: 18px; color: var(--text-main); text-align: center; font-weight: 800; }
+        /* BẢNG XẾP HẠNG UI (MỚI) */
+        .top-donate-box { background: rgba(255, 255, 255, 0.8); border-radius: 18px; padding: 20px; flex-grow: 1; border: 1px solid rgba(198, 156, 133, 0.2); position: relative;}
+        .top-donate-box h3 { margin: 0 0 15px 0; font-size: 18px; text-align: center; font-weight: 900; color: #d35400;}
+        .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
         
-        .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+        .donate-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 12px 15px; border-radius: 15px; transition: transform 0.2s; position: relative; overflow: hidden; }
         
-        .donate-item {
-            display: flex; align-items: center; justify-content: space-between;
-            background: #fff; padding: 12px 15px; border-radius: 15px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid rgba(198, 156, 133, 0.15);
-            transition: transform 0.2s;
-        }
-        .donate-item:hover { transform: scale(1.02); }
+        /* Style Top 1 */
+        .donate-item.top-1 { background: linear-gradient(135deg, #FFF9C4 0%, #FFF176 100%); border: 2px solid #FFD700; transform: scale(1.03); box-shadow: 0 5px 15px rgba(255,215,0,0.3); padding: 18px 15px; z-index: 3;}
+        .donate-item.top-1 .donate-name { font-size: 18px; color: #D84315; }
+        .donate-item.top-1 .donate-amount { font-size: 18px; color: #D84315; }
+        .donate-item.top-1 .donate-rank i { font-size: 32px; color: #FFD700; text-shadow: 0 2px 4px rgba(0,0,0,0.2); }
         
-        .donate-rank { width: 35px; text-align: center; flex-shrink: 0; }
-        .rank-1 { color: #FFD700; font-size: 22px; text-shadow: 0 2px 5px rgba(255,215,0,0.4); }
-        .rank-2 { color: #C0C0C0; font-size: 22px; text-shadow: 0 2px 5px rgba(192,192,192,0.4); }
-        .rank-3 { color: #CD7F32; font-size: 22px; text-shadow: 0 2px 5px rgba(205,127,50,0.4); }
-        .rank-text { color: #999; font-weight: 800; font-size: 16px; }
+        /* Style Top 2 */
+        .donate-item.top-2 { background: linear-gradient(135deg, #F5F5F5 0%, #E0E0E0 100%); border: 1px solid #BDBDBD; padding: 15px; transform: scale(1.01); z-index: 2;}
+        .donate-item.top-2 .donate-name { font-size: 16px; color: #424242; }
+        .donate-item.top-2 .donate-rank i { font-size: 26px; color: #9E9E9E; }
         
-        .donate-info { flex-grow: 1; display: flex; flex-direction: column; margin-left: 5px; overflow: hidden; }
-        .donate-name { font-size: 14px; font-weight: 800; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .donate-msg { font-size: 12px; font-weight: 600; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px;}
+        /* Style Top 3 */
+        .donate-item.top-3 { background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); border: 1px solid #FFCC80; padding: 15px; z-index: 1;}
+        .donate-item.top-3 .donate-name { font-size: 15px; color: #E65100; }
+        .donate-item.top-3 .donate-rank i { font-size: 24px; color: #FF9800; }
         
-        .donate-amount {
-            color: var(--success); font-family: 'Fira Code', monospace; 
-            font-size: 15px; font-weight: 800; text-align: right; margin-left: 10px; flex-shrink: 0;
-        }
+        /* Style Bthg (Top 4+) */
+        .donate-item.normal { border: 1px solid #F0F0F0; background: #FAFAFA; box-shadow: none; }
+        .donate-item.normal .donate-rank { font-size: 15px; font-weight: 900; color: #B0BEC5; }
+        
+        .donate-rank { width: 45px; text-align: center; flex-shrink: 0; }
+        .donate-info { flex-grow: 1; display: flex; flex-direction: column; margin-left: 8px; overflow: hidden; }
+        .donate-name { font-size: 14px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .donate-msg { font-size: 12px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 4px; }
+        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; text-align: right; margin-left: 10px; flex-shrink: 0; }
         
         .loading-text { text-align: center; font-size: 14px; color: var(--text-muted); font-weight: 700; padding: 15px; }
+
+        /* --- POPUP SUCCESS THÔNG BÁO DONATE MỚI --- */
+        .success-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.6); z-index: 9999;
+            display: none; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .success-modal {
+            background: #fff; padding: 30px; border-radius: 24px; text-align: center;
+            width: 90%; max-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        
+        /* Tích Xanh Quay Tròn */
+        .check-wrap { position: relative; width: 80px; height: 80px; margin: 0 auto 15px; }
+        .check-circle { 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            border: 4px dashed var(--success); border-radius: 50%;
+            animation: spin 3s linear infinite; box-sizing: border-box;
+        }
+        .check-icon { 
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 40px; color: var(--success);
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .success-modal h3 { margin: 0 0 5px 0; color: var(--success); font-weight: 900; font-size: 22px; }
+        .success-modal p.name { font-size: 15px; color: var(--text-muted); font-weight: 700; margin: 5px 0; }
+        .success-modal h1.amount { margin: 10px 0 20px 0; font-size: 28px; color: #D84315; font-family: 'Fira Code', monospace; }
+        
+        .btn-ok {
+            background: var(--success); color: #fff; border: none; padding: 12px 40px;
+            border-radius: 20px; font-size: 16px; font-weight: 900; font-family: 'Nunito', sans-serif;
+            cursor: pointer; transition: 0.3s;
+        }
+        .btn-ok:hover { background: var(--success-hover); transform: scale(1.05); }
+
     </style>
 </head>
 <body>
@@ -231,17 +192,15 @@
         </button>
     </div>
 
-    <!-- TAB 1: SỬA TÊN -->
+    <!-- TAB 1: SỬA TÊN (Giữ nguyên) -->
     <div id="editTab" class="tab-content active">
         <h2>0704Cheat - Patch</h2>
         <p class="subtitle">Hex Edit File 1.0.0</p>
-
         <div class="file-upload">
             <label for="fileInput"><i class="fa-solid fa-folder-open"></i> Chọn file .bytes / .txt</label>
             <input type="file" id="fileInput">
             <span id="fileName">Chưa có file nào được nạp</span>
         </div>
-
         <div class="box-section" id="boxSection">
             <div class="input-group">
                 <label>1. Tên cũ cần thay:</label>
@@ -250,36 +209,24 @@
                     <button class="btn-search" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Tìm</button>
                 </div>
             </div>
-
-            <div class="status-box" id="statusBox">
-                <i class="fa-solid fa-circle-check"></i> <span id="statusText"></span>
-            </div>
-
-            <!-- HEX VIEWER (2 CỘT: OFFSET & STRING) -->
+            <div class="status-box" id="statusBox"><i class="fa-solid fa-circle-check"></i> <span id="statusText"></span></div>
             <div class="hex-viewer-container" id="hexViewerContainer">
-                <div class="hex-header">
-                    <span><i class="fa-solid fa-search"></i> Memory Search Result</span>
-                </div>
+                <div class="hex-header"><span><i class="fa-solid fa-search"></i> Memory Search Result</span></div>
                 <div class="hex-body" id="hexBody"></div>
             </div>
-
             <div class="input-group" style="margin-top: 5px;">
                 <label>2. Tên mới (Sẽ tự bù Null nếu ngắn hơn):</label>
                 <input type="text" id="newNameInput" placeholder="Nhập tên..." disabled>
                 <div class="counter match" id="charCounter">0/0 kí tự</div>
             </div>
-
-            <button class="btn-save" id="saveBtn" disabled>
-                <i class="fa-solid fa-download"></i> Lưu File Đã Fix
-            </button>
+            <button class="btn-save" id="saveBtn" disabled><i class="fa-solid fa-download"></i> Lưu File Đã Fix</button>
         </div>
     </div>
 
     <!-- TAB 2: DONATE -->
     <div id="donateTab" class="tab-content">
-        
         <div class="qr-generator">
-            <h3><i class="fa-solid fa-gift" style="color: var(--primary);"></i> Tạo Mã Donate Kèm Lời Nhắn</h3>
+            <h3><i class="fa-solid fa-bolt" style="color: #F4D03F;"></i> Chuyển Tiền Tự Động Xử Lý</h3>
             <div class="form-row">
                 <input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)">
             </div>
@@ -287,291 +234,221 @@
                 <input type="text" id="donateName" placeholder="Tên hiển thị của bạn" maxlength="15">
                 <input type="text" id="donateMessage" placeholder="Lời nhắn gửi (Tùy chọn)" maxlength="35">
             </div>
-            
             <button class="btn-generate" onclick="generateDonateQR()">
-                <i class="fa-solid fa-qrcode"></i> Tạo Mã & Hiện QR
+                <i class="fa-solid fa-qrcode"></i> Lấy Mã QR Quét
             </button>
-
             <div class="qr-result" id="qrResultArea">
                 <img id="qrImage" src="" alt="Mã QR Chuyển khoản">
-                <p><i class="fa-solid fa-camera"></i> Hãy quét mã này bằng App Ngân Hàng</p>
+                <p><i class="fa-solid fa-mobile-screen"></i> Quét mã này - Web tự nhận ngay sau 2s</p>
             </div>
         </div>
 
         <div class="top-donate-box">
-            <h3><i class="fa-solid fa-trophy" style="color: #FFD700;"></i> TOP DONATE QUA WEB</h3>
-            <div id="loadingDonate" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu lịch sử...</div>
+            <h3><i class="fa-solid fa-ranking-star"></i> VINH DANH VIP</h3>
+            <div id="loadingDonate" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
             <ul class="donate-list" id="donateList"></ul>
         </div>
     </div>
 </div>
 
+<!-- MODAL PHÁO HOA THÀNH CÔNG -->
+<div class="success-overlay" id="successOverlay">
+    <div class="success-modal">
+        <div class="check-wrap">
+            <div class="check-circle"></div>
+            <i class="fa-solid fa-check check-icon"></i>
+        </div>
+        <h3>Donate Thành Công!</h3>
+        <p class="name" id="modalName">Cảm ơn Ẩn Danh</p>
+        <h1 class="amount" id="modalAmount">+20.000đ</h1>
+        <button class="btn-ok" onclick="closeSuccessModal()">OK</button>
+    </div>
+</div>
+
 <script>
+    // CHUYỂN TAB
     function switchTab(btn, tabId) {
         document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.getElementById(tabId).classList.add('active');
         btn.classList.add('active');
-        
-        if(tabId === 'donateTab' && !isFetchedDonate) fetchTopDonate();
+        if(tabId === 'donateTab') fetchTopDonate();
     }
 
-    // --- PHẦN 1: LOGIC SỬA TÊN & HEX VIEWER ---
-    const fileInput = document.getElementById('fileInput');
-    const boxSection = document.getElementById('boxSection');
-    const oldNameInput = document.getElementById('oldNameInput');
-    const searchBtn = document.getElementById('searchBtn');
-    const statusBox = document.getElementById('statusBox');
-    const statusText = document.getElementById('statusText');
-    const newNameInput = document.getElementById('newNameInput');
-    const charCounter = document.getElementById('charCounter');
-    const saveBtn = document.getElementById('saveBtn');
-    
-    const hexViewerContainer = document.getElementById('hexViewerContainer');
+    // --- PHẦN 1: HEX PATCHER (Logic giữ nguyên) ---
+    const fileInput = document.getElementById('fileInput'), boxSection = document.getElementById('boxSection');
+    const oldNameInput = document.getElementById('oldNameInput'), searchBtn = document.getElementById('searchBtn');
+    const statusBox = document.getElementById('statusBox'), statusText = document.getElementById('statusText');
+    const newNameInput = document.getElementById('newNameInput'), charCounter = document.getElementById('charCounter');
+    const saveBtn = document.getElementById('saveBtn'), hexViewerContainer = document.getElementById('hexViewerContainer');
     const hexBody = document.getElementById('hexBody');
-
-    let fileBuffer = null;
-    let foundOffsets = [];
-    let currentFileName = '';
-    let targetLength = 0;
-    const encoder = new TextEncoder();
+    let fileBuffer = null, foundOffsets = [], currentFileName = '', targetLength = 0; const encoder = new TextEncoder();
     
     fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (!file) return;
+        const file = e.target.files[0]; if (!file) return;
         currentFileName = file.name;
         document.getElementById('fileName').innerHTML = `<i class="fa-solid fa-check"></i> Đang xử lý: ${currentFileName}`;
-        
         const reader = new FileReader();
         reader.onload = function(event) {
-            fileBuffer = event.target.result; 
-            boxSection.style.display = 'flex';
-            statusBox.style.display = 'none';
-            hexViewerContainer.style.display = 'none';
-            newNameInput.disabled = true;
-            saveBtn.disabled = true;
-            newNameInput.value = '';
-            charCounter.textContent = '0/0 kí tự';
+            fileBuffer = event.target.result; boxSection.style.display = 'flex'; statusBox.style.display = 'none';
+            hexViewerContainer.style.display = 'none'; newNameInput.disabled = true; saveBtn.disabled = true;
+            newNameInput.value = ''; charCounter.textContent = '0/0 kí tự';
         };
         reader.readAsArrayBuffer(file);
     });
 
     searchBtn.addEventListener('click', function() {
-        const oldName = oldNameInput.value;
-        if (!oldName) return;
-        const searchBytes = encoder.encode(oldName);
-        targetLength = searchBytes.length;
-        
-        const uint8 = new Uint8Array(fileBuffer);
-        foundOffsets = [];
+        const oldName = oldNameInput.value; if (!oldName) return;
+        const searchBytes = encoder.encode(oldName); targetLength = searchBytes.length;
+        const uint8 = new Uint8Array(fileBuffer); foundOffsets = [];
         for (let i = 0; i <= uint8.length - targetLength; i++) {
             let match = true;
-            for (let j = 0; j < targetLength; j++) {
-                if (uint8[i + j] !== searchBytes[j]) { match = false; break; }
-            }
+            for (let j = 0; j < targetLength; j++) { if (uint8[i + j] !== searchBytes[j]) { match = false; break; } }
             if (match) foundOffsets.push(i);
         }
-
         statusBox.style.display = 'flex';
         if (foundOffsets.length > 0) {
             statusBox.style.color = 'var(--success)';
             statusText.innerHTML = `Đã tìm thấy: <b>${oldName}</b> (ở ${foundOffsets.length} chỗ)`;
-            
-            // Render Hex Dump
             renderHexDump(fileBuffer, foundOffsets[0], targetLength);
-
-            newNameInput.disabled = false;
-            newNameInput.value = '';
-            validateAndPad();
+            newNameInput.disabled = false; newNameInput.value = ''; validateAndPad();
         } else {
-            statusBox.style.color = 'var(--danger)';
-            statusText.innerHTML = `Không tìm thấy trong file!`;
-            hexViewerContainer.style.display = 'none';
-            newNameInput.disabled = true;
+            statusBox.style.color = 'var(--danger)'; statusText.innerHTML = `Không tìm thấy trong file!`;
+            hexViewerContainer.style.display = 'none'; newNameInput.disabled = true;
         }
     });
 
     function renderHexDump(buffer, offset, matchLen) {
         const uint8 = new Uint8Array(buffer);
-        let start = Math.max(0, offset - 16);
-        start = Math.floor(start / 8) * 8; 
-        let end = Math.min(uint8.length, start + 64);
-
+        let start = Math.floor(Math.max(0, offset - 16) / 8) * 8, end = Math.min(uint8.length, start + 64);
         let hexHTML = '';
-
         for (let i = start; i < end; i += 8) {
-            let rowOffset = i.toString(16).padStart(8, '0').toUpperCase();
-            let rowAscii = '';
-
+            let rowOffset = i.toString(16).padStart(8, '0').toUpperCase(), rowAscii = '';
             for (let j = 0; j < 8; j++) {
                 if (i + j < uint8.length) {
-                    let byte = uint8[i + j];
-                    let isMatchArea = (i + j >= offset && i + j < offset + matchLen);
-
-                    let asciiChar = '.';
-                    if (byte >= 32 && byte <= 126) asciiChar = String.fromCharCode(byte);
-                    if (asciiChar === '<') asciiChar = '&lt;';
-                    if (asciiChar === '>') asciiChar = '&gt;';
-
-                    if (isMatchArea) {
-                        rowAscii += `<span class="hex-highlight">${asciiChar}</span> `;
-                    } else {
-                        rowAscii += `${asciiChar} `;
-                    }
+                    let byte = uint8[i + j], isMatch = (i + j >= offset && i + j < offset + matchLen);
+                    let char = (byte >= 32 && byte <= 126) ? String.fromCharCode(byte) : '.';
+                    if (char === '<') char = '&lt;'; if (char === '>') char = '&gt;';
+                    rowAscii += isMatch ? `<span class="hex-highlight">${char}</span> ` : `${char} `;
                 }
             }
             hexHTML += `<span class="hex-offset">${rowOffset}</span>${rowAscii.trimEnd()}\n`;
         }
-
-        hexBody.innerHTML = hexHTML;
-        hexViewerContainer.style.display = 'block';
+        hexBody.innerHTML = hexHTML; hexViewerContainer.style.display = 'block';
     }
 
     newNameInput.addEventListener('input', validateAndPad);
-
     function validateAndPad() {
-        const newBytes = encoder.encode(newNameInput.value);
-        const len = newBytes.length;
-
-        if (len === targetLength) {
-            charCounter.textContent = `${len}/${targetLength} kí tự`;
-            charCounter.className = 'counter match';
-            saveBtn.disabled = false;
-        } else if (len < targetLength) {
-            charCounter.textContent = `${len}/${targetLength} kí tự`;
-            charCounter.className = 'counter warning';
-            saveBtn.disabled = false; 
-        } else {
-            charCounter.textContent = `${len}/${targetLength} kí tự (Quá giới hạn!)`;
-            charCounter.className = 'counter error';
-            saveBtn.disabled = true; 
-        }
+        const len = encoder.encode(newNameInput.value).length;
+        charCounter.textContent = `${len}/${targetLength} kí tự` + (len > targetLength ? ' (Quá!)' : '');
+        charCounter.className = len === targetLength ? 'counter match' : (len < targetLength ? 'counter warning' : 'counter error');
+        saveBtn.disabled = len > targetLength;
     }
 
     saveBtn.addEventListener('click', function() {
-        const inputBytes = encoder.encode(newNameInput.value);
-        const outputUint8 = new Uint8Array(fileBuffer.slice(0));
+        const inputBytes = encoder.encode(newNameInput.value), outputUint8 = new Uint8Array(fileBuffer.slice(0));
         let finalBytes = new Uint8Array(targetLength);
-        for(let i = 0; i < targetLength; i++) {
-            if(i < inputBytes.length) finalBytes[i] = inputBytes[i];
-            else finalBytes[i] = 0x00; 
-        }
-        foundOffsets.forEach(offset => {
-            for (let i = 0; i < targetLength; i++) { outputUint8[offset + i] = finalBytes[i]; }
-        });
-
+        for(let i = 0; i < targetLength; i++) finalBytes[i] = i < inputBytes.length ? inputBytes[i] : 0x00;
+        foundOffsets.forEach(offset => { for (let i = 0; i < targetLength; i++) outputUint8[offset + i] = finalBytes[i]; });
         const blob = new Blob([outputUint8], { type: "application/octet-stream" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "FixedName_" + currentFileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "FixedName_" + currentFileName;
+        document.body.appendChild(a); a.click(); document.body.removeChild(a);
     });
 
-    // --- PHẦN 2: TẠO QR (ĐÃ FIX LỖI) & LỌC DỮ LIỆU TỪ WEB ---
+
+    // --- PHẦN 2: QR & CHECK LỊCH SỬ SIÊU NHANH ---
     function generateDonateQR() {
-        const amountInput = document.getElementById('donateAmount').value;
-        // Chỉ lấy số, nếu không nhập thì để null
-        const amount = amountInput ? parseInt(amountInput) : null; 
-        
-        let name = document.getElementById('donateName').value.trim();
+        const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
+        let name = document.getElementById('donateName').value.trim() || "An Danh";
         let message = document.getElementById('donateMessage').value.trim();
+        let rawContent = `DONATE0704 ${name}` + (message ? ` ${message}` : '');
         
-        if (!name) name = "An Danh";
-        
-        let rawContent = `DONATE0704 ${name}`;
-        if (message) rawContent += ` ${message}`; // Bỏ dấu gạch ngang (-) để an toàn
-
-        // Lọc tiếng Việt và CHỈ giữ lại chữ cái, số, khoảng trắng
-        const safeContent = rawContent.normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/đ/g, 'd').replace(/Đ/g, 'D')
-            .replace(/[^a-zA-Z0-9 ]/g, '') // Xóa các ký tự đặc biệt
-            .trim();
-
-        // Sử dụng URLSearchParams để build URL an toàn
-        const baseUrl = 'https://img.vietqr.io/image/MB-0374583885-compact2.png';
+        const safeContent = rawContent.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 ]/g, '').trim();
         const params = new URLSearchParams();
+        if (amount && amount > 0) params.append('amount', amount);
+        params.append('addInfo', safeContent); params.append('accountName', 'NGO SON LAM');
         
-        // Nếu có nhập số tiền > 0 thì mới thêm tham số amount
-        if (amount && amount > 0) {
-            params.append('amount', amount);
-        }
-        
-        params.append('addInfo', safeContent);
-        params.append('accountName', 'NGO SON LAM');
-
-        // Tạo URL cuối cùng
-        const qrUrl = `${baseUrl}?${params.toString()}`;
-        
-        document.getElementById('qrImage').src = qrUrl;
+        document.getElementById('qrImage').src = `https://img.vietqr.io/image/970422-0364583885-compact2.png?${params.toString()}`;
         document.getElementById('qrResultArea').style.display = 'block';
     }
 
-    let isFetchedDonate = false;
     const _0xT = ['Mzc3NmEwYmUwMG', 'FlNTU3Yjg4ZTdjND', 'FmNWY5OGMwNmM='];
+    let knownTransactionIds = new Set();
+    let isFirstLoad = true;
 
     async function fetchTopDonate() {
-        isFetchedDonate = true;
         const listUI = document.getElementById('donateList');
         const loader = document.getElementById('loadingDonate');
 
         try {
-            const secretToken = atob(_0xT.join('')); 
-            const response = await fetch(`https://api.sieuthicode.net/historyapimbbank/${secretToken}`);
+            const token = atob(_0xT.join('')); 
+            const response = await fetch(`https://api.sieuthicode.net/historyapimbbank/${token}`);
             const json = await response.json();
             
-            let transactions = json.TranList || [];
-            
-            transactions = transactions.filter(t => 
-                Number(t.creditAmount) > 0 && 
-                t.description && 
-                t.description.includes("DONATE0704")
-            );
+            let txs = (json.TranList || []).filter(t => Number(t.creditAmount) > 0 && t.description && t.description.includes("DONATE0704"));
 
-            if (transactions.length === 0) {
-                loader.innerHTML = "Chưa có ai Donate qua web này. Hãy là người đầu tiên!";
+            if (txs.length === 0) {
+                if(isFirstLoad) loader.innerHTML = "Chưa có dữ liệu. Hãy là người đầu tiên!";
                 return;
             }
 
-            transactions.sort((a, b) => Number(b.creditAmount) - Number(a.creditAmount));
-            const top5 = transactions.slice(0, 5);
+            // CHECK GIAO DỊCH MỚI ĐỂ HIỆN PHÁO HOA
+            if (!isFirstLoad) {
+                txs.forEach(tx => {
+                    if (!knownTransactionIds.has(tx.refNo)) {
+                        // Giao dịch mới vừa tinh tinh
+                        let rawDesc = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim().split(" ");
+                        triggerSuccessPopup(Number(tx.creditAmount), rawDesc[0] || "Ẩn Danh");
+                    }
+                });
+            }
+
+            // Cập nhật bộ nhớ ID giao dịch
+            txs.forEach(tx => knownTransactionIds.add(tx.refNo));
+            isFirstLoad = false;
+
+            // Xắp sếp vẽ Top VIP
+            txs.sort((a, b) => Number(b.creditAmount) - Number(a.creditAmount));
+            const topTxs = txs.slice(0, 10); // Hiển thị 10 người
 
             loader.style.display = 'none';
-            listUI.innerHTML = '';
+            let newHTML = '';
 
-            top5.forEach((gd, index) => {
-                let rankIcon = '';
-                if (index === 0) rankIcon = '<i class="fa-solid fa-crown rank-1"></i>';
-                else if (index === 1) rankIcon = '<i class="fa-solid fa-medal rank-2"></i>';
-                else if (index === 2) rankIcon = '<i class="fa-solid fa-award rank-3"></i>';
-                else rankIcon = `<span class="rank-text">#${index+1}</span>`;
-
-                const rawAmount = Number(gd.creditAmount);
-                const amountFormatted = rawAmount.toLocaleString('vi-VN') + 'đ';
+            topTxs.forEach((gd, index) => {
+                const amountFormatted = Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 
-                const desc = gd.description;
+                let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 11).trim();
+                const firstSpaceIndex = extracted.indexOf(" ");
                 let displayName = "Ẩn Danh";
                 let displayMsg = "";
 
-                const keywordIdx = desc.indexOf("DONATE0704");
-                if (keywordIdx !== -1) {
-                    let extracted = desc.substring(keywordIdx + 11).trim(); 
-                    const parts = extracted.split(" - ");
-                    displayName = parts[0] || "Ẩn Danh";
-                    if (parts.length > 1) {
-                        displayMsg = parts.slice(1).join(" - "); 
-                    }
+                if(firstSpaceIndex === -1) {
+                    if(extracted.length > 0) displayName = extracted;
+                } else {
+                    displayName = extracted.substring(0, firstSpaceIndex);
+                    displayMsg = extracted.substring(firstSpaceIndex + 1);
                 }
 
                 const msgHtml = displayMsg ? `<div class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</div>` : '';
 
-                listUI.innerHTML += `
-                    <li class="donate-item">
-                        <div class="donate-rank">${rankIcon}</div>
+                // PHÂN LOẠI STYLE THEO TOP
+                let itemClass = "donate-item normal";
+                let rankHTML = `<span style="font-size:16px;">#${index+1}</span>`;
+                
+                if (index === 0) {
+                    itemClass = "donate-item top-1";
+                    rankHTML = '<i class="fa-solid fa-crown"></i>';
+                } else if (index === 1) {
+                    itemClass = "donate-item top-2";
+                    rankHTML = '<i class="fa-solid fa-medal"></i>';
+                } else if (index === 2) {
+                    itemClass = "donate-item top-3";
+                    rankHTML = '<i class="fa-solid fa-award"></i>';
+                }
+
+                newHTML += `
+                    <li class="${itemClass}">
+                        <div class="donate-rank">${rankHTML}</div>
                         <div class="donate-info">
                             <div class="donate-name">${displayName}</div>
                             ${msgHtml}
@@ -581,11 +458,39 @@
                 `;
             });
 
-        } catch (error) {
-            console.error("API Error: ", error);
-            loader.innerHTML = '<i class="fa-solid fa-triangle-exclamation" style="color:var(--danger)"></i> Lỗi tải dữ liệu. Vui lòng thử lại sau.';
-        }
+            listUI.innerHTML = newHTML;
+
+        } catch (error) { console.error("Lỗi get data", error); }
     }
+
+    // AUTO CHECK MỖI 4 GIÂY (DUYỆT SIÊU NHANH)
+    setInterval(() => {
+        // Chỉ quét liên tục khi người dùng đang ở tab Donate
+        if (document.getElementById('donateTab').classList.contains('active')) {
+            fetchTopDonate();
+        }
+    }, 4000);
+
+    // --- LOGIC PHÁO HOA & POPUP ---
+    function triggerSuccessPopup(amount, name) {
+        document.getElementById('modalName').innerText = `Cảm ơn ${name} ❤️`;
+        document.getElementById('modalAmount').innerText = `+${amount.toLocaleString('vi-VN')}đ`;
+        document.getElementById('successOverlay').style.display = 'flex';
+        
+        // Bắn pháo hoa rực rỡ
+        var duration = 3000;
+        var end = Date.now() + duration;
+        (function frame() {
+            confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42'] });
+            confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42'] });
+            if (Date.now() < end) requestAnimationFrame(frame);
+        }());
+    }
+
+    function closeSuccessModal() {
+        document.getElementById('successOverlay').style.display = 'none';
+    }
+
 </script>
 
 </body>
