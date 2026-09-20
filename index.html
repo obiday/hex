@@ -68,59 +68,49 @@
         h2 { margin: 0 0 5px 0; font-size: 20px; font-weight: 900; text-align: center; } 
         p.subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 15px; font-weight: 700; } 
 
-        /* NHẬN KEY CSS */
-        .key-container { background: rgba(255, 255, 255, 0.6); padding: 25px 20px; border-radius: 15px; border: 1px dashed var(--primary); display: flex; flex-direction: column; gap: 12px; margin-top: 10px; text-align: center; }
-        .key-icon { font-size: 40px; color: var(--primary); margin-bottom: 5px; }
-        
-        .btn-download {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            background: var(--primary); color: #fff; padding: 14px; border-radius: 12px;
-            text-decoration: none; font-weight: 800; font-size: 14px; transition: 0.3s;
-            box-shadow: 0 4px 10px rgba(198, 156, 133, 0.3); font-family: 'Nunito', sans-serif;
+        /* PHIÊN BẢN HỖ TRỢ CSS */
+        .supported-versions {
+            background: rgba(255, 255, 255, 0.6); border-radius: 15px; padding: 15px;
+            border: 1px dashed rgba(139, 168, 136, 0.6); margin-bottom: 10px; text-align: left;
         }
+        .supported-versions h4 { margin: 0 0 10px 0; font-size: 14px; color: var(--text-main); font-weight: 900; display: flex; align-items: center; gap: 6px; }
+        .version-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+        .badge {
+            background: #8BA888; color: white; padding: 5px 12px; border-radius: 20px;
+            font-size: 12px; font-weight: 800; font-family: 'Fira Code', monospace;
+            box-shadow: 0 2px 5px rgba(139, 168, 136, 0.3);
+        }
+        .version-desc { font-size: 11.5px; color: var(--text-muted); font-weight: 700; margin: 0; line-height: 1.5; }
+
+        /* NHẬN KEY CSS */
+        .key-container { background: rgba(255, 255, 255, 0.6); padding: 20px; border-radius: 15px; border: 1px dashed var(--primary); display: flex; flex-direction: column; gap: 15px; text-align: center; }
+        .btn-download { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: #fff; padding: 14px; border-radius: 12px; text-decoration: none; font-weight: 800; font-size: 14px; transition: 0.3s; box-shadow: 0 4px 10px rgba(198, 156, 133, 0.3); font-family: 'Nunito', sans-serif; }
         .btn-download:hover { background: var(--primary-hover); transform: translateY(-2px); }
-
-        .btn-get-key { background: var(--success); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; width: 100%; box-shadow: 0 5px 15px rgba(139, 168, 136, 0.3);}
+        .action-buttons { display: flex; gap: 10px; width: 100%; }
+        .btn-get-key { flex: 1.5; background: var(--success); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(139, 168, 136, 0.3);}
         .btn-get-key:hover { background: var(--success-hover); transform: translateY(-2px); }
-
-        .btn-history { background: var(--text-muted); color: white; border: none; padding: 12px; border-radius: 12px; font-size: 14px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; width: 100%; }
+        .btn-history { flex: 1; background: var(--text-muted); color: white; border: none; padding: 14px; border-radius: 12px; font-size: 14px; font-weight: 800; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; box-shadow: 0 5px 15px rgba(140, 123, 112, 0.3);}
         .btn-history:hover { background: var(--text-main); transform: translateY(-2px); }
 
-        /* BẢNG KEY POPUP (MODAL) */
-        .key-modal-overlay, .history-modal-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6); z-index: 9999;
-            display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(5px);
-        }
-        .key-modal, .history-modal {
-            background: #fff; padding: 25px; border-radius: 20px; text-align: center;
-            width: 90%; max-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .history-modal { max-width: 360px; max-height: 80vh; }
+        /* BẢNG KEY POPUP (MODAL) & HISTORY MODAL */
+        .key-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 15px; }
+        .key-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; gap: 15px; max-height: 80vh; }
         @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        
-        .key-modal h3, .history-modal h3 { margin: 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
-        .key-modal input {
-            text-align: center; font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 700;
-            color: #D84315; padding: 12px; border-radius: 10px; border: 2px solid rgba(198, 156, 133, 0.3);
-            background: var(--input-bg); width: 100%; box-sizing: border-box; outline: none;
-        }
-        
-        /* Lịch sử List */
-        .history-list { list-style: none; padding: 0; margin: 0; overflow-y: auto; max-height: 300px; display: flex; flex-direction: column; gap: 10px; }
-        .history-item { background: var(--input-bg); border: 1px solid rgba(198, 156, 133, 0.3); padding: 12px; border-radius: 12px; text-align: left; }
-        .history-time { font-size: 12px; font-weight: 800; color: var(--text-muted); margin-bottom: 5px; display: flex; gap: 5px; align-items: center;}
-        .history-key { font-family: 'Fira Code', monospace; font-size: 14.5px; font-weight: 900; color: #D84315; }
-        .history-empty { font-size: 14px; font-weight: 700; color: var(--text-muted); padding: 20px 0; }
-
-        .modal-buttons { display: flex; gap: 8px; justify-content: center; margin-top: 5px;}
-        .btn-copy-modal { background: var(--success); color: #fff; border: none; padding: 10px 15px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; flex: 1; font-family: 'Nunito', sans-serif; }
+        .key-modal h3 { margin: 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
+        .key-modal input { text-align: center; font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 700; color: #D84315; padding: 12px; border-radius: 10px; border: 2px solid rgba(198, 156, 133, 0.3); background: var(--input-bg); width: 100%; box-sizing: border-box; outline: none; }
+        .modal-buttons { display: flex; gap: 8px; justify-content: center; }
+        .btn-copy-modal, .btn-close-modal { border: none; padding: 10px 15px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; flex: 1; font-family: 'Nunito', sans-serif; color: #fff;}
+        .btn-copy-modal { background: var(--success); }
         .btn-copy-modal:hover { background: var(--success-hover); }
-        .btn-close-modal { background: var(--text-muted); color: #fff; border: none; padding: 12px 15px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; flex: 1; font-family: 'Nunito', sans-serif; width: 100%;}
+        .btn-close-modal { background: var(--text-muted); }
         .btn-close-modal:hover { background: var(--text-main); }
+
+        /* DANH SÁCH LỊCH SỬ CSS */
+        .history-list { text-align: left; overflow-y: auto; max-height: 250px; padding: 5px; margin-bottom: 10px; font-family: 'Fira Code', monospace; font-size: 13px; }
+        .history-item { padding: 10px 0; border-bottom: 1px dashed rgba(198, 156, 133, 0.3); }
+        .history-item:last-child { border-bottom: none; }
+        .history-time { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; display: block;}
+        .history-key { font-size: 14px; font-weight: 800; color: #D84315; }
 
         /* TAB DONATE CSS */
         .qr-generator { background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 15px; border: 1px solid rgba(198, 156, 133, 0.2); }
@@ -138,12 +128,7 @@
         .top-donate-box h3 { margin: 0 0 12px 0; font-size: 16px; text-align: center; font-weight: 900; color: #d35400;} 
         .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
         
-        .donate-item { 
-            display: flex; align-items: center; justify-content: space-between; 
-            background: #fff; padding: 10px 12px; border-radius: 12px; 
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid rgba(198, 156, 133, 0.15); 
-            transition: transform 0.2s; 
-        }
+        .donate-item { display: flex; align-items: center; justify-content: space-between; background: #fff; padding: 10px 12px; border-radius: 12px; box-shadow: 0 2px 6px rgba(0,0,0,0.04); border: 1px solid rgba(198, 156, 133, 0.15); transition: transform 0.2s; }
         .donate-item:hover { transform: scale(1.02); }
         
         .donate-rank { width: 35px; text-align: center; flex-shrink: 0; display: flex; justify-content: center; align-items: center;}
@@ -161,15 +146,8 @@
         .loading-text { text-align: center; font-size: 13px; color: var(--text-muted); font-weight: 700; padding: 15px; }
 
         /* POPUP SUCCESS THÔNG BÁO DONATE */
-        .success-overlay {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999;
-            display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px);
-        }
-        .success-modal {
-            background: #fff; padding: 25px; border-radius: 20px; text-align: center;
-            width: 90%; max-width: 280px; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-            animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
+        .success-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); }
+        .success-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 280px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .check-wrap { position: relative; width: 70px; height: 70px; margin: 0 auto 15px; }
         .check-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 4px dashed var(--success); border-radius: 50%; animation: spin 3s linear infinite; box-sizing: border-box; }
         .check-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: var(--success); }
@@ -196,18 +174,28 @@
         <h2>0704Cheat - IPA 1H</h2>
         <p class="subtitle">Hệ thống cấp Key miễn phí tự động</p>
         
+        <!-- PHIÊN BẢN HỖ TRỢ -->
+        <div class="supported-versions">
+            <h4><i class="fa-brands fa-apple"></i> Phiên bản đã xác minh</h4>
+            <div class="version-badges">
+                <span class="badge">iOS 17.0 – 17.7.x</span>
+                <span class="badge">iOS 18.0 – 18.7.1</span>
+                <span class="badge">iOS 26.0 – 26.6.1</span>
+                <span class="badge">iOS 27.0 Beta 1-4</span>
+            </div>
+            <p class="version-desc">Đã xác minh: iOS 17.0–17.7.x, iOS 18.0–18.7.1, iOS 26.0–26.6.1, iOS 27.0 Developer Beta 1–4 và Public Beta 1–2.</p>
+        </div>
+        
+        <!-- HỘP NHẬN KEY -->
         <div class="key-container">
-            <i class="fa-solid fa-download key-icon"></i>
             <a href="https://files.catbox.moe/tykdce.ipa" target="_blank" class="btn-download">
                 <i class="fa-solid fa-cloud-arrow-down"></i> Link Tải IPA (Chuyển trang)
             </a>
-            <hr style="border:0; border-top:1px dashed rgba(198,156,133,0.4); margin:5px 0;">
-            <button class="btn-get-key" id="getKeyBtn">
-                <i class="fa-solid fa-key"></i> Nhận Key Ngay
-            </button>
-            <button class="btn-history" onclick="openHistoryModal()">
-                <i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử Nhận Key
-            </button>
+            <hr style="border:0; border-top:1px dashed rgba(198,156,133,0.4); margin:2px 0;">
+            <div class="action-buttons">
+                <button class="btn-get-key" id="getKeyBtn"><i class="fa-solid fa-key"></i> Nhận Key Ngay</button>
+                <button class="btn-history" id="historyBtn"><i class="fa-solid fa-clock-rotate-left"></i> Lịch Sử</button>
+            </div>
         </div>
     </div>
 
@@ -235,26 +223,26 @@
     </div>
 </div>
 
-<!-- BẢNG KEY POPUP HIỆN RA KHI ẤN NHẬN KEY -->
+<!-- MODAL HIỆN KEY VỪA NHẬN -->
 <div class="key-modal-overlay" id="keyModalOverlay">
     <div class="key-modal">
         <h3>Key 1 Giờ Của Bạn</h3>
         <input type="text" id="modalKeyInput" readonly>
         <div class="modal-buttons">
             <button class="btn-copy-modal" id="copyKeyBtn"><i class="fa-solid fa-copy"></i> Sao chép</button>
-            <button class="btn-close-modal" style="flex:1;" onclick="closeKeyModal()"><i class="fa-solid fa-xmark"></i> Đóng</button>
+            <button class="btn-close-modal" onclick="closeKeyModal()"><i class="fa-solid fa-xmark"></i> Đóng</button>
         </div>
     </div>
 </div>
 
-<!-- BẢNG LỊCH SỬ NHẬN KEY POPUP -->
-<div class="history-modal-overlay" id="historyModalOverlay">
-    <div class="history-modal">
-        <h3>Lịch Sử Nhận Key</h3>
-        <ul class="history-list" id="historyList">
-            <!-- Render ngầm từ JS -->
-        </ul>
-        <button class="btn-close-modal" style="margin-top: 10px;" onclick="closeHistoryModal()"><i class="fa-solid fa-xmark"></i> Đóng</button>
+<!-- MODAL LỊCH SỬ NHẬN KEY -->
+<div class="key-modal-overlay" id="historyModalOverlay">
+    <div class="key-modal">
+        <h3>Lịch Sử Của Bạn</h3>
+        <div class="history-list" id="historyListArea"></div>
+        <div class="modal-buttons">
+            <button class="btn-close-modal" onclick="closeHistoryModal()" style="width: 100%;"><i class="fa-solid fa-xmark"></i> Đóng Lịch Sử</button>
+        </div>
     </div>
 </div>
 
@@ -277,9 +265,15 @@
         if(tabId === 'donateTab') fetchTopDonate();
     }
 
-    // --- PHẦN 1: LOGIC NHẬN KEY VÀ LƯU LỊCH SỬ ---
+    // --- LẤY IP VÀ BẢO MẬT GIỚI HẠN KEY ---
+    let clientIP = "unknown_ip";
+    fetch('https://api.ipify.org?format=json')
+        .then(response => response.json())
+        .then(data => { clientIP = data.ip; })
+        .catch(err => console.log("Không thể lấy IP, dùng mặc định."));
+
+    // --- PHẦN 1: LOGIC NHẬN KEY TỪ FILE keys.txt ---
     let availableKeys = [];
-    let keyHistory = JSON.parse(localStorage.getItem('keyHistory') || '[]');
 
     async function loadKeys() {
         try {
@@ -296,88 +290,109 @@
     }
     loadKeys();
 
-    function getCurrentDateTime() {
-        const now = new Date();
-        const pad = (n) => n.toString().padStart(2, '0');
-        const date = `${pad(now.getDate())}/${pad(now.getMonth() + 1)}/${now.getFullYear()}`;
-        const time = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
-        return `${date} - ${time}`;
-    }
-
     document.getElementById('getKeyBtn').addEventListener('click', function() {
         if (availableKeys.length === 0) {
             alert("Danh sách Key đang trống hoặc file keys.txt chưa được tải lên!");
             return;
         }
+
+        let usageMap = JSON.parse(localStorage.getItem('keyUsageIP') || '{}');
+        let currentUsage = usageMap[clientIP] || 0;
         
-        // Random ra 1 key
+        if (currentUsage >= 2) {
+            alert("⚠️ Từ chối: Địa chỉ IP của bạn đã nhận đủ giới hạn 2 Key miễn phí!");
+            return;
+        }
+
         const randomIndex = Math.floor(Math.random() * availableKeys.length);
         const selectedKey = availableKeys[randomIndex];
         
-        // Lưu lịch sử
-        const historyItem = { key: selectedKey, time: getCurrentDateTime() };
-        keyHistory.unshift(historyItem); // Đẩy lên đầu danh sách
-        localStorage.setItem('keyHistory', JSON.stringify(keyHistory));
+        usageMap[clientIP] = currentUsage + 1;
+        localStorage.setItem('keyUsageIP', JSON.stringify(usageMap));
 
-        // Hiện bảng Key
+        let history = JSON.parse(localStorage.getItem('myKeyHistory') || '[]');
+        let now = new Date();
+        let formattedTime = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth()+1).padStart(2, '0')}/${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+        
+        history.unshift({ time: formattedTime, key: selectedKey });
+        localStorage.setItem('myKeyHistory', JSON.stringify(history));
+
         document.getElementById('modalKeyInput').value = selectedKey;
         document.getElementById('keyModalOverlay').style.display = 'flex';
     });
 
+    document.getElementById('historyBtn').addEventListener('click', function() {
+        let history = JSON.parse(localStorage.getItem('myKeyHistory') || '[]');
+        let historyBox = document.getElementById('historyListArea');
+        
+        if (history.length === 0) {
+            historyBox.innerHTML = '<p style="text-align:center; color: var(--text-muted); margin-top: 20px;">Bạn chưa nhận Key nào!</p>';
+        } else {
+            let html = '';
+            history.forEach(item => {
+                html += `
+                <div class="history-item">
+                    <span class="history-time"><i class="fa-regular fa-clock"></i> ${item.time}</span>
+                    <span class="history-key">${item.key}</span>
+                </div>`;
+            });
+            historyBox.innerHTML = html;
+        }
+        document.getElementById('historyModalOverlay').style.display = 'flex';
+    });
+
     function closeKeyModal() { document.getElementById('keyModalOverlay').style.display = 'none'; }
+    function closeHistoryModal() { document.getElementById('historyModalOverlay').style.display = 'none'; }
 
     document.getElementById('copyKeyBtn').addEventListener('click', function() {
         const keyInput = document.getElementById('modalKeyInput');
-        keyInput.select(); document.execCommand('copy');
+        keyInput.select();
+        document.execCommand('copy');
         
-        const btn = this; const originalHtml = btn.innerHTML;
-        btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép'; btn.style.background = 'var(--text-main)';
-        setTimeout(() => { btn.innerHTML = originalHtml; btn.style.background = 'var(--success)'; }, 2000);
+        const btn = this;
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fa-solid fa-check"></i> Đã chép';
+        btn.style.background = 'var(--text-main)';
+        
+        setTimeout(() => {
+            btn.innerHTML = originalHtml;
+            btn.style.background = 'var(--success)';
+        }, 2000);
     });
-
-    // --- LOGIC BẢNG LỊCH SỬ ---
-    function openHistoryModal() {
-        const listUI = document.getElementById('historyList');
-        listUI.innerHTML = '';
-
-        if (keyHistory.length === 0) {
-            listUI.innerHTML = '<div class="history-empty">Chưa có lịch sử nhận key nào.</div>';
-        } else {
-            keyHistory.forEach(item => {
-                listUI.innerHTML += `
-                    <li class="history-item">
-                        <div class="history-time"><i class="fa-regular fa-clock"></i> ${item.time}</div>
-                        <div class="history-key">${item.key}</div>
-                    </li>
-                `;
-            });
-        }
-        document.getElementById('historyModalOverlay').style.display = 'flex';
-    }
-
-    function closeHistoryModal() { document.getElementById('historyModalOverlay').style.display = 'none'; }
-
 
     // --- PHẦN 2: QR & BẢNG XẾP HẠNG DONATE ---
     let nameMap = JSON.parse(localStorage.getItem('nameMap') || '{}');
     let msgMap = JSON.parse(localStorage.getItem('msgMap') || '{}');
 
-    function makeKey(str) { return str ? str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : ""; }
-    function removeAccentsForQR(str) { return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 \-]/g, ''); }
+    function makeKey(str) {
+        if (!str) return "";
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+    }
+    
+    function removeAccentsForQR(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 \-]/g, '');
+    }
 
     function generateDonateQR() {
         const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
         let rawName = document.getElementById('donateName').value.trim() || "Ẩn Danh";
         let rawMsg = document.getElementById('donateMessage').value.trim();
         
-        let safeName = removeAccentsForQR(rawName).trim(); let safeMsg = removeAccentsForQR(rawMsg).trim();
-        nameMap[makeKey(safeName)] = rawName; if (safeMsg) msgMap[makeKey(safeMsg)] = rawMsg;
-        localStorage.setItem('nameMap', JSON.stringify(nameMap)); localStorage.setItem('msgMap', JSON.stringify(msgMap));
+        let safeName = removeAccentsForQR(rawName).trim();
+        let safeMsg = removeAccentsForQR(rawMsg).trim();
+        
+        nameMap[makeKey(safeName)] = rawName; 
+        if (safeMsg) msgMap[makeKey(safeMsg)] = rawMsg;
+        
+        localStorage.setItem('nameMap', JSON.stringify(nameMap));
+        localStorage.setItem('msgMap', JSON.stringify(msgMap));
 
         let rawContent = `DONATE0704 ${safeName}` + (safeMsg ? ` - ${safeMsg}` : '');
+        
         const params = new URLSearchParams();
         if (amount && amount > 0) params.append('amount', amount);
-        params.append('addInfo', rawContent); params.append('accountName', 'NGO SON LAM');
+        params.append('addInfo', rawContent); 
+        params.append('accountName', 'NGO SON LAM');
         
         document.getElementById('qrImage').src = `https://img.vietqr.io/image/970422-0374583885-compact2.png?${params.toString()}`;
         document.getElementById('qrResultArea').style.display = 'block';
@@ -388,49 +403,95 @@
     let isFirstLoad = true;
 
     async function fetchTopDonate() {
-        const listUI = document.getElementById('donateList'); const loader = document.getElementById('loadingDonate');
+        const listUI = document.getElementById('donateList');
+        const loader = document.getElementById('loadingDonate');
+
         try {
             const token = atob(_0xT.join('')); 
             const response = await fetch(`https://api.sieuthicode.net/historyapimbbank/${token}`);
             const json = await response.json();
+            
             let txs = (json.TranList || []).filter(t => Number(t.creditAmount) > 0 && t.description && t.description.includes("DONATE0704"));
 
-            if (txs.length === 0) { if(isFirstLoad) loader.innerHTML = "Chưa có dữ liệu. Hãy là người đầu tiên!"; return; }
+            if (txs.length === 0) {
+                if(isFirstLoad) loader.innerHTML = "Chưa có dữ liệu. Hãy là người đầu tiên!";
+                return;
+            }
+
             txs.forEach((tx, index) => { tx.originalIndex = index; });
 
             if (!isFirstLoad) {
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
                         let parsedName = "Ẩn Danh"; 
-                        let descText = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim().replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                        let descText = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim();
+                        descText = descText.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                        
                         let parts = descText.split("-");
                         if(parts[0] && parts[0].trim() !== "") {
                             let key = makeKey(parts[0]);
-                            if (nameMap[key]) { parsedName = nameMap[key]; } else { parsedName = parts[0].trim(); if(parsedName.toUpperCase() === "AN DANH") parsedName = "Ẩn Danh"; }
+                            if (nameMap[key]) {
+                                parsedName = nameMap[key];
+                            } else {
+                                parsedName = parts[0].trim();
+                                if(parsedName.toUpperCase() === "AN DANH") parsedName = "Ẩn Danh";
+                            }
                         }
                         triggerSuccessPopup(Number(tx.creditAmount), parsedName);
                     }
                 });
             }
 
-            txs.forEach(tx => knownTransactionIds.add(tx.refNo)); isFirstLoad = false;
-            txs.sort((a, b) => { const amountDiff = Number(b.creditAmount) - Number(a.creditAmount); if (amountDiff !== 0) return amountDiff; return a.originalIndex - b.originalIndex; });
+            txs.forEach(tx => knownTransactionIds.add(tx.refNo));
+            isFirstLoad = false;
+
+            txs.sort((a, b) => {
+                const amountDiff = Number(b.creditAmount) - Number(a.creditAmount);
+                if (amountDiff !== 0) return amountDiff;
+                return a.originalIndex - b.originalIndex; 
+            });
+            
             const topTxs = txs.slice(0, 10);
-            loader.style.display = 'none'; let newHTML = '';
+
+            loader.style.display = 'none';
+            let newHTML = '';
 
             topTxs.forEach((gd, index) => {
                 const amountFormatted = "+" + Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
-                let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 11).trim().replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
-                let displayName = "Ẩn Danh"; let displayMsg = "";
+                
+                let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 11).trim();
+                extracted = extracted.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                
+                let displayName = "Ẩn Danh"; 
+                let displayMsg = "";
+                
                 let parts = extracted.split("-");
                 
                 if (parts[0] && parts[0].trim() !== "") {
-                    let bankName = parts[0].trim(); let key = makeKey(bankName);
-                    if (nameMap[key]) { displayName = nameMap[key]; } else { displayName = bankName; if (displayName.toUpperCase() === "AN DANH") displayName = "Ẩn Danh"; }
+                    let bankName = parts[0].trim();
+                    let key = makeKey(bankName);
+                    
+                    if (nameMap[key]) {
+                        displayName = nameMap[key]; 
+                    } else {
+                        displayName = bankName; 
+                        if (displayName.toUpperCase() === "AN DANH") displayName = "Ẩn Danh";
+                    }
                 }
-                if (parts.length > 1) { let bankMsg = parts.slice(1).join("-").trim(); let key = makeKey(bankMsg); if (msgMap[key]) { displayMsg = msgMap[key]; } else { displayMsg = bankMsg; } }
                 
+                if (parts.length > 1) {
+                    let bankMsg = parts.slice(1).join("-").trim();
+                    let key = makeKey(bankMsg);
+                    
+                    if (msgMap[key]) {
+                        displayMsg = msgMap[key]; 
+                    } else {
+                        displayMsg = bankMsg; 
+                    }
+                }
+
                 const msgHtml = displayMsg ? `<span class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</span>` : '';
+
                 let rankHTML = '';
                 if (index === 0) rankHTML = '<i class="fa-solid fa-crown rank-icon-1"></i>';
                 else if (index === 1) rankHTML = '<i class="fa-solid fa-medal rank-icon-2"></i>';
@@ -441,22 +502,29 @@
                     <li class="donate-item">
                         <div class="donate-rank">${rankHTML}</div>
                         <div class="donate-info">
-                            <div class="donate-text"><span class="donate-name">${displayName}</span>${msgHtml}</div>
+                            <div class="donate-text">
+                                <span class="donate-name">${displayName}</span>
+                                ${msgHtml}
+                            </div>
                             <div class="donate-amount">${amountFormatted}</div>
                         </div>
                     </li>
                 `;
             });
             listUI.innerHTML = newHTML;
+
         } catch (error) { console.error("Lỗi get data", error); }
     }
 
-    setInterval(() => { if (document.getElementById('donateTab').classList.contains('active')) fetchTopDonate(); }, 4000);
+    setInterval(() => {
+        if (document.getElementById('donateTab').classList.contains('active')) fetchTopDonate();
+    }, 4000);
 
     function triggerSuccessPopup(amount, name) {
         document.getElementById('modalName').innerText = `Cảm ơn ${name} ❤️`;
         document.getElementById('modalAmount').innerText = `+${amount.toLocaleString('vi-VN')}đ`;
         document.getElementById('successOverlay').style.display = 'flex';
+        
         var duration = 3000, end = Date.now() + duration;
         (function frame() {
             confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#26ccff', '#a25afd', '#ff5e7e', '#88ff5a', '#fcff42'] });
