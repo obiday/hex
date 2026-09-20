@@ -85,7 +85,8 @@
         .qr-generator { background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 15px; border: 1px solid rgba(198, 156, 133, 0.2); flex-shrink: 0;}
         .qr-generator h3 { margin: 0 0 12px 0; font-size: 15px; text-align: center; font-weight: 900;} 
         .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
-        .form-row input { font-family: 'Nunito', sans-serif; padding: 10px; width: 100%; box-sizing: border-box; font-size: 13px; border: 2px solid rgba(198, 156, 133, 0.3); border-radius: 10px; outline: none;}
+        .form-row input { font-family: 'Nunito', sans-serif; padding: 10px; width: 100%; box-sizing: border-box; font-size: 13px; border: 2px solid rgba(198, 156, 133, 0.3); border-radius: 10px; outline: none; text-align: center;}
+        .form-row input:focus { border-color: var(--primary); }
         .btn-generate { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: 'Nunito', sans-serif;}
         .btn-generate:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
@@ -188,6 +189,7 @@
         .gift-result p { font-size: 13px; font-weight: 800; color: var(--text-main); margin: 0 0 10px 0; }
         .btn-copy-bank { background: #8BA888; color: #fff; border: none; padding: 8px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; font-family: 'Nunito', sans-serif; margin-top: 8px;}
         .btn-copy-bank:hover { background: #728F6F; }
+
     </style>
 </head>
 <body>
@@ -215,7 +217,6 @@
         </div>
         
         <div class="key-container">
-            <!-- Đã gắn link tải IPA theo yêu cầu -->
             <a href="https://files.catbox.moe/tykdce.ipa" target="_blank" class="btn-download">
                 <i class="fa-solid fa-cloud-arrow-down"></i> Tải Xuống IPA
             </a>
@@ -232,7 +233,10 @@
         <div class="qr-generator">
             <h3><i class="fa-solid fa-bolt" style="color: #F4D03F;"></i> Chuyển Tiền Tự Động Xử Lý</h3>
             <div class="form-row"><input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)"></div>
-            <div class="form-row"><input type="text" id="donateName" placeholder="Tên hiển thị của bạn"></div>
+            <div class="form-row">
+                <!-- Chỉ có ô nhập Tên -->
+                <input type="text" id="donateName" placeholder="Tên hiển thị (Tự động xóa dấu)">
+            </div>
             <button class="btn-generate" onclick="openQrModal()"><i class="fa-solid fa-qrcode"></i> Tạo Mã QR Chuyển Khoản</button>
         </div>
 
@@ -258,7 +262,7 @@
     </div>
 </div>
 
-<!-- BẢNG HIỆN QR & THÔNG TIN CHUYỂN KHOẢN RIÊNG THEO YÊU CẦU -->
+<!-- BẢNG HIỆN QR & THÔNG TIN CHUYỂN KHOẢN RIÊNG -->
 <div class="qr-modal-overlay" id="qrModalOverlay">
     <div class="key-modal">
         <h3>Quét Mã QR Chuyển Khoản</h3>
@@ -310,7 +314,7 @@
     </div>
 </div>
 
-<!-- MODAL PHÁO HOA THÀNH CÔNG DONATE + TẶNG KEY BANK (CHỈ HIỆN VỚI NGƯỜI VỪA DONATE TRÊN MÁY NÀY) -->
+<!-- MODAL PHÁO HOA THÀNH CÔNG DONATE + TẶNG KEY BANK -->
 <div class="success-overlay" id="successOverlay">
     <div class="key-modal" style="padding-top: 30px;">
         <div class="check-wrap"><div class="check-circle"></div><i class="fa-solid fa-check check-icon"></i></div>
@@ -346,6 +350,7 @@
     const getF1 = () => String.fromCharCode(107,101,121,115,46,116,120,116);
     const getF2 = () => String.fromCharCode(107,101,121,115,98,97,110,107,46,116,120,116);
 
+    // --- LẤY IP VÀ LOAD FILE KEY ---
     let clientIP = "unknown_ip";
     fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => { clientIP = data.ip; }).catch(err => {});
 
@@ -365,6 +370,7 @@
     }
     loadAllKeys();
 
+    // --- LOGIC NHẬN KEY FREE (Giới hạn 2) ---
     document.getElementById('getKeyBtn').addEventListener('click', function() {
         if (availableKeys.length === 0) { alert("Danh sách Key đang trống!"); return; }
         let usageMap = JSON.parse(localStorage.getItem('keyUsageIP') || '{}');
@@ -400,7 +406,7 @@
 
     function closeKeyModal() { document.getElementById('keyModalOverlay').style.display = 'none'; }
     function closeHistoryModal() { document.getElementById('historyModalOverlay').style.display = 'none'; }
-    
+
     function copyToClip(inputId, btn, color='#728F6F', colorRe='#8BA888') {
         document.getElementById(inputId).select(); document.execCommand('copy');
         const originalHtml = btn.innerHTML;
@@ -418,38 +424,36 @@
         });
     }
 
+    // --- XỬ LÝ NHẬP TÊN KHÔNG DẤU VÀ TẠO QR ---
+    const donateNameInput = document.getElementById('donateName');
+    
+    // Tự động xóa dấu và chuyển thành chữ HOA khi gõ
+    donateNameInput.addEventListener('input', function() {
+        let val = this.value;
+        val = val.normalize('NFD').replace(/[\u0300-\u036f]/g, ''); // Bỏ dấu
+        val = val.replace(/đ/g, 'd').replace(/Đ/g, 'D'); // Chữ Đ
+        val = val.replace(/[^a-zA-Z0-9\s]/g, ''); // Bỏ kí tự đặc biệt
+        this.value = val.toUpperCase();
+    });
+
     let currentCodeVal = "";
     let currentAmountVal = "";
 
-    function generateRandomID(length = 5) {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let result = '';
-        for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
-        return result;
-    }
-
-    function removeAccents(str) {
-        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9\s]/g, '');
-    }
-
-    function capitalizeWords(str) {
-        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
-    }
-
     function openQrModal() {
         const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : 0; 
-        let rawName = document.getElementById('donateName').value.trim();
-        let safeName = removeAccents(rawName).trim();
-        if (!safeName) safeName = "An Danh";
-
-        let qrID = generateRandomID(5).toUpperCase();
         
-        // Lưu mã này vào danh sách "myPendingDonations" của trình duyệt hiện tại để nhận thông báo trúng thưởng sau khi chuyển
+        let rawName = donateNameInput.value.trim();
+        if (!rawName) rawName = "AN DANH";
+
+        // Cú pháp chuẩn xác gửi lên ngân hàng: DONATE0704 [TÊN]
+        let qrContent = `DONATE0704 ${rawName}`;
+        
+        // Lưu ngầm nội dung QR vào máy hiện tại để làm chìa khóa kích hoạt pháo hoa
         let myPendingDonations = JSON.parse(localStorage.getItem('myPendingDonations') || '[]');
-        myPendingDonations.push(qrID);
+        myPendingDonations.push(qrContent);
         localStorage.setItem('myPendingDonations', JSON.stringify(myPendingDonations));
 
-        currentCodeVal = `DONATE0704-${qrID}`;
+        currentCodeVal = qrContent;
         currentAmountVal = amount > 0 ? amount.toLocaleString('vi-VN') + 'đ' : '0đ';
 
         document.getElementById('modalCodeText').innerText = `MÃ: ${currentCodeVal}`;
@@ -464,9 +468,7 @@
         document.getElementById('qrModalOverlay').style.display = 'flex';
     }
 
-    function closeQrModal() {
-        document.getElementById('qrModalOverlay').style.display = 'none';
-    }
+    function closeQrModal() { document.getElementById('qrModalOverlay').style.display = 'none'; }
 
     function timeAgo(dateString) {
         if (!dateString) return "Vừa xong";
@@ -519,21 +521,27 @@
                 tx.timestamp = p.length >= 6 ? new Date(p[2], p[1]-1, p[0], p[3], p[4], p[5]).getTime() : 0;
             });
 
-            // Chỉ hiện popup nhận key nếu giao dịch khớp với mã QR do CHÍNH MÁY NÀY vừa tạo ra
             if (!isFirstLoad) {
                 let myPendingDonations = JSON.parse(localStorage.getItem('myPendingDonations') || '[]');
+                
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
-                        let match = tx.description.match(/DONATE0704[\s\-]*([A-Z0-9]{5})/i);
-                        if (match) {
-                            let qrID = match[1].toUpperCase();
-                            if (myPendingDonations.includes(qrID)) {
-                                let extracted = tx.description.substring(tx.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
-                                let parts = extracted.split("-");
-                                let parsedName = (parts[0] && parts[0].trim() !== "") ? capitalizeWords(parts[0].trim()) : "Ẩn Danh";
-                                triggerSuccessPopup(Number(tx.creditAmount), parsedName);
-                            }
+                        // Trích xuất tên gốc từ nội dung API gửi về (Phía sau chữ DONATE0704)
+                        let extracted = tx.description.substring(tx.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                        let parsedName = "Ẩn Danh";
+                        if (extracted) {
+                            // Viết hoa chữ cái đầu (VD: ANH NAM -> Anh Nam)
+                            parsedName = extracted.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+                            if (parsedName.toUpperCase() === "AN DANH") parsedName = "Ẩn Danh";
                         }
+                        
+                        // Kiểm tra nếu mã giao dịch nằm trong bộ nhớ máy này -> Bật pháo hoa
+                        let isMyDonation = false;
+                        myPendingDonations.forEach(pending => {
+                            if (tx.description.toUpperCase().includes(pending.toUpperCase())) isMyDonation = true;
+                        });
+
+                        if (isMyDonation) triggerSuccessPopup(Number(tx.creditAmount), parsedName);
                     }
                 });
             }
@@ -551,12 +559,12 @@
                 const amountFormatted = Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 const timeString = timeAgo(gd.transactionDate);
                 
+                // Trích xuất hiển thị tên trực tiếp từ API (Không dùng Dictionary nữa)
                 let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                 let displayName = "Ẩn Danh"; 
                 
-                let parts = extracted.split("-");
-                if (parts[0] && parts[0].trim() !== "") {
-                    displayName = capitalizeWords(parts[0].trim());
+                if (extracted) {
+                    displayName = extracted.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
                     if (displayName.toUpperCase() === "AN DANH") displayName = "Ẩn Danh";
                 }
 
