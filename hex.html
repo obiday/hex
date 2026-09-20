@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>3105 · Hạ cấp & Đổi Mật Khẩu</title>
+  <title>3105 · Hạ cấp & Quản lý Mật Khẩu</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      var(--bg): #09090b;
+      --bg: #09090b;
       --card-bg: rgba(24, 24, 27, 0.4);
       --card-border: rgba(255, 255, 255, 0.08);
       --text: #f4f4f5;
@@ -28,7 +28,7 @@
       margin: 0; 
       min-height: 100vh;
       font-family: var(--font-sans);
-      background-color: #09090b;
+      background-color: var(--bg);
       background-image: 
         radial-gradient(circle at 15% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
         radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
@@ -40,51 +40,29 @@
       padding: 40px 16px;
     }
 
-    .wrap { 
-      width: 100%; 
-      max-width: 600px; 
-      position: relative;
-      z-index: 1;
-    }
+    .wrap { width: 100%; max-width: 600px; position: relative; z-index: 1; }
 
-    /* Header styling */
     header { text-align: center; margin-bottom: 32px; }
     .logo-icon { width: 48px; height: 48px; color: var(--accent-hover); margin-bottom: 16px; filter: drop-shadow(0 0 12px var(--accent-glow)); }
     h1 { font-size: 1.75rem; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.02em; }
     p.lead { color: var(--muted); margin: 0; font-size: 0.95rem; }
 
-    /* Glassmorphism Cards */
     .card {
-      background: var(--card-bg); 
-      border: 1px solid var(--card-border);
-      border-radius: 16px; 
-      padding: 24px; 
-      margin-bottom: 16px;
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
+      background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 16px; padding: 24px; margin-bottom: 16px;
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
       box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.2);
     }
 
-    .card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
-    .card-header .title-group { display: flex; align-items: center; gap: 8px; }
+    .card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
     .card-header svg { width: 18px; height: 18px; color: var(--muted); }
-    label { font-size: 0.875rem; font-weight: 500; color: var(--text); display: block; }
-    .optional-badge { font-size: 0.7rem; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 12px; color: var(--muted); }
+    label.title { font-size: 0.875rem; font-weight: 500; color: var(--text); }
 
-    /* Drag & Drop Zone */
     .drop {
-      border: 2px dashed rgba(255, 255, 255, 0.15); 
-      border-radius: 12px;
-      padding: 40px 20px; 
-      text-align: center; 
-      color: var(--muted); 
-      cursor: pointer;
-      transition: all 0.2s ease;
-      background: var(--input-bg);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
+      border: 2px dashed rgba(255, 255, 255, 0.15); border-radius: 12px;
+      padding: 40px 20px; text-align: center; color: var(--muted); cursor: pointer;
+      transition: all 0.2s ease; background: var(--input-bg);
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
     }
     .drop svg { width: 32px; height: 32px; color: #52525b; transition: all 0.2s; }
     .drop:hover { border-color: rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.02); }
@@ -93,104 +71,66 @@
     .drop.over svg { color: var(--accent-hover); transform: scale(1.1); }
     .hint { font-size: 0.85rem; color: var(--muted); margin-top: 12px; text-align: center; }
 
-    /* Inputs */
-    .input-wrapper { position: relative; margin-bottom: 12px; }
+    .input-wrapper { position: relative; margin-bottom: 12px; transition: opacity 0.3s ease; }
     .input-wrapper:last-child { margin-bottom: 0; }
     .input-wrapper svg {
       position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-      width: 18px; height: 18px; color: #52525b; pointer-events: none;
-      transition: color 0.2s;
+      width: 18px; height: 18px; color: #52525b; pointer-events: none; transition: color 0.2s;
     }
     input[type="password"] {
-      width: 100%; 
-      padding: 14px 16px 14px 44px; 
-      border-radius: 12px;
-      border: 1px solid var(--card-border); 
-      background: var(--input-bg); 
-      color: var(--text); 
-      font-size: 0.95rem;
-      font-family: var(--font-sans);
-      transition: all 0.2s ease;
+      width: 100%; padding: 14px 16px 14px 44px; border-radius: 12px;
+      border: 1px solid var(--card-border); background: var(--input-bg); color: var(--text); 
+      font-size: 0.95rem; font-family: var(--font-sans); transition: all 0.2s ease;
     }
-    input[type="password"]:focus {
-      outline: none;
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-glow);
-    }
+    input[type="password"]:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-glow); }
     input[type="password"]:focus + svg, .input-wrapper:focus-within svg { color: var(--accent); }
+    input[type="password"]:disabled { background: rgba(255,255,255,0.02); color: #52525b; cursor: not-allowed; }
 
-    /* Buttons */
+    /* Toggle Switch */
+    .switch-wrapper {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(239, 68, 68, 0.05); border: 1px solid rgba(239, 68, 68, 0.15);
+      padding: 12px 16px; border-radius: 12px; margin-bottom: 16px;
+    }
+    .switch-info { display: flex; align-items: center; gap: 12px; }
+    .switch-info svg { color: var(--bad); width: 20px; height: 20px; }
+    .switch-text .main { font-weight: 500; font-size: 0.9rem; color: var(--text); }
+    .switch-text .sub { font-size: 0.75rem; color: var(--muted); }
+    
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: .3s; border-radius: 24px; }
+    .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 3px; bottom: 3px; background-color: #a1a1aa; transition: .3s; border-radius: 50%; }
+    input:checked + .slider { background-color: var(--bad); }
+    input:checked + .slider:before { transform: translateX(20px); background-color: #fff; }
+
     button {
-      width: 100%; 
-      padding: 14px 20px; 
-      border: none; 
-      border-radius: 12px;
-      background: var(--accent);
-      color: #fff; 
-      font-weight: 600; 
-      font-size: 1rem; 
-      cursor: pointer;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      transition: all 0.2s ease;
-      box-shadow: 0 4px 12px var(--accent-glow);
-      font-family: var(--font-sans);
+      width: 100%; padding: 14px 20px; border: none; border-radius: 12px;
+      background: var(--accent); color: #fff; font-weight: 600; font-size: 1rem; cursor: pointer;
+      display: flex; justify-content: center; align-items: center; gap: 8px;
+      transition: all 0.2s ease; box-shadow: 0 4px 12px var(--accent-glow);
     }
     button:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 6px 16px var(--accent-glow); }
     button:active:not(:disabled) { transform: translateY(1px); }
     button:disabled { opacity: 0.5; cursor: not-allowed; box-shadow: none; filter: grayscale(50%); }
 
-    /* Terminal Log */
-    .log-container {
-      background: #000;
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      margin-top: 16px;
-      overflow: hidden;
-      display: none;
-    }
+    /* Console Terminal */
+    .log-container { background: #000; border: 1px solid var(--card-border); border-radius: 12px; margin-top: 16px; overflow: hidden; display: none; }
     .log-container.active { display: block; }
-    .log-header {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 8px 16px;
-      font-size: 0.75rem;
-      color: var(--muted);
-      border-bottom: 1px solid var(--card-border);
-      display: flex;
-      gap: 6px;
-    }
+    .log-header { background: rgba(255, 255, 255, 0.05); padding: 8px 16px; font-size: 0.75rem; color: var(--muted); border-bottom: 1px solid var(--card-border); display: flex; gap: 6px; }
     .mac-btn { width: 10px; height: 10px; border-radius: 50%; background: #3f3f46; }
-    .log { 
-      padding: 16px;
-      font-family: var(--font-mono); 
-      font-size: 12px; 
-      color: var(--muted);
-      max-height: 250px;
-      overflow-y: auto;
-    }
+    .log { padding: 16px; font-family: var(--font-mono); font-size: 12px; color: var(--muted); max-height: 250px; overflow-y: auto; }
     .log > div { display: flex; gap: 8px; margin-bottom: 6px; word-break: break-all; }
     .log > div::before { content: '›'; color: #52525b; flex-shrink: 0; }
     .log > div.ok { color: var(--ok); }
     .log > div.ok::before { content: '✓'; color: var(--ok); }
     .log > div.bad { color: var(--bad); }
     .log > div.bad::before { content: '✗'; color: var(--bad); }
-    
+    .log > div.warn { color: #eab308; }
+    .log > div.warn::before { content: '!'; color: #eab308; }
     .log::-webkit-scrollbar { width: 8px; }
     .log::-webkit-scrollbar-track { background: transparent; }
     .log::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
-    .log::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
-
-    /* Note Bottom */
-    .info-box {
-      font-size: 0.85rem; color: var(--muted); line-height: 1.6;
-      display: flex; align-items: flex-start; gap: 12px;
-      background: rgba(59, 130, 246, 0.05);
-      border: 1px solid rgba(59, 130, 246, 0.1);
-      padding: 16px; border-radius: 12px;
-    }
-    .info-box svg { flex-shrink: 0; color: #60a5fa; }
   </style>
 </head>
 <body>
@@ -199,15 +139,13 @@
     <header>
       <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
       <h1>Hạ cấp Patch 3105</h1>
-      <p class="lead">Chuyển định dạng 2.0 về 1.0 & Hỗ trợ đổi mật khẩu</p>
+      <p class="lead">Chuyển định dạng 2.0 về 1.0 & Quản lý bảo mật</p>
     </header>
 
     <div class="card">
       <div class="card-header">
-        <div class="title-group">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          <label>File patch (Bản 2.0)</label>
-        </div>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+        <label class="title">File patch (Bản 2.0)</label>
       </div>
       <div class="drop" id="drop">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
@@ -219,10 +157,8 @@
 
     <div class="card">
       <div class="card-header">
-        <div class="title-group">
-          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
-          <label>Thiết lập Mật khẩu</label>
-        </div>
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+        <label class="title">Tùy chọn Bảo mật</label>
       </div>
       
       <div class="input-wrapper">
@@ -230,9 +166,24 @@
         <input type="password" id="pw" placeholder="Mật khẩu CŨ (để mở khóa file gốc)" />
       </div>
 
-      <div class="input-wrapper">
+      <!-- Toggle Xóa Mật Khẩu -->
+      <div class="switch-wrapper">
+        <div class="switch-info">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M4 4l16 16" style="stroke: #ef4444; stroke-linecap: round;"></path></svg>
+          <div class="switch-text">
+            <div class="main">Gỡ bỏ hoàn toàn mật khẩu</div>
+            <div class="sub">File xuất ra sẽ không bị khóa nữa</div>
+          </div>
+        </div>
+        <label class="switch">
+          <input type="checkbox" id="remove-pw">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="input-wrapper" id="new-pw-wrapper">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
-        <input type="password" id="new-pw" placeholder="Mật khẩu MỚI (Để trống nếu muốn giữ nguyên pass cũ)" />
+        <input type="password" id="new-pw" placeholder="Mật khẩu MỚI (Để trống = Giữ nguyên pass cũ)" />
       </div>
     </div>
 
@@ -253,14 +204,26 @@
       </div>
     </div>
 
-    <div class="info-box">
-      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="20" height="20"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-      <div>Nếu nhập mật khẩu mới, khi cài vào phần mềm Patch 1.0, bạn chỉ cần <b>nhập mật khẩu mới</b> vừa tạo ở đây là được. Xử lý offline 100% bảo mật.</div>
-    </div>
-
   </div>
 
 <script>
+// --- UI Interaction ---
+const removePwCheck = document.getElementById('remove-pw');
+const newPwInput = document.getElementById('new-pw');
+const newPwWrapper = document.getElementById('new-pw-wrapper');
+
+removePwCheck.addEventListener('change', (e) => {
+  if (e.target.checked) {
+    newPwInput.value = '';
+    newPwInput.disabled = true;
+    newPwWrapper.style.opacity = '0.4';
+  } else {
+    newPwInput.disabled = false;
+    newPwWrapper.style.opacity = '1';
+  }
+});
+
+// --- Core Logic ---
 const MAGIC = new TextEncoder().encode("3105PATCH\0");
 
 function log(msg, cls) {
@@ -289,11 +252,7 @@ function readBplist(buf) {
   const numObjects = Number(view.getBigUint64(trailerOff + 8));
   const topObject = Number(view.getBigUint64(trailerOff + 16));
   const offsetTableOff = Number(view.getBigUint64(trailerOff + 24));
-  function readSizedInt(off, size) {
-    let n = 0n;
-    for (let i = 0; i < size; i++) n = (n << 8n) | BigInt(u8[off + i]);
-    return Number(n);
-  }
+  function readSizedInt(off, size) { let n = 0n; for (let i = 0; i < size; i++) n = (n << 8n) | BigInt(u8[off + i]); return Number(n); }
   const offsets = [];
   for (let i = 0; i < numObjects; i++) offsets.push(readSizedInt(offsetTableOff + i * offsetSize, offsetSize));
   function parseObject(idx, stack = new Set()) {
@@ -303,83 +262,35 @@ function readBplist(buf) {
     const marker = u8[off++];
     const type = marker >> 4;
     let extra = marker & 0x0f;
-    function readLen() {
-      if (extra !== 0x0f) return extra;
-      const m = u8[off++];
-      const s = 1 << (m & 0x0f);
-      const n = readSizedInt(off, s);
-      off += s;
-      return n;
-    }
+    function readLen() { if (extra !== 0x0f) return extra; const m = u8[off++]; const s = 1 << (m & 0x0f); const n = readSizedInt(off, s); off += s; return n; }
     if (marker === 0x00) return null;
     if (marker === 0x08) return false;
     if (marker === 0x09) return true;
-    if (type === 0x1) {
-      const size = 1 << extra;
-      return readSizedInt(off, size);
-    }
-    if (type === 0x4) {
-      const len = readLen();
-      return u8.slice(off, off + len);
-    }
-    if (type === 0x5) {
-      const len = readLen();
-      return td.decode(u8.slice(off, off + len));
-    }
-    if (type === 0x6) {
-      const len = readLen();
-      return new TextDecoder("utf-16be").decode(u8.slice(off, off + len * 2));
-    }
-    if (type === 0xA) {
-      const len = readLen();
-      const arr = [];
-      for (let i = 0; i < len; i++) arr.push(parseObject(readSizedInt(off + i * refSize, refSize), new Set(stack)));
-      return arr;
-    }
-    if (type === 0xD) {
-      const len = readLen();
-      const obj = {};
-      for (let i = 0; i < len; i++) {
-        const k = parseObject(readSizedInt(off + i * refSize, refSize), new Set(stack));
-        obj[k] = parseObject(readSizedInt(off + (len + i) * refSize, refSize), new Set(stack));
-      }
-      return obj;
-    }
+    if (type === 0x1) return readSizedInt(off, 1 << extra);
+    if (type === 0x4) { const len = readLen(); return u8.slice(off, off + len); }
+    if (type === 0x5) { const len = readLen(); return td.decode(u8.slice(off, off + len)); }
+    if (type === 0x6) { const len = readLen(); return new TextDecoder("utf-16be").decode(u8.slice(off, off + len * 2)); }
+    if (type === 0xA) { const len = readLen(); const arr = []; for (let i = 0; i < len; i++) arr.push(parseObject(readSizedInt(off + i * refSize, refSize), new Set(stack))); return arr; }
+    if (type === 0xD) { const len = readLen(); const obj = {}; for (let i = 0; i < len; i++) obj[parseObject(readSizedInt(off + i * refSize, refSize), new Set(stack))] = parseObject(readSizedInt(off + (len + i) * refSize, refSize), new Set(stack)); return obj; }
     throw new Error("marker không hỗ trợ: 0x" + marker.toString(16));
   }
   return parseObject(topObject);
 }
 
 function writeBplist(root) {
-  const table = [];
-  const idxMap = new Map();
+  const table = []; const idxMap = new Map();
   function add(v) {
     if (idxMap.has(v) && (typeof v === "object" && v !== null)) return idxMap.get(v);
     if (typeof v === "string" || typeof v === "number" || typeof v === "boolean" || v === null) {
       const key = (typeof v) + ":" + String(v);
       if (idxMap.has(key)) return idxMap.get(key);
-      const i = table.length;
-      table.push(v);
-      idxMap.set(key, i);
-      return i;
+      const i = table.length; table.push(v); idxMap.set(key, i); return i;
     }
-    if (Array.isArray(v)) {
-      for (const item of v) add(item);
-    } else if (v && typeof v === "object" && !(v instanceof Uint8Array)) {
-      for (const k of Object.keys(v)) add(String(k));
-      for (const k of Object.keys(v)) add(v[k]);
-    }
-    const i = table.length;
-    table.push(v);
-    idxMap.set(v, i);
-    return i;
+    if (Array.isArray(v)) { for (const item of v) add(item); } else if (v && typeof v === "object" && !(v instanceof Uint8Array)) { for (const k of Object.keys(v)) add(String(k)); for (const k of Object.keys(v)) add(v[k]); }
+    const i = table.length; table.push(v); idxMap.set(v, i); return i;
   }
-  const top = add(root);
-  const refSize = table.length < 256 ? 1 : table.length < 65536 ? 2 : 4;
-
-  function putInt(arr, n, size) {
-    for (let i = size - 1; i >= 0; i--) arr.push((n >>> (8 * i)) & 0xff);
-  }
+  const top = add(root); const refSize = table.length < 256 ? 1 : table.length < 65536 ? 2 : 4;
+  function putInt(arr, n, size) { for (let i = size - 1; i >= 0; i--) arr.push((n >>> (8 * i)) & 0xff); }
   function markerLen(type, len) {
     const out = [];
     if (len < 15) out.push((type << 4) | len);
@@ -388,105 +299,42 @@ function writeBplist(root) {
     else { out.push((type << 4) | 0x0f, 0x12); putInt(out, len, 4); }
     return out;
   }
-  function refOf(v) {
-    if (typeof v === "string" || typeof v === "number" || typeof v === "boolean" || v === null) {
-      return idxMap.get((typeof v) + ":" + String(v));
-    }
-    return idxMap.get(v);
-  }
+  function refOf(v) { return (typeof v === "string" || typeof v === "number" || typeof v === "boolean" || v === null) ? idxMap.get((typeof v) + ":" + String(v)) : idxMap.get(v); }
 
   const encoded = table.map((v) => {
     const b = [];
     if (v === null) b.push(0x00);
     else if (v === false) b.push(0x08);
     else if (v === true) b.push(0x09);
-    else if (typeof v === "number" && Number.isInteger(v)) {
-      if (v >= 0 && v < 256) { b.push(0x10); putInt(b, v, 1); }
-      else if (v >= 0 && v < 65536) { b.push(0x11); putInt(b, v, 2); }
-      else if (v >= 0 && v <= 0xffffffff) { b.push(0x12); putInt(b, v, 4); }
-      else { b.push(0x13); putInt(b, v, 8); }
-    } else if (typeof v === "string") {
-      const enc = new TextEncoder().encode(v);
-      b.push(...markerLen(0x5, enc.length), ...enc);
-    } else if (v instanceof Uint8Array) {
-      b.push(...markerLen(0x4, v.length), ...v);
-    } else if (Array.isArray(v)) {
-      b.push(...markerLen(0xA, v.length));
-      for (const item of v) putInt(b, refOf(item), refSize);
-    } else if (v && typeof v === "object") {
-      const keys = Object.keys(v);
-      b.push(...markerLen(0xD, keys.length));
-      for (const k of keys) putInt(b, refOf(String(k)), refSize);
-      for (const k of keys) putInt(b, refOf(v[k]), refSize);
-    } else throw new Error("không encode được");
+    else if (typeof v === "number" && Number.isInteger(v)) { if (v >= 0 && v < 256) { b.push(0x10); putInt(b, v, 1); } else if (v >= 0 && v < 65536) { b.push(0x11); putInt(b, v, 2); } else if (v >= 0 && v <= 0xffffffff) { b.push(0x12); putInt(b, v, 4); } else { b.push(0x13); putInt(b, v, 8); } }
+    else if (typeof v === "string") { const enc = new TextEncoder().encode(v); b.push(...markerLen(0x5, enc.length), ...enc); }
+    else if (v instanceof Uint8Array) { b.push(...markerLen(0x4, v.length), ...v); }
+    else if (Array.isArray(v)) { b.push(...markerLen(0xA, v.length)); for (const item of v) putInt(b, refOf(item), refSize); }
+    else if (v && typeof v === "object") { const keys = Object.keys(v); b.push(...markerLen(0xD, keys.length)); for (const k of keys) putInt(b, refOf(String(k)), refSize); for (const k of keys) putInt(b, refOf(v[k]), refSize); }
     return Uint8Array.from(b);
   });
 
-  const header = new TextEncoder().encode("bplist00");
-  const offsets = [];
-  let pos = header.length;
+  const header = new TextEncoder().encode("bplist00"); const offsets = []; let pos = header.length;
   for (const c of encoded) { offsets.push(pos); pos += c.length; }
-  const offsetSize = pos < 256 ? 1 : pos < 65536 ? 2 : 4;
-  const ot = [];
-  for (const o of offsets) putInt(ot, o, offsetSize);
-  const trailer = new Uint8Array(32);
-  trailer[6] = offsetSize;
-  trailer[7] = refSize;
-  const dv = new DataView(trailer.buffer);
-  dv.setBigUint64(8, BigInt(table.length));
-  dv.setBigUint64(16, BigInt(top));
-  dv.setBigUint64(24, BigInt(pos));
-  const out = new Uint8Array(pos + ot.length + 32);
-  out.set(header, 0);
-  let p = header.length;
+  const offsetSize = pos < 256 ? 1 : pos < 65536 ? 2 : 4; const ot = []; for (const o of offsets) putInt(ot, o, offsetSize);
+  const trailer = new Uint8Array(32); trailer[6] = offsetSize; trailer[7] = refSize; const dv = new DataView(trailer.buffer);
+  dv.setBigUint64(8, BigInt(table.length)); dv.setBigUint64(16, BigInt(top)); dv.setBigUint64(24, BigInt(pos));
+  const out = new Uint8Array(pos + ot.length + 32); out.set(header, 0); let p = header.length;
   for (const c of encoded) { out.set(c, p); p += c.length; }
-  out.set(ot, p);
-  out.set(trailer, p + ot.length);
-  return out;
+  out.set(ot, p); out.set(trailer, p + ot.length); return out;
 }
 
-function concatBytes(...parts) {
-  const len = parts.reduce((a, b) => a + b.length, 0);
-  const out = new Uint8Array(len);
-  let o = 0;
-  for (const p of parts) { out.set(p, o); o += p.length; }
-  return out;
-}
-function bytesEq(a, b) {
-  if (a.length !== b.length) return false;
-  let x = 0;
-  for (let i = 0; i < a.length; i++) x |= a[i] ^ b[i];
-  return x === 0;
-}
+function concatBytes(...parts) { const len = parts.reduce((a, b) => a + b.length, 0); const out = new Uint8Array(len); let o = 0; for (const p of parts) { out.set(p, o); o += p.length; } return out; }
+function bytesEq(a, b) { if (a.length !== b.length) return false; let x = 0; for (let i = 0; i < a.length; i++) x |= a[i] ^ b[i]; return x === 0; }
 async function sha256(data) { return new Uint8Array(await crypto.subtle.digest("SHA-256", data)); }
-async function pbkdf2(password, salt, iterations) {
-  const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
-  const bits = await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations }, key, 256);
-  return new Uint8Array(bits);
-}
-async function aesGcmOpen(combined, keyBytes, aad) {
-  if (combined.length < 28) throw new Error("ciphertext quá ngắn");
-  const nonce = combined.slice(0, 12);
-  const rest = combined.slice(12);
-  const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["decrypt"]);
-  const pt = await crypto.subtle.decrypt({ name: "AES-GCM", iv: nonce, additionalData: aad, tagLength: 128 }, key, rest);
-  return new Uint8Array(pt);
-}
-async function aesGcmSeal(plain, keyBytes, aad) {
-  const nonce = crypto.getRandomValues(new Uint8Array(12));
-  const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["encrypt"]);
-  const ct = new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv: nonce, additionalData: aad, tagLength: 128 }, key, plain));
-  return concatBytes(nonce, ct);
-}
+async function pbkdf2(password, salt, iterations) { const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]); return new Uint8Array(await crypto.subtle.deriveBits({ name: "PBKDF2", hash: "SHA-256", salt, iterations }, key, 256)); }
+async function aesGcmOpen(combined, keyBytes, aad) { const nonce = combined.slice(0, 12); const rest = combined.slice(12); const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["decrypt"]); return new Uint8Array(await crypto.subtle.decrypt({ name: "AES-GCM", iv: nonce, additionalData: aad, tagLength: 128 }, key, rest)); }
+async function aesGcmSeal(plain, keyBytes, aad) { const nonce = crypto.getRandomValues(new Uint8Array(12)); const key = await crypto.subtle.importKey("raw", keyBytes, "AES-GCM", false, ["encrypt"]); return concatBytes(nonce, new Uint8Array(await crypto.subtle.encrypt({ name: "AES-GCM", iv: nonce, additionalData: aad, tagLength: 128 }, key, plain))); }
 function aadKey(id, v) { return new TextEncoder().encode("3105PATCH/v" + v + "/key/" + id); }
 function aadPayload(id, v) { return new TextEncoder().encode("3105PATCH/v" + v + "/payload/" + id); }
-function asBytes(v) {
-  if (v instanceof Uint8Array) return v;
-  throw new Error("kỳ vọng Data");
-}
+function asBytes(v) { if (v instanceof Uint8Array) return v; throw new Error("kỳ vọng Data"); }
 
-// Hàm convert đã được nâng cấp để hỗ trợ Mật khẩu Cũ và Mật khẩu Mới
-async function convert(fileBuf, oldPassword, newPassword) {
+async function convert(fileBuf, oldPassword, newPassword, isRemovePassword) {
   const u8 = new Uint8Array(fileBuf);
   if (u8.length < MAGIC.length + 40) throw new Error("File quá ngắn");
   for (let i = 0; i < MAGIC.length; i++) if (u8[i] !== MAGIC[i]) throw new Error("Không phải file 3105PATCH");
@@ -502,19 +350,19 @@ async function convert(fileBuf, oldPassword, newPassword) {
   let contentKey;
   let originalWrappingKey = null;
 
-  // 1. GIẢI MÃ FILE GỐC BẰNG MẬT KHẨU CŨ
+  // 1. MỞ KHÓA FILE BẰNG PASSWORD CŨ
   if (envelope.isPasswordProtected) {
-    if (!oldPassword) throw new Error("File có mật khẩu bảo vệ — vui lòng nhập mật khẩu CŨ để giải mã.");
+    if (!oldPassword) throw new Error("File này đang có mật khẩu — vui lòng nhập Mật Khẩu Cũ để mở khóa trước.");
     const salt = asBytes(envelope.kdfSalt);
     const iterations = envelope.kdfIterations | 0;
-    log("Đang giải mã bằng mật khẩu cũ (PBKDF2)...");
+    log("Đang giải mã bằng mật khẩu cũ...");
     
     originalWrappingKey = await pbkdf2(oldPassword, salt, iterations);
     const keyVer = envelope.keyAADVersion != null ? envelope.keyAADVersion : schema;
     try {
       contentKey = await aesGcmOpen(asBytes(envelope.wrappedContentKey), originalWrappingKey, aadKey(packageID, keyVer));
     } catch {
-      throw new Error("Sai mật khẩu CŨ hoặc dữ liệu hỏng (AAD v" + keyVer + ")");
+      throw new Error("Sai mật khẩu CŨ hoặc dữ liệu hỏng!");
     }
   } else {
     contentKey = asBytes(envelope.publicContentKey);
@@ -525,38 +373,39 @@ async function convert(fileBuf, oldPassword, newPassword) {
   if (!bytesEq(fp, asBytes(envelope.keyFingerprint))) throw new Error("keyFingerprint không khớp");
 
   const payload = await aesGcmOpen(asBytes(envelope.encryptedPayload), contentKey, aadPayload(packageID, schema));
-  log("Giải mã payload thành công: " + payload.length + " byte.");
+  log("Mở khóa data gốc thành công (" + payload.length + " byte).");
 
-  // 2. CHUẨN BỊ MÃ HÓA LẠI THEO 1.0 (VÀ ĐỔI MẬT KHẨU NẾU CÓ)
+  // 2. XỬ LÝ LỰA CHỌN MẬT KHẨU MỚI / XÓA
   let finalIsProtected = false;
   let finalWrappedKey = null;
   let finalSalt = null;
   let finalIterations = null;
   let finalWrappingKey = null;
 
-  if (newPassword) {
-    // Trường hợp 1: Người dùng có nhập mật khẩu MỚI
+  if (isRemovePassword) {
+    log("Tùy chọn: XÓA MẬT KHẨU HOÀN TOÀN.", "warn");
+    finalIsProtected = false;
+  } else if (newPassword) {
     log("Thiết lập MẬT KHẨU MỚI cho file đầu ra...");
     finalIsProtected = true;
-    finalSalt = crypto.getRandomValues(new Uint8Array(16)); // Tạo chuỗi salt ngẫu nhiên mới
-    finalIterations = 100000; // Tiêu chuẩn 100k vòng lặp
+    finalSalt = crypto.getRandomValues(new Uint8Array(16));
+    finalIterations = 100000;
     finalWrappingKey = await pbkdf2(newPassword, finalSalt, finalIterations);
   } else if (envelope.isPasswordProtected) {
-    // Trường hợp 2: Giữ nguyên mật khẩu cũ
-    log("Giữ nguyên mật khẩu CŨ cho file đầu ra...");
+    log("Giữ nguyên MẬT KHẨU CŨ cho file đầu ra.");
     finalIsProtected = true;
     finalSalt = asBytes(envelope.kdfSalt);
     finalIterations = envelope.kdfIterations | 0;
     finalWrappingKey = originalWrappingKey;
   } else {
-    // Trường hợp 3: File gốc ko pass và cũng ko tạo pass mới
-    log("File đầu ra không có mật khẩu.");
+    log("File gốc không khóa, đầu ra cũng không khóa.");
+    finalIsProtected = false;
   }
 
+  // Đóng gói lại chuẩn 1.0
   if (finalIsProtected) {
     finalWrappedKey = await aesGcmSeal(contentKey, finalWrappingKey, aadKey(packageID, 1));
   }
-
   const newEncPayload = await aesGcmSeal(payload, contentKey, aadPayload(packageID, 1));
 
   const newEnv = {};
@@ -577,7 +426,7 @@ async function convert(fileBuf, oldPassword, newPassword) {
   const body = writeBplist(newEnv);
   const out = concatBytes(MAGIC, body);
 
-  // 3. TỰ ĐỘNG KIỂM TRA LẠI (VERIFY) BẰNG LOGIC 1.0
+  // 3. VERIFY TỰ ĐỘNG
   const check = readBplist(out.slice(MAGIC.length));
   if (check.schemaVersion !== 1) throw new Error("Verify: schema không phải 1");
   if (check.keyAADVersion != null) throw new Error("Verify: vẫn còn keyAADVersion");
@@ -589,13 +438,17 @@ async function convert(fileBuf, oldPassword, newPassword) {
     if (!bytesEq(ck, contentKey)) throw new Error("Verify: unwrap v1 không ra đúng key");
     const pt = await aesGcmOpen(asBytes(check.encryptedPayload), ck, aadPayload(packageID, 1));
     if (!bytesEq(pt, payload)) throw new Error("Verify: payload v1 lệch");
+  } else {
+    const ck = asBytes(check.publicContentKey);
+    if (!bytesEq(ck, contentKey)) throw new Error("Verify: public key lệch");
+    const pt = await aesGcmOpen(asBytes(check.encryptedPayload), ck, aadPayload(packageID, 1));
+    if (!bytesEq(pt, payload)) throw new Error("Verify: payload v1 lệch");
   }
   
-  log("Tự kiểm tra độ tương thích chuẩn 1.0: OK", "ok");
+  log("Verify chuẩn 1.0: Xanh chín (OK)", "ok");
   return out;
 }
 
-// Xử lý Giao diện
 const drop = document.getElementById("drop");
 const fileInput = document.getElementById("file");
 const go = document.getElementById("go");
@@ -604,10 +457,7 @@ let selectedFile = null;
 drop.addEventListener("click", () => fileInput.click());
 drop.addEventListener("dragover", (e) => { e.preventDefault(); drop.classList.add("over"); });
 drop.addEventListener("dragleave", () => drop.classList.remove("over"));
-drop.addEventListener("drop", (e) => {
-  e.preventDefault(); drop.classList.remove("over");
-  if (e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]);
-});
+drop.addEventListener("drop", (e) => { e.preventDefault(); drop.classList.remove("over"); if (e.dataTransfer.files[0]) pick(e.dataTransfer.files[0]); });
 fileInput.addEventListener("change", () => { if (fileInput.files[0]) pick(fileInput.files[0]); });
 
 function pick(f) {
@@ -629,8 +479,9 @@ go.addEventListener("click", async () => {
     const buf = await selectedFile.arrayBuffer();
     const oldPw = document.getElementById("pw").value;
     const newPw = document.getElementById("new-pw").value;
+    const isRemove = document.getElementById("remove-pw").checked;
     
-    const out = await convert(buf, oldPw, newPw);
+    const out = await convert(buf, oldPw, newPw, isRemove);
     const name = selectedFile.name.replace(/(\.3105)?$/i, "") + "-v1.3105";
     
     const a = document.createElement("a");
@@ -638,12 +489,14 @@ go.addEventListener("click", async () => {
     a.download = name;
     a.click();
     
-    log("Đã tải xuống thành công: " + name, "ok");
+    log("Xong! Đã tải xuống: " + name, "ok");
     
-    if(newPw) {
-      log("File đã được áp dụng MẬT KHẨU MỚI. Vui lòng nhập mật khẩu MỚI khi import vào app 1.0", "ok");
+    if (isRemove) {
+      log("File đã được GỠ MẬT KHẨU. Bạn có thể cài đặt trực tiếp không cần pass.", "warn");
+    } else if (newPw) {
+      log("File đã áp dụng MẬT KHẨU MỚI.", "ok");
     } else {
-      log("File vẫn giữ Mật khẩu cũ (hoặc không mật khẩu).", "ok");
+      log("File giữ nguyên trạng thái bảo mật ban đầu.", "ok");
     }
     
   } catch (e) {
