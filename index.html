@@ -43,10 +43,7 @@
             width: 100%; max-width: 480px; 
             border: 2px solid rgba(255, 255, 255, 0.7);
             display: flex; flex-direction: column; 
-            /* Cố định chiều cao tuyệt đối để khung không nhảy khi chuyển tab */
-            height: 680px; 
-            max-height: 95vh;
-            overflow: hidden;
+            height: 680px; max-height: 95vh; overflow: hidden;
         }
 
         /* TABS */
@@ -56,17 +53,12 @@
             color: var(--tab-inactive); cursor: pointer; padding: 10px; border-radius: 10px; transition: all 0.3s;
         }
         .tab-btn.active { color: #fff; background: var(--tab-active); box-shadow: 0 4px 10px rgba(158, 135, 122, 0.3); }
-        
         .tab-content { 
             display: none; flex-direction: column; animation: fadeIn 0.4s ease; flex-grow: 1;
-            /* Giúp tab có thể cuộn ẩn bên trong mà khung ngoài đứng im */
-            overflow-y: auto; 
-            scrollbar-width: none; 
-            -ms-overflow-style: none;
+            overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none;
         }
         .tab-content.active { display: flex; }
         .tab-content::-webkit-scrollbar { display: none; }
-        
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
         h2 { margin: 0 0 5px 0; font-size: 20px; font-weight: 900; text-align: center; } 
@@ -96,11 +88,8 @@
         .form-row input { font-family: 'Nunito', sans-serif; padding: 10px; width: 100%; box-sizing: border-box; font-size: 13px; border: 2px solid rgba(198, 156, 133, 0.3); border-radius: 10px; outline: none;}
         .btn-generate { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: 'Nunito', sans-serif;}
         .btn-generate:hover { background: var(--primary-hover); transform: translateY(-2px); }
-        .qr-result { display: none; text-align: center; margin-top: 15px; padding-top: 15px; border-top: 1px dashed var(--primary); animation: fadeIn 0.4s ease; }
-        .qr-result img { width: 100%; max-width: 200px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .qr-result p { font-size: 12px; font-weight: 800; color: var(--text-main); margin-top: 10px; }
 
-        /* DANH SÁCH LỊCH SỬ DONATE - ĐÓNG KHUNG CHUẨN VIP & CHỈ HIỆN 3 NGƯỜI */
+        /* DANH SÁCH LỊCH SỬ DONATE */
         .donate-section-wrapper {
             background: rgba(255, 255, 255, 0.6);
             border: 1px solid rgba(198, 156, 133, 0.3);
@@ -108,8 +97,7 @@
             padding: 15px;
             margin-top: 0;
             display: flex; flex-direction: column;
-            flex-grow: 1; /* Cho phép giãn ra hết phần còn lại */
-            min-height: 0; /* Giúp scrollbar hoạt động mượt bên trong */
+            flex-grow: 1; min-height: 0; 
         }
 
         .donate-header-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-shrink: 0;}
@@ -126,24 +114,17 @@
             border-radius: 20px; font-size: 12px; font-weight: 800; border: 1px solid rgba(198, 156, 133, 0.3);
         }
 
-        /* Khung cuộn giới hạn 3 thẻ (220px) - Giấu thanh cuộn cho thẩm mỹ */
         .donate-list-container {
             border: 1px solid rgba(198, 156, 133, 0.3);
-            border-radius: 14px;
-            background: #fff;
-            padding: 5px 10px;
-            overflow-y: auto;
-            scrollbar-width: none; 
-            -ms-overflow-style: none; 
-            flex-grow: 1; /* Đổ đầy không gian */
-            max-height: 220px; /* Khóa độ cao để hiện 3 cái */
+            border-radius: 14px; background: #fff; padding: 5px 10px;
+            overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; 
+            flex-grow: 1; max-height: 220px; 
         }
         .donate-list-container::-webkit-scrollbar { display: none; }
 
         .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column;}
-        
         .donate-item { 
-            display: flex; align-items: flex-start; gap: 12px; 
+            display: flex; align-items: center; gap: 12px; 
             padding: 12px 5px; 
             border-bottom: 1px solid rgba(198, 156, 133, 0.2); 
         }
@@ -156,25 +137,26 @@
             box-shadow: inset 0 -2px 5px rgba(0,0,0,0.1); text-transform: uppercase;
         }
 
-        .donate-body { flex-grow: 1; display: flex; flex-direction: column; min-width: 0; justify-content: center; }
-        
-        .donate-body-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;}
-        .donate-name { font-size: 15px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; flex-shrink: 0;} 
-        
-        .donate-body-mid { display: flex; justify-content: space-between; align-items: center;}
-        /* Lời nhắn viết thẳng bình thường */
-        .donate-msg { font-size: 13px; font-weight: 700; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
-        .donate-time { font-size: 12px; font-weight: 700; color: #A0938A; flex-shrink: 0;}
-        
+        .donate-body { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+        .donate-name { font-size: 15px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px;}
+        .donate-time { font-size: 12px; font-weight: 700; color: #A0938A; }
+        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 900; flex-shrink: 0; text-align: right;} 
         .loading-text { text-align: center; font-size: 13px; color: var(--text-muted); font-weight: 700; padding: 15px; }
 
-        /* MODAL CHUNG */
-        .key-modal-overlay, .success-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 15px; }
-        .key-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; gap: 15px; max-height: 80vh; }
+        /* MODAL CHUNG & QR MODAL */
+        .key-modal-overlay, .success-overlay, .qr-modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(5px); padding: 15px; }
+        .key-modal { background: #fff; padding: 25px; border-radius: 20px; text-align: center; width: 100%; max-width: 340px; box-shadow: 0 20px 50px rgba(0,0,0,0.2); animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: flex; flex-direction: column; gap: 12px; max-height: 90vh; overflow-y: auto;}
         @keyframes bounceIn { 0% { transform: scale(0.5); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-        .key-modal h3 { margin: 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
-        .key-modal input { text-align: center; font-family: 'Fira Code', monospace; font-size: 15px; font-weight: 700; color: #D84315; padding: 12px; border-radius: 10px; border: 2px solid rgba(198, 156, 133, 0.3); background: var(--input-bg); width: 100%; box-sizing: border-box; outline: none; }
+        .key-modal h3 { margin: 0 0 5px 0; color: var(--text-main); font-weight: 900; font-size: 18px; }
+        
+        .qr-info-box { background: var(--input-bg); border: 1px solid rgba(198, 156, 133, 0.3); border-radius: 12px; padding: 12px; text-align: left; display: flex; flex-direction: column; gap: 8px;}
+        .qr-info-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 800; color: var(--text-main); }
+        .qr-info-row span { font-family: 'Fira Code', monospace; color: #D84315; }
+        .btn-copy-sm { background: var(--primary); color: #fff; border: none; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-size: 11px; font-weight: 800; transition: 0.3s;}
+        .btn-copy-sm:hover { background: var(--primary-hover); }
+
+        .qr-modal-img { width: 160px; height: 160px; border-radius: 10px; margin: 0 auto; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); object-fit: contain; }
+
         .modal-buttons { display: flex; gap: 8px; justify-content: center; }
         .btn-copy-modal, .btn-close-modal { border: none; padding: 10px 15px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; flex: 1; font-family: 'Nunito', sans-serif; color: #fff;}
         .btn-copy-modal { background: #8BA888; }
@@ -192,6 +174,7 @@
         .check-wrap { position: relative; width: 70px; height: 70px; margin: 0 auto 15px; }
         .check-circle { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 4px dashed var(--success); border-radius: 50%; animation: spin 3s linear infinite; box-sizing: border-box; }
         .check-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: var(--success); }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
         
         .success-modal p.name { font-size: 14px; color: var(--text-muted); font-weight: 800; margin: 5px 0; }
         .success-modal h1.amount { margin: 10px 0 10px 0; font-size: 26px; color: #D84315; font-family: 'Fira Code', monospace; } 
@@ -205,7 +188,6 @@
         .gift-result p { font-size: 13px; font-weight: 800; color: var(--text-main); margin: 0 0 10px 0; }
         .btn-copy-bank { background: #8BA888; color: #fff; border: none; padding: 8px; border-radius: 8px; font-weight: 800; cursor: pointer; transition: 0.3s; width: 100%; font-family: 'Nunito', sans-serif; margin-top: 8px;}
         .btn-copy-bank:hover { background: #728F6F; }
-
     </style>
 </head>
 <body>
@@ -233,7 +215,8 @@
         </div>
         
         <div class="key-container">
-            <a href="https://example.com" target="_blank" class="btn-download">
+            <!-- Đã gắn link tải IPA theo yêu cầu -->
+            <a href="https://files.catbox.moe/tykdce.ipa" target="_blank" class="btn-download">
                 <i class="fa-solid fa-cloud-arrow-down"></i> Tải Xuống IPA
             </a>
             <hr style="border:0; border-top:1px dashed rgba(198,156,133,0.4); margin:2px 0;">
@@ -249,18 +232,10 @@
         <div class="qr-generator">
             <h3><i class="fa-solid fa-bolt" style="color: #F4D03F;"></i> Chuyển Tiền Tự Động Xử Lý</h3>
             <div class="form-row"><input type="number" id="donateAmount" placeholder="Số tiền (Tùy tâm, VD: 20000)"></div>
-            <div class="form-row" style="flex-direction: column;">
-                <input type="text" id="donateName" placeholder="Tên hiển thị của bạn">
-                <input type="text" id="donateMessage" placeholder="Lời nhắn gửi (Tùy chọn)">
-            </div>
-            <button class="btn-generate" onclick="generateDonateQR()"><i class="fa-solid fa-qrcode"></i> Lấy Mã QR Quét</button>
-            <div class="qr-result" id="qrResultArea">
-                <img id="qrImage" src="" alt="Mã QR Chuyển khoản">
-                <p><i class="fa-solid fa-mobile-screen"></i> Quét mã này - Web tự nhận ngay sau vài giây</p>
-            </div>
+            <div class="form-row"><input type="text" id="donateName" placeholder="Tên hiển thị của bạn"></div>
+            <button class="btn-generate" onclick="openQrModal()"><i class="fa-solid fa-qrcode"></i> Tạo Mã QR Chuyển Khoản</button>
         </div>
 
-        <!-- BẢNG LỊCH SỬ DONATE ĐƯỢC ĐÓNG KHUNG THEO YÊU CẦU -->
         <div class="donate-section-wrapper">
             <div class="donate-header-title">
                 <div class="header-left">
@@ -275,12 +250,40 @@
                 </div>
             </div>
 
-            <!-- Khung danh sách giới hạn 3 người, cuộn ẩn scrollbar -->
             <div class="donate-list-container">
                 <div id="loadingDonate" class="loading-text"><i class="fa-solid fa-spinner fa-spin"></i> Đang tải dữ liệu...</div>
                 <ul class="donate-list" id="donateList"></ul>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- BẢNG HIỆN QR & THÔNG TIN CHUYỂN KHOẢN RIÊNG THEO YÊU CẦU -->
+<div class="qr-modal-overlay" id="qrModalOverlay">
+    <div class="key-modal">
+        <h3>Quét Mã QR Chuyển Khoản</h3>
+        <img id="qrImage" class="qr-modal-img" src="" alt="Mã QR Chuyển khoản">
+        
+        <div class="qr-info-box">
+            <div class="qr-info-row">
+                <span>STK: 0374583885</span>
+                <button class="btn-copy-sm" onclick="copyText('0374583885', this)"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            </div>
+            <div class="qr-info-row">
+                <span>CTK: NGO SON LAM</span>
+                <button class="btn-copy-sm" onclick="copyText('NGO SON LAM', this)"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            </div>
+            <div class="qr-info-row">
+                <span id="modalCodeText">MÃ: DONATE0704...</span>
+                <button class="btn-copy-sm" onclick="copyText(currentCodeVal, this)"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            </div>
+            <div class="qr-info-row">
+                <span id="modalAmountText">Số tiền: 0đ</span>
+                <button class="btn-copy-sm" onclick="copyText(currentAmountVal, this)"><i class="fa-solid fa-copy"></i> Sao chép</button>
+            </div>
+        </div>
+
+        <button class="btn-close-modal" onclick="closeQrModal()" style="width: 100%;">Đóng Bảng</button>
     </div>
 </div>
 
@@ -307,7 +310,7 @@
     </div>
 </div>
 
-<!-- MODAL PHÁO HOA THÀNH CÔNG DONATE + TẶNG KEY BANK -->
+<!-- MODAL PHÁO HOA THÀNH CÔNG DONATE + TẶNG KEY BANK (CHỈ HIỆN VỚI NGƯỜI VỪA DONATE TRÊN MÁY NÀY) -->
 <div class="success-overlay" id="successOverlay">
     <div class="key-modal" style="padding-top: 30px;">
         <div class="check-wrap"><div class="check-circle"></div><i class="fa-solid fa-check check-icon"></i></div>
@@ -338,16 +341,14 @@
         if(tabId === 'donateTab') fetchTopDonate();
     }
 
-    // --- MÃ HÓA NGẦM CÁC ĐƯỜNG DẪN API VÀ FILE (Ẩn dấu vết 100%) ---
+    // --- MÃ HÓA NGẦM CÁC ĐƯỜNG DẪN API VÀ FILE ---
     const getSUrl = () => String.fromCharCode(104,116,116,112,115,58,47,47,97,112,105,46,115,105,101,117,116,104,105,99,111,100,101,46,110,101,116,47,104,105,115,116,111,114,121,97,112,105,109,98,98,97,110,107,47,51,55,55,54,97,48,98,101,48,48,97,101,53,53,55,98,56,56,101,55,99,52,49,102,53,102,57,56,99,48,54,99);
     const getF1 = () => String.fromCharCode(107,101,121,115,46,116,120,116);
     const getF2 = () => String.fromCharCode(107,101,121,115,98,97,110,107,46,116,120,116);
 
-    // --- LẤY IP ĐỂ GIỚI HẠN KEY FREE ---
     let clientIP = "unknown_ip";
     fetch('https://api.ipify.org?format=json').then(res => res.json()).then(data => { clientIP = data.ip; }).catch(err => {});
 
-    // --- LOAD FILE KEY TỪ LINK ĐÃ MÃ HÓA ---
     let availableKeys = [], availableBankKeys = [];
     async function loadAllKeys() {
         try {
@@ -364,7 +365,6 @@
     }
     loadAllKeys();
 
-    // --- LOGIC NHẬN KEY FREE (Giới hạn 2) ---
     document.getElementById('getKeyBtn').addEventListener('click', function() {
         if (availableKeys.length === 0) { alert("Danh sách Key đang trống!"); return; }
         let usageMap = JSON.parse(localStorage.getItem('keyUsageIP') || '{}');
@@ -410,8 +410,17 @@
     document.getElementById('copyKeyBtn').addEventListener('click', function() { copyToClip('modalKeyInput', this); });
     document.getElementById('copyBankKeyBtn').addEventListener('click', function() { copyToClip('bankKeyInput', this); });
 
-    // --- QR & BẢNG DONATE (THUẬT TOÁN ĐỐI CHIẾU RANDOM ID VÀ TÊN GỐC) ---
-    
+    function copyText(text, btn) {
+        navigator.clipboard.writeText(text).then(() => {
+            let original = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i> Xong';
+            setTimeout(() => { btn.innerHTML = original; }, 1500);
+        });
+    }
+
+    let currentCodeVal = "";
+    let currentAmountVal = "";
+
     function generateRandomID(length = 5) {
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         let result = '';
@@ -419,27 +428,44 @@
         return result;
     }
 
-    function generateDonateQR() {
-        const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
-        
-        let rawName = document.getElementById('donateName').value.trim() || "Ẩn Danh";
-        let rawMsg = document.getElementById('donateMessage').value.trim();
-        
+    function removeAccents(str) {
+        return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9\s]/g, '');
+    }
+
+    function capitalizeWords(str) {
+        return str.toLowerCase().replace(/\b\w/g, s => s.toUpperCase());
+    }
+
+    function openQrModal() {
+        const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : 0; 
+        let rawName = document.getElementById('donateName').value.trim();
+        let safeName = removeAccents(rawName).trim();
+        if (!safeName) safeName = "An Danh";
+
         let qrID = generateRandomID(5).toUpperCase();
         
-        let localDonateData = JSON.parse(localStorage.getItem('localDonateData') || '{}');
-        localDonateData[qrID] = { name: rawName, msg: rawMsg };
-        localStorage.setItem('localDonateData', JSON.stringify(localDonateData));
+        // Lưu mã này vào danh sách "myPendingDonations" của trình duyệt hiện tại để nhận thông báo trúng thưởng sau khi chuyển
+        let myPendingDonations = JSON.parse(localStorage.getItem('myPendingDonations') || '[]');
+        myPendingDonations.push(qrID);
+        localStorage.setItem('myPendingDonations', JSON.stringify(myPendingDonations));
 
-        let rawContent = `DONATE0704-${qrID}`;
-        
+        currentCodeVal = `DONATE0704-${qrID}`;
+        currentAmountVal = amount > 0 ? amount.toLocaleString('vi-VN') + 'đ' : '0đ';
+
+        document.getElementById('modalCodeText').innerText = `MÃ: ${currentCodeVal}`;
+        document.getElementById('modalAmountText').innerText = `Số tiền: ${currentAmountVal}`;
+
         const params = new URLSearchParams();
         if (amount && amount > 0) params.append('amount', amount);
-        params.append('addInfo', rawContent);
+        params.append('addInfo', currentCodeVal);
         params.append('accountName', 'NGO SON LAM');
         
         document.getElementById('qrImage').src = `https://img.vietqr.io/image/970422-0374583885-compact2.png?${params.toString()}`;
-        document.getElementById('qrResultArea').style.display = 'block';
+        document.getElementById('qrModalOverlay').style.display = 'flex';
+    }
+
+    function closeQrModal() {
+        document.getElementById('qrModalOverlay').style.display = 'none';
     }
 
     function timeAgo(dateString) {
@@ -474,16 +500,13 @@
     async function fetchTopDonate() {
         const listUI = document.getElementById('donateList');
         const loader = document.getElementById('loadingDonate');
-        let localDonateData = JSON.parse(localStorage.getItem('localDonateData') || '{}');
 
         try {
-            // Load từ API URL đã mã hóa
             const response = await fetch(getSUrl());
             const json = await response.json();
             
             let txs = (json.TranList || []).filter(t => Number(t.creditAmount) > 0 && t.description && t.description.includes("DONATE0704"));
 
-            // Cập nhật thẻ đếm số lượng người donate
             document.getElementById('totalCountBadge').innerText = `${txs.length} lượt`;
 
             if (txs.length === 0) {
@@ -496,22 +519,21 @@
                 tx.timestamp = p.length >= 6 ? new Date(p[2], p[1]-1, p[0], p[3], p[4], p[5]).getTime() : 0;
             });
 
+            // Chỉ hiện popup nhận key nếu giao dịch khớp với mã QR do CHÍNH MÁY NÀY vừa tạo ra
             if (!isFirstLoad) {
+                let myPendingDonations = JSON.parse(localStorage.getItem('myPendingDonations') || '[]');
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
-                        let parsedName = "Ẩn Danh"; 
                         let match = tx.description.match(/DONATE0704[\s\-]*([A-Z0-9]{5})/i);
-                        
                         if (match) {
                             let qrID = match[1].toUpperCase();
-                            if(localDonateData[qrID] && localDonateData[qrID].name) {
-                                parsedName = localDonateData[qrID].name;
+                            if (myPendingDonations.includes(qrID)) {
+                                let extracted = tx.description.substring(tx.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
+                                let parts = extracted.split("-");
+                                let parsedName = (parts[0] && parts[0].trim() !== "") ? capitalizeWords(parts[0].trim()) : "Ẩn Danh";
+                                triggerSuccessPopup(Number(tx.creditAmount), parsedName);
                             }
-                        } else {
-                            let extracted = tx.description.substring(tx.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
-                            if(extracted) parsedName = extracted;
                         }
-                        triggerSuccessPopup(Number(tx.creditAmount), parsedName);
                     }
                 });
             }
@@ -521,51 +543,34 @@
             
             txs.sort((a, b) => b.timestamp - a.timestamp || a.originalIndex - b.originalIndex);
             
-            // Xử lý logic hiển thị
+            const topTxs = txs.slice(0, 15);
             loader.style.display = 'none';
             let newHTML = '';
 
-            txs.forEach((gd) => {
+            topTxs.forEach((gd) => {
                 const amountFormatted = Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 const timeString = timeAgo(gd.transactionDate);
                 
+                let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                 let displayName = "Ẩn Danh"; 
-                let displayMsg = "";
                 
-                let match = gd.description.match(/DONATE0704[\s\-]*([A-Z0-9]{5})/i);
-                
-                if (match) {
-                    let qrID = match[1].toUpperCase();
-                    if (localDonateData[qrID]) {
-                        if(localDonateData[qrID].name) displayName = localDonateData[qrID].name;
-                        if(localDonateData[qrID].msg) displayMsg = localDonateData[qrID].msg;
-                    }
-                } else {
-                    let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 10).replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
-                    let parts = extracted.split("-");
-                    if (parts[0] && parts[0].trim() !== "") displayName = parts[0].trim();
-                    if (parts.length > 1) displayMsg = parts.slice(1).join("-").trim();
+                let parts = extracted.split("-");
+                if (parts[0] && parts[0].trim() !== "") {
+                    displayName = capitalizeWords(parts[0].trim());
+                    if (displayName.toUpperCase() === "AN DANH") displayName = "Ẩn Danh";
                 }
 
                 let avatarLetters = getAvatarInitials(displayName);
                 let avatarBg = getAvatarColor(displayName);
-                
-                // Lời nhắn bth, trong ngoặc kép
-                const msgHtml = displayMsg ? `<div class="donate-msg">"${displayMsg}"</div>` : '';
 
                 newHTML += `
                     <li class="donate-item">
                         <div class="donate-avatar" style="background: ${avatarBg}">${avatarLetters}</div>
                         <div class="donate-body">
-                            <div class="donate-body-top">
-                                <span class="donate-name">${displayName}</span>
-                                <span class="donate-amount">${amountFormatted}</span>
-                            </div>
-                            <div class="donate-body-mid">
-                                ${msgHtml}
-                                <span class="donate-time">${timeString}</span>
-                            </div>
+                            <span class="donate-name">${displayName}</span>
+                            <span class="donate-time">${timeString}</span>
                         </div>
+                        <div class="donate-amount">${amountFormatted}</div>
                     </li>
                 `;
             });
