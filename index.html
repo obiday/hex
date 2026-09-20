@@ -106,7 +106,7 @@
         .qr-result img { width: 100%; max-width: 200px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .qr-result p { font-size: 12px; font-weight: 800; color: var(--text-main); margin-top: 10px; }
 
-        /* BẢNG XẾP HẠNG UI (Số tiền căn giữa, Lời nhắn phía dưới) */
+        /* BẢNG XẾP HẠNG UI */
         .top-donate-box { background: rgba(255, 255, 255, 0.8); border-radius: 15px; padding: 15px; flex-grow: 1; border: 1px solid rgba(198, 156, 133, 0.2); }
         .top-donate-box h3 { margin: 0 0 12px 0; font-size: 16px; text-align: center; font-weight: 900; color: #d35400;} 
         .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
@@ -246,13 +246,11 @@
     let nameMap = JSON.parse(localStorage.getItem('nameMap') || '{}');
     let msgMap = JSON.parse(localStorage.getItem('msgMap') || '{}');
 
-    // Hàm tạo mã khóa so sánh (Chỉ lấy chữ và số)
     function makeKey(str) {
         if (!str) return "";
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
     }
     
-    // Hàm xóa dấu riêng cho mã QR (Chỉ giữ lại chữ, số và khoảng trắng, gạch ngang)
     function removeAccentsForQR(str) {
         return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 \-]/g, '');
     }
@@ -264,7 +262,7 @@
         if(tabId === 'donateTab') fetchTopDonate();
     }
 
-    // --- PHẦN 1: HEX PATCHER (Đã thu gọn) ---
+    // --- PHẦN 1: HEX PATCHER ---
     const fileInput = document.getElementById('fileInput'), boxSection = document.getElementById('boxSection'), oldNameInput = document.getElementById('oldNameInput'), searchBtn = document.getElementById('searchBtn'), statusBox = document.getElementById('statusBox'), statusText = document.getElementById('statusText'), newNameInput = document.getElementById('newNameInput'), charCounter = document.getElementById('charCounter'), saveBtn = document.getElementById('saveBtn'), hexViewerContainer = document.getElementById('hexViewerContainer'), hexBody = document.getElementById('hexBody');
     let fileBuffer = null, foundOffsets = [], currentFileName = '', targetLength = 0; const encoder = new TextEncoder();
     fileInput.addEventListener('change', function(e) {
@@ -326,24 +324,22 @@
         const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = "FixedName_" + currentFileName; document.body.appendChild(a); a.click(); document.body.removeChild(a);
     });
 
-    // --- PHẦN 2: QR & BẢNG XẾP HẠNG (FIX TÊN CÓ DẤU CHUẨN 100%) ---
+    // --- PHẦN 2: QR & BẢNG XẾP HẠNG ---
     function generateDonateQR() {
         const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
         
         let rawName = document.getElementById('donateName').value.trim() || "Ẩn Danh";
         let rawMsg = document.getElementById('donateMessage').value.trim();
         
-        // 1. Lưu Ngầm Dữ Liệu Có Dấu Vào Trình Duyệt
         let safeName = removeAccentsForQR(rawName).trim();
         let safeMsg = removeAccentsForQR(rawMsg).trim();
         
-        nameMap[makeKey(safeName)] = rawName; // Ánh xạ mã bảo mật -> Tên gốc có dấu
+        nameMap[makeKey(safeName)] = rawName; 
         if (safeMsg) msgMap[makeKey(safeMsg)] = rawMsg;
         
         localStorage.setItem('nameMap', JSON.stringify(nameMap));
         localStorage.setItem('msgMap', JSON.stringify(msgMap));
 
-        // 2. Ép QR Code phải dùng chữ KHÔNG DẤU (Để ngân hàng quét thành công 100%)
         let rawContent = `DONATE0704 ${safeName}` + (safeMsg ? ` - ${safeMsg}` : '');
         
         const params = new URLSearchParams();
@@ -351,7 +347,8 @@
         params.append('addInfo', rawContent); 
         params.append('accountName', 'NGO SON LAM');
         
-        document.getElementById('qrImage').src = `https://img.vietqr.io/image/970422-0364583885-compact2.png?${params.toString()}`;
+        // Cập nhật SĐT sang 0374583885
+        document.getElementById('qrImage').src = `https://img.vietqr.io/image/970422-0374583885-compact2.png?${params.toString()}`;
         document.getElementById('qrResultArea').style.display = 'block';
     }
 
@@ -375,7 +372,9 @@
                 return;
             }
 
-            // AUTO CHECK PHÁO HOA GIAO DỊCH MỚI
+            // Đánh dấu vị trí gốc để phân biệt cũ/mới (vị trí số nhỏ hơn = giao dịch mới hơn)
+            txs.forEach((tx, index) => { tx.originalIndex = index; });
+
             if (!isFirstLoad) {
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
@@ -386,7 +385,6 @@
                         let parts = descText.split("-");
                         if(parts[0] && parts[0].trim() !== "") {
                             let key = makeKey(parts[0]);
-                            // Phục hồi lại tên CÓ DẤU từ thư viện ngầm
                             if (nameMap[key]) {
                                 parsedName = nameMap[key];
                             } else {
@@ -402,7 +400,13 @@
             txs.forEach(tx => knownTransactionIds.add(tx.refNo));
             isFirstLoad = false;
 
-            txs.sort((a, b) => Number(b.creditAmount) - Number(a.creditAmount));
+            // THUẬT TOÁN XẾP HẠNG: Ưu tiên tiền nhiều hơn. Nếu tiền BẰNG NHAU, ưu tiên người mới donate hơn.
+            txs.sort((a, b) => {
+                const amountDiff = Number(b.creditAmount) - Number(a.creditAmount);
+                if (amountDiff !== 0) return amountDiff;
+                return a.originalIndex - b.originalIndex; // Giao dịch mới hơn xếp trên
+            });
+            
             const topTxs = txs.slice(0, 10);
 
             loader.style.display = 'none';
@@ -419,32 +423,29 @@
                 
                 let parts = extracted.split("-");
                 
-                // PHỤC HỒI TÊN CÓ DẤU
                 if (parts[0] && parts[0].trim() !== "") {
                     let bankName = parts[0].trim();
                     let key = makeKey(bankName);
                     
                     if (nameMap[key]) {
-                        displayName = nameMap[key]; // Dịch thành công!
+                        displayName = nameMap[key]; 
                     } else {
                         displayName = bankName; 
                         if (displayName.toUpperCase() === "AN DANH") displayName = "Ẩn Danh";
                     }
                 }
                 
-                // PHỤC HỒI LỜI NHẮN CÓ DẤU
                 if (parts.length > 1) {
                     let bankMsg = parts.slice(1).join("-").trim();
                     let key = makeKey(bankMsg);
                     
                     if (msgMap[key]) {
-                        displayMsg = msgMap[key]; // Dịch thành công!
+                        displayMsg = msgMap[key]; 
                     } else {
                         displayMsg = bankMsg; 
                     }
                 }
 
-                // KHỐI TEXT: Lời nhắn tự động xếp bên dưới Tên
                 const msgHtml = displayMsg ? `<span class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</span>` : '';
 
                 let rankHTML = '';
@@ -457,12 +458,10 @@
                     <li class="donate-item">
                         <div class="donate-rank">${rankHTML}</div>
                         <div class="donate-info">
-                            <!-- Khối Tên và Lời Nhắn (Bên Trái) -->
                             <div class="donate-text">
                                 <span class="donate-name">${displayName}</span>
                                 ${msgHtml}
                             </div>
-                            <!-- Khối Số Tiền (Bên Phải, tự động được đẩy ra giữa theo chiều dọc) -->
                             <div class="donate-amount">${amountFormatted}</div>
                         </div>
                     </li>
