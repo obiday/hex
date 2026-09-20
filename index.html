@@ -37,17 +37,17 @@
             padding: 15px;
             box-sizing: border-box;
             color: var(--text-main);
-            font-size: 13px; /* Đã thu nhỏ font tổng thể */
+            font-size: 13px;
         }
 
         .container {
             background: var(--card-bg);
             backdrop-filter: blur(20px);
-            padding: 20px 25px; /* Giảm khoảng cách để gọn hơn */
+            padding: 20px 25px; 
             border-radius: 20px;
             box-shadow: 0 15px 35px rgba(92, 75, 65, 0.1);
             width: 100%;
-            max-width: 480px; /* Thu hẹp khung lại xíu */
+            max-width: 480px; 
             border: 2px solid rgba(255, 255, 255, 0.7);
             display: flex;
             flex-direction: column;
@@ -65,8 +65,8 @@
         .tab-content.active { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-        h2 { margin: 0 0 5px 0; font-size: 20px; font-weight: 900; text-align: center; } /* Đã thu nhỏ */
-        p.subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 15px; font-weight: 700; } /* Đã thu nhỏ */
+        h2 { margin: 0 0 5px 0; font-size: 20px; font-weight: 900; text-align: center; } 
+        p.subtitle { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 15px; font-weight: 700; } 
 
         /* SỬA TÊN & HEX VIEWER CSS */
         .file-upload label { display: flex; align-items: center; justify-content: center; gap: 8px; background: var(--primary); color: #fff; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 800; transition: 0.3s; font-size: 14px; }
@@ -97,7 +97,7 @@
 
         /* TAB DONATE CSS */
         .qr-generator { background: rgba(255, 255, 255, 0.7); border-radius: 15px; padding: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 15px; border: 1px solid rgba(198, 156, 133, 0.2); }
-        .qr-generator h3 { margin: 0 0 12px 0; font-size: 15px; text-align: center; font-weight: 900;} /* Đã thu nhỏ */
+        .qr-generator h3 { margin: 0 0 12px 0; font-size: 15px; text-align: center; font-weight: 900;} 
         .form-row { display: flex; gap: 8px; margin-bottom: 10px; }
         .form-row input { font-family: 'Nunito', sans-serif; padding: 10px; width: 100%; box-sizing: border-box; font-size: 13px; }
         .btn-generate { background: var(--primary); color: white; border: none; width: 100%; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 800; cursor: pointer; transition: 0.3s; font-family: 'Nunito', sans-serif;}
@@ -106,9 +106,9 @@
         .qr-result img { width: 100%; max-width: 200px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .qr-result p { font-size: 12px; font-weight: 800; color: var(--text-main); margin-top: 10px; }
 
-        /* BẢNG XẾP HẠNG UI (Gọn gàng & Lời nhắn xuống dòng tuyệt đối) */
+        /* BẢNG XẾP HẠNG UI (Số tiền căn giữa theo chiều dọc) */
         .top-donate-box { background: rgba(255, 255, 255, 0.8); border-radius: 15px; padding: 15px; flex-grow: 1; border: 1px solid rgba(198, 156, 133, 0.2); }
-        .top-donate-box h3 { margin: 0 0 12px 0; font-size: 16px; text-align: center; font-weight: 900; color: #d35400;} /* Đã thu nhỏ */
+        .top-donate-box h3 { margin: 0 0 12px 0; font-size: 16px; text-align: center; font-weight: 900; color: #d35400;} 
         .donate-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
         
         .donate-item { 
@@ -125,14 +125,17 @@
         .rank-icon-3 { color: #CD7F32; font-size: 20px; text-shadow: 0 2px 4px rgba(205,127,50,0.4); }
         .rank-text { color: #B0BEC5; font-size: 14px; font-weight: 900; }
 
-        .donate-info { flex-grow: 1; display: flex; flex-direction: column; margin-left: 10px; min-width: 0; /* min-width: 0 quan trọng để cắt chữ không bị tràn */ }
+        /* Vùng hiển thị Tên & Lời nhắn bên trái, Số tiền bên phải */
+        .donate-info { 
+            flex-grow: 1; display: flex; justify-content: space-between; align-items: center; 
+            margin-left: 10px; min-width: 0; 
+        }
         
-        .info-top { display: flex; justify-content: space-between; align-items: center; width: 100%; gap: 10px; }
-        .donate-name { font-size: 13px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } /* Đã thu nhỏ */
-        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 13px; font-weight: 900; white-space: nowrap; flex-shrink: 0;} /* Đã thu nhỏ */
+        .donate-text { display: flex; flex-direction: column; min-width: 0; flex-grow: 1; padding-right: 10px; }
+        .donate-name { font-size: 13.5px; font-weight: 900; color: var(--text-main); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .donate-msg { font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } 
         
-        /* Ép block và margin top để lời nhắn luôn rớt xuống dưới */
-        .donate-msg { display: block; font-size: 11.5px; font-weight: 700; color: var(--text-muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;} 
+        .donate-amount { color: var(--success); font-family: 'Fira Code', monospace; font-size: 14px; font-weight: 900; white-space: nowrap; flex-shrink: 0; } 
         
         .loading-text { text-align: center; font-size: 13px; color: var(--text-muted); font-weight: 700; padding: 15px; }
 
@@ -159,9 +162,9 @@
         .check-icon { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: var(--success); }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .success-modal h3 { margin: 0 0 5px 0; color: var(--success); font-weight: 900; font-size: 18px; } /* Đã thu nhỏ */
+        .success-modal h3 { margin: 0 0 5px 0; color: var(--success); font-weight: 900; font-size: 18px; }
         .success-modal p.name { font-size: 13px; color: var(--text-muted); font-weight: 700; margin: 5px 0; }
-        .success-modal h1.amount { margin: 10px 0 20px 0; font-size: 24px; color: #D84315; font-family: 'Fira Code', monospace; } /* Đã thu nhỏ */
+        .success-modal h1.amount { margin: 10px 0 20px 0; font-size: 24px; color: #D84315; font-family: 'Fira Code', monospace; } 
         .btn-ok { background: var(--success); color: #fff; border: none; padding: 10px 35px; border-radius: 15px; font-size: 14px; font-weight: 900; font-family: 'Nunito', sans-serif; cursor: pointer; transition: 0.3s; }
         .btn-ok:hover { background: var(--success-hover); transform: scale(1.05); }
 
@@ -319,17 +322,15 @@
     });
 
 
-    // --- PHẦN 2: QR & API (CHỈNH SỬA XÓA TU: ZION & CHỈNH BỐ CỤC UI) ---
+    // --- PHẦN 2: QR & BẢNG XẾP HẠNG ---
     function generateDonateQR() {
         const amount = document.getElementById('donateAmount').value ? parseInt(document.getElementById('donateAmount').value) : null; 
         
-        // Mặc định tên truyền vào QR vẫn phải là An Danh không dấu để chống lỗi app MBBank/Zalopay
         let rawName = document.getElementById('donateName').value.trim() || "An Danh";
         let message = document.getElementById('donateMessage').value.trim();
         
         let rawContent = `DONATE0704 ${rawName}` + (message ? ` - ${message}` : '');
         
-        // Lọc dấu để quét an toàn
         const safeContent = rawContent.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/Đ/g, 'D').replace(/[^a-zA-Z0-9 \-]/g, '').trim();
         const params = new URLSearchParams();
         if (amount && amount > 0) params.append('amount', amount);
@@ -359,11 +360,11 @@
                 return;
             }
 
-            // AUTO CHECK PHÁO HOA GIAO DỊCH MỚI
+            // AUTO CHECK PHÁO HOA
             if (!isFirstLoad) {
                 txs.forEach(tx => {
                     if (!knownTransactionIds.has(tx.refNo)) {
-                        let parsedName = "Ẩn Danh"; // Khôi phục hiển thị có dấu trên web
+                        let parsedName = "Ẩn Danh"; 
                         let descText = tx.description.substring(tx.description.indexOf("DONATE0704") + 11).trim();
                         descText = descText.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                         let parts = descText.split("-");
@@ -378,7 +379,6 @@
             txs.forEach(tx => knownTransactionIds.add(tx.refNo));
             isFirstLoad = false;
 
-            // Xắp xếp lấy TOP
             txs.sort((a, b) => Number(b.creditAmount) - Number(a.creditAmount));
             const topTxs = txs.slice(0, 10);
 
@@ -388,17 +388,16 @@
             topTxs.forEach((gd, index) => {
                 const amountFormatted = "+" + Number(gd.creditAmount).toLocaleString('vi-VN') + 'đ';
                 
-                // LỌC RÁC "TU: ZION"
                 let extracted = gd.description.substring(gd.description.indexOf("DONATE0704") + 11).trim();
                 extracted = extracted.replace(/TU\s*[:\-]?\s*ZION/gi, '').trim(); 
                 
-                let displayName = "Ẩn Danh"; // Mặc định hiển thị chữ Ẩn Danh (Có dấu)
+                // --- PHẦN LẤY TÊN THEO NGƯỜI NHẬP QR ---
+                let displayName = "Ẩn Danh"; 
                 let displayMsg = "";
                 
                 let parts = extracted.split("-");
                 if (parts[0] && parts[0].trim() !== "") {
                     displayName = parts[0].trim();
-                    // Chuyển An Danh (từ ngân hàng quét mã) thành Ẩn Danh (có dấu đẹp)
                     if (displayName.toUpperCase() === "AN DANH") {
                         displayName = "Ẩn Danh";
                     }
@@ -408,8 +407,8 @@
                     displayMsg = parts.slice(1).join("-").trim();
                 }
 
-                // Dùng class donate-msg để Lời nhắn bị ép phải xuống dưới Tên
-                const msgHtml = displayMsg ? `<div class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</div>` : '';
+                // Dùng Layout Mới: Tên + Lời nhắn vào chung 1 khối text
+                const msgHtml = displayMsg ? `<span class="donate-msg"><i class="fa-regular fa-comment-dots"></i> ${displayMsg}</span>` : '';
 
                 let rankHTML = '';
                 if (index === 0) rankHTML = '<i class="fa-solid fa-crown rank-icon-1"></i>';
@@ -421,11 +420,13 @@
                     <li class="donate-item">
                         <div class="donate-rank">${rankHTML}</div>
                         <div class="donate-info">
-                            <div class="info-top">
+                            <!-- Khối Tên và Lời Nhắn (Bên Trái) -->
+                            <div class="donate-text">
                                 <span class="donate-name">${displayName}</span>
-                                <span class="donate-amount">${amountFormatted}</span>
+                                ${msgHtml}
                             </div>
-                            ${msgHtml}
+                            <!-- Khối Số Tiền (Bên Phải, tự động được đẩy ra giữa theo chiều dọc) -->
+                            <div class="donate-amount">${amountFormatted}</div>
                         </div>
                     </li>
                 `;
@@ -435,12 +436,10 @@
         } catch (error) { console.error("Lỗi get data", error); }
     }
 
-    // DUYỆT NGẦM 4 GIÂY/LẦN
     setInterval(() => {
         if (document.getElementById('donateTab').classList.contains('active')) fetchTopDonate();
     }, 4000);
 
-    // CHẠY PHÁO HOA
     function triggerSuccessPopup(amount, name) {
         document.getElementById('modalName').innerText = `Cảm ơn ${name} ❤️`;
         document.getElementById('modalAmount').innerText = `+${amount.toLocaleString('vi-VN')}đ`;
