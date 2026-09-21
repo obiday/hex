@@ -3,36 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mail 10 Phút</title>
+    <title>Mail 10 Phút VIP - API MỚI</title>
     <style>
-        /* CSS Tối giản, tốc độ tải siêu nhanh */
-        :root { --bg: #0f0f0f; --text: #e0e0e0; --box: #1a1a1a; --border: #333; --accent: #fff; }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; }
+        /* CSS Tối giản - Tốc độ cao - Khối vuông */
+        :root { --bg: #0a0a0a; --text: #e0e0e0; --box: #141414; --border: #333; --accent: #00ffcc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Courier New', Courier, monospace; border-radius: 0 !important; }
         body { background: var(--bg); color: var(--text); padding: 15px; display: flex; justify-content: center; min-height: 100vh; }
         
         .container { width: 100%; max-width: 500px; background: var(--box); border: 1px solid var(--border); padding: 20px; align-self: flex-start; margin-top: 20px; }
-        .header { text-align: center; border-bottom: 1px dashed var(--border); padding-bottom: 15px; margin-bottom: 20px; }
+        .header { text-align: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; margin-bottom: 20px; }
         .header h2 { font-size: 20px; text-transform: uppercase; color: var(--accent); margin-bottom: 5px; }
         .header span { font-size: 12px; color: #888; }
         
-        input { width: 100%; padding: 15px; background: #000; color: #fff; border: 1px solid var(--border); margin-bottom: 12px; font-size: 16px; font-weight: bold; text-align: center; outline: none; }
-        input:focus { border-color: #666; }
+        input { width: 100%; padding: 15px; background: #000; color: var(--accent); border: 1px solid var(--border); margin-bottom: 12px; font-size: 16px; font-weight: bold; text-align: center; outline: none; }
+        input:focus { border-color: var(--accent); }
         
         .btn-group { display: flex; gap: 10px; margin-bottom: 15px; }
         button { flex: 1; padding: 12px; border: 1px solid var(--border); background: #222; color: #fff; font-weight: bold; cursor: pointer; text-transform: uppercase; transition: 0.2s; }
-        button:hover, button:active { background: #fff; color: #000; border-color: #fff; }
+        button:hover, button:active { background: var(--accent); color: #000; border-color: var(--accent); }
         
         #status { font-size: 12px; color: #aaa; text-align: center; margin-bottom: 15px; height: 15px; }
         
         .inbox { border-top: 1px dashed var(--border); padding-top: 15px; min-height: 250px; }
-        .mail-item { background: #000; border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; }
-        .mail-item:hover, .mail-item:active { border-color: #666; background: #111; }
+        .mail-item { background: #000; border: 1px solid var(--border); padding: 12px; margin-bottom: 10px; cursor: pointer; border-left: 3px solid #333; transition: 0.2s; }
+        .mail-item:hover, .mail-item:active { border-left-color: var(--accent); background: #111; }
         .mail-item .from { font-weight: bold; color: var(--accent); margin-bottom: 5px; font-size: 14px; word-break: break-all; }
-        .mail-item .subject { font-size: 13px; color: #aaa; }
+        .mail-item .subject { font-size: 13px; color: #ccc; }
         .empty { text-align: center; color: #666; font-style: italic; padding: 30px 0; }
         
         #reader { display: none; }
-        .btn-back { width: 100%; margin-bottom: 15px; background: #fff; color: #000; }
+        .btn-back { width: 100%; margin-bottom: 15px; background: #fff; color: #000; border-color: #fff; }
+        .btn-back:hover { background: #ccc; }
         iframe { width: 100%; height: 400px; background: #fff; border: 1px solid var(--border); }
     </style>
 </head>
@@ -40,15 +41,15 @@
 
     <div class="container">
         <div class="header">
-            <h2>Hệ Thống Mail 10 Phút</h2>
-            <span>[ HOSTED ON GITHUB PAGES ]</span>
+            <h2>Hệ Thống Temp Mail</h2>
+            <span>[ API ENGINE: MAIL.GW - SIÊU MƯỢT ]</span>
         </div>
         
-        <input type="text" id="email" readonly value="Đang tạo hệ thống...">
+        <input type="text" id="email" readonly value="Đang kết nối Server...">
         
         <div class="btn-group">
             <button onclick="copyMail()" id="btnCopy">Sao Chép</button>
-            <button onclick="initMail()">Đổi Mail</button>
+            <button onclick="initMail()">Tạo Mail Mới</button>
         </div>
 
         <div id="status">Khởi động...</div>
@@ -60,59 +61,80 @@
 
         <!-- Khung đọc thư -->
         <div id="reader">
-            <button class="btn-back" onclick="closeMail()">&#8592; Quay lại hộp thư</button>
+            <button class="btn-back" onclick="closeMail()">&#8592; TRỞ LẠI HỘP THƯ</button>
             <iframe id="mailFrame"></iframe>
         </div>
     </div>
 
     <script>
-        const API_BASE = "https://www.1secmail.com/api/v1/";
-        const PROXY = "https://api.allorigins.win/raw?url=";
-        let address = "", login = "", domain = "";
+        // Sử dụng API của Mail.gw - Không bị chặn CORS, không cần proxy
+        const API_BASE = "https://api.mail.gw";
+        let token = "";
+        let currentEmail = "";
         let checkTimer;
         let countdown = 10;
 
-        // Tối ưu hàm fetch: Gọi trực tiếp, nếu lỗi tự động đổi qua Proxy
-        async function fetchAPI(endpoint) {
-            let url = API_BASE + endpoint;
-            try {
-                let res = await fetch(url);
-                if (res.ok) return await res.json();
-                throw new Error("Direct API failed");
-            } catch (e) {
-                try {
-                    let proxyRes = await fetch(PROXY + encodeURIComponent(url));
-                    if (proxyRes.ok) return await proxyRes.json();
-                } catch (err) {
-                    console.error(err);
+        // Hàm gọi API dùng chung
+        async function fetchAPI(endpoint, method = "GET", body = null) {
+            let options = {
+                method: method,
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
                 }
+            };
+            if (token) {
+                options.headers["Authorization"] = "Bearer " + token;
             }
-            return null;
+            if (body) {
+                options.body = JSON.stringify(body);
+            }
+
+            let response = await fetch(API_BASE + endpoint, options);
+            if (!response.ok) throw new Error("API_ERROR");
+            return await response.json();
         }
 
+        // Tạo tài khoản mail
         async function initMail() {
-            document.getElementById('email').value = "Đang cấp phát email...";
+            document.getElementById('email').value = "Đang lấy domain...";
             document.getElementById('status').innerText = "Đang kết nối máy chủ...";
             clearInterval(checkTimer);
             
-            let data = await fetchAPI("?action=genRandomMailbox&count=1");
-            if (data && data[0]) {
-                address = data[0];
-                document.getElementById('email').value = address;
-                [login, domain] = address.split('@');
-                
-                closeMail();
+            try {
+                // 1. Lấy danh sách domain sống
+                let domainData = await fetchAPI("/domains");
+                let domain = domainData["hydra:member"][0].domain;
+
+                // 2. Tạo tài khoản random
+                let randString = Math.random().toString(36).substring(2, 10);
+                currentEmail = "vip_" + randString + "@" + domain;
+                let password = "Password@123!"; // Pass ảo hệ thống tự tạo tự nhớ
+
+                document.getElementById('status').innerText = "Đang đăng ký hòm thư...";
+                await fetchAPI("/accounts", "POST", { address: currentEmail, password: password });
+
+                // 3. Đăng nhập để lấy Token
+                document.getElementById('status').innerText = "Đang lấy chìa khóa hòm thư...";
+                let tokenData = await fetchAPI("/token", "POST", { address: currentEmail, password: password });
+                token = tokenData.token; // Lưu token lại để đọc thư
+
+                document.getElementById('email').value = currentEmail;
+                closeMail(); // Reset UI
                 document.getElementById('inbox').innerHTML = '<div class="empty">Đang chờ thư đến...</div>';
                 
                 countdown = 10;
                 checkTimer = setInterval(autoCheck, 1000);
-            } else {
-                document.getElementById('email').value = "LỖI KẾT NỐI";
-                document.getElementById('status').innerText = "Không thể tải API. Vui lòng thử lại.";
+            } catch (error) {
+                document.getElementById('email').value = "LỖI KẾT NỐI SERVER";
+                document.getElementById('status').innerText = "API quá tải, vui lòng thử 'Tạo Mail Mới'";
+                console.error(error);
             }
         }
 
+        // Quét hộp thư liên tục
         async function autoCheck() {
+            if (!token) return;
             countdown--;
             document.getElementById('status').innerText = `Làm mới hộp thư sau ${countdown}s...`;
             
@@ -120,9 +142,10 @@
                 countdown = 10;
                 document.getElementById('status').innerText = "Đang quét thư mới...";
                 
-                let emails = await fetchAPI(`?action=getMessages&login=${login}&domain=${domain}`);
-                
-                if (emails) {
+                try {
+                    let mailData = await fetchAPI("/messages");
+                    let emails = mailData["hydra:member"];
+                    
                     let inboxDiv = document.getElementById('inbox');
                     if (emails.length === 0) {
                         inboxDiv.innerHTML = '<div class="empty">Đang chờ thư đến...</div>';
@@ -132,38 +155,53 @@
                             let div = document.createElement('div');
                             div.className = 'mail-item';
                             div.onclick = () => readMail(msg.id);
+                            
+                            // Trích xuất địa chỉ người gửi
+                            let sender = msg.from.address;
+                            if(msg.from.name) sender = msg.from.name + " (" + sender + ")";
+                            
                             div.innerHTML = `
-                                <div class="from">Từ: ${escapeHTML(msg.from)}</div>
+                                <div class="from">Từ: ${escapeHTML(sender)}</div>
                                 <div class="subject">Tiêu đề: ${escapeHTML(msg.subject) || "(Không có)"}</div>
                             `;
                             inboxDiv.appendChild(div);
                         });
                     }
+                } catch (e) {
+                    document.getElementById('status').innerText = "Lỗi quét thư, tự động thử lại sau...";
                 }
             }
         }
 
+        // Đọc nội dung thư
         async function readMail(id) {
             clearInterval(checkTimer);
             document.getElementById('inbox').style.display = 'none';
             document.getElementById('reader').style.display = 'block';
             document.getElementById('status').innerText = "Đang tải nội dung thư...";
 
-            let mailData = await fetchAPI(`?action=readMessage&login=${login}&domain=${domain}&id=${id}`);
-            
-            if (mailData) {
+            try {
+                let msg = await fetchAPI("/messages/" + id);
                 document.getElementById('status').innerText = "Tải thành công.";
-                let content = mailData.htmlBody || `<pre style="padding:15px; font-family:sans-serif; font-size:14px; white-space:pre-wrap;">${mailData.textBody}</pre>`;
+                
+                // Mail.gw trả HTML dưới dạng mảng, hoặc text thuần
+                let content = "";
+                if (msg.html && msg.html.length > 0) {
+                    content = msg.html[0];
+                } else {
+                    content = `<pre style="padding:15px; font-family:sans-serif; font-size:14px; white-space:pre-wrap;">${msg.text}</pre>`;
+                }
                 
                 let doc = document.getElementById('mailFrame').contentWindow.document;
                 doc.open();
                 doc.write(content);
                 doc.close();
-            } else {
+            } catch (error) {
                 document.getElementById('status').innerText = "Lỗi khi mở thư!";
             }
         }
 
+        // Quay lại hộp thư
         function closeMail() {
             document.getElementById('reader').style.display = 'none';
             document.getElementById('inbox').style.display = 'block';
@@ -173,6 +211,7 @@
             document.getElementById('status').innerText = "Đã quay lại hộp thư.";
         }
 
+        // Sao chép email
         function copyMail() {
             let emailInput = document.getElementById('email');
             if(emailInput.value.includes("LỖI") || emailInput.value.includes("Đang")) return;
@@ -183,7 +222,7 @@
             
             let btn = document.getElementById('btnCopy');
             btn.innerText = "ĐÃ COPY";
-            btn.style.background = "#fff";
+            btn.style.background = "var(--accent)";
             btn.style.color = "#000";
             
             setTimeout(() => {
@@ -193,7 +232,9 @@
             }, 1500);
         }
 
+        // Tránh lỗi hiển thị ký tự đặc biệt
         function escapeHTML(str) {
+            if (!str) return "";
             return str.replace(/[&<>'"]/g, tag => ({
                 '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
             }[tag]));
