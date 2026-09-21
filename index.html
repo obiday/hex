@@ -184,29 +184,40 @@
         .btn-submit:hover { background: var(--primary-hover); transform: translateY(-3px); box-shadow: 0 12px 25px rgba(245, 158, 11, 0.3); }
         .btn-submit:active { transform: translateY(1px); }
 
-        /* QR CODE BÊN TRONG */
-        .qr-layout { display: flex; gap: 20px; align-items: flex-start; margin-bottom: 10px; background: #F9FAFB; padding: 15px; border-radius: 20px; border: 1px solid #F3F4F6;}
-        .qr-img-box {
-            width: 140px; height: 140px; background: #fff; padding: 10px;
-            border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid #E5E7EB;
-            flex-shrink: 0; transition: transform 0.3s;
+        /* ========================================= */
+        /* QR CODE BÊN TRONG (ĐÃ FIX KÍCH THƯỚC VỪA MẮT) */
+        /* ========================================= */
+        .qr-layout { display: flex; flex-direction: column; align-items: center; gap: 16px; margin-bottom: 5px; background: #F9FAFB; padding: 16px; border-radius: 20px; border: 1px solid #F3F4F6;}
+        
+        .qr-img-box { 
+            width: 140px; /* Thu nhỏ từ 180px về 140px */
+            height: 140px; 
+            background: #fff; 
+            padding: 8px; /* Bo viền mảnh lại */
+            border-radius: 14px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06); 
+            border: 1px solid #E5E7EB; 
+            flex-shrink: 0; 
+            transition: transform 0.3s; 
         }
         .qr-img-box:hover { transform: scale(1.05); }
         .qr-img-box img { width: 100%; height: 100%; object-fit: contain; }
         
-        .qr-details { flex-grow: 1; display: flex; flex-direction: column; gap: 12px;}
-        .qr-status { display: inline-flex; align-items: center; gap: 6px; color: #D97706; font-size: 12px; font-weight: 800; background: #FEF3C7; padding: 6px 12px; border-radius: 20px; width: fit-content; animation: pulse 2s infinite;}
+        .qr-details { width: 100%; display: flex; flex-direction: column; gap: 8px;} /* Kéo các hộp thông tin gần nhau hơn */
+        
+        .qr-status { display: flex; justify-content: center; align-items: center; gap: 6px; color: #D97706; font-size: 13px; font-weight: 800; background: #FEF3C7; padding: 8px 12px; border-radius: 10px; width: 100%; box-sizing: border-box; animation: pulse 2s infinite;}
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); } 70% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); } 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); } }
         
-        .qr-row label { display: block; font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; margin-bottom: 4px;}
-        .qr-row .val { font-size: 16px; font-weight: 900; color: var(--text-main); }
-        .qr-row .val.flex-copy { display: flex; align-items: center; justify-content: space-between; gap: 5px; }
+        .qr-row { display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 10px 14px; border-radius: 10px; border: 1px solid #E5E7EB; }
+        .qr-row label { font-size: 11px; font-weight: 700; color: #6B7280; text-transform: uppercase; margin-bottom: 0;}
+        .qr-row .val { font-size: 15px; font-weight: 900; color: var(--text-main); text-align: right; }
+        .qr-row .val.flex-copy { display: flex; align-items: center; justify-content: flex-end; gap: 8px; }
         
-        .btn-copy-small { background: #E5E7EB; border: none; padding: 6px 12px; border-radius: 10px; font-size: 12px; font-weight: 700; cursor: pointer; color: #374151; transition: 0.2s;}
+        .btn-copy-small { background: #E5E7EB; border: none; padding: 5px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; color: #374151; transition: 0.2s;}
         .btn-copy-small:hover { background: #D1D5DB; color: #000;}
 
-        .timer-box { background: #FEF2F2; border: 1px solid #FCA5A5; padding: 10px 12px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 13px; color: #B91C1C; margin-top: 5px;}
-        .qr-note-bottom { text-align: center; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-top: 25px; padding-top: 15px; border-top: 1px solid #E5E7EB; }
+        .timer-box { background: #FEF2F2; border: 1px solid #FCA5A5; padding: 10px 14px; border-radius: 10px; display: flex; justify-content: space-between; align-items: center; font-weight: 700; font-size: 13px; color: #B91C1C; margin-top: 2px;}
+        .qr-note-bottom { text-align: center; font-size: 12px; font-weight: 500; color: var(--text-muted); margin-top: 15px; padding-top: 15px; border-top: 1px solid #E5E7EB; }
 
         /* ========================================= */
         /* THÔNG BÁO CẢM ƠN (SUCCESS MODAL) ĐẸP MẮT  */
@@ -540,14 +551,26 @@
     // BIẾN LƯU TRẠNG THÁI ĐỂ PHÁT HIỆN GIAO DỊCH MỚI
     let lastLatestTimestamp = 0; 
     let isFirstLoad = true;
+    let isFetching = false; // Biến cờ chống treo request
 
     async function fetchTopDonate() {
+        if (isFetching) return; // Nếu hàm trước chưa chạy xong, không chạy đè lên
+        isFetching = true;
+
         const listUI = document.getElementById('donateList');
         const loader = document.getElementById('loadingDonate');
         const targetAmount = 300000; 
 
         try {
-            const response = await fetch(getSUrl());
+            // Đặt thời gian chờ Timeout là 8 giây để tránh treo trình duyệt
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 8000); 
+
+            const response = await fetch(getSUrl(), { signal: controller.signal });
+            clearTimeout(timeoutId); // Xóa timeout nếu lấy dữ liệu thành công
+
+            if (!response.ok) throw new Error("Máy chủ phản hồi lỗi!");
+
             const json = await response.json();
             
             let txs = (json.TranList || []).filter(t => Number(t.creditAmount) > 0 && t.description && t.description.includes("DONATE0704"));
@@ -564,7 +587,7 @@
             document.getElementById('progressBarUI').style.width = percent + '%';
 
             if (txs.length === 0) {
-                loader.innerHTML = "Chưa có dữ liệu. Hãy là người đầu tiên!"; 
+                if (isFirstLoad) loader.innerHTML = "Chưa có dữ liệu. Hãy là người đầu tiên!"; 
                 isFirstLoad = false;
                 return;
             }
@@ -602,7 +625,7 @@
             isFirstLoad = false;
             
             // RENDER LỊCH SỬ GIAO DỊCH
-            loader.style.display = 'none';
+            if (loader) loader.style.display = 'none';
             let newHTML = '';
 
             txs.slice(0, 5).forEach((gd, idx) => {
@@ -637,15 +660,21 @@
             }
 
         } catch (error) { 
-            console.error("Lỗi API:", error); 
+            console.error("Lỗi API:", error);
+            // Xử lý báo lỗi ra UI nếu bị treo lần đầu tải
+            if (isFirstLoad && loader) {
+                loader.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> Máy chủ phản hồi chậm, đang tự động thử lại...';
+            }
+        } finally {
+            isFetching = false;
+            // Thay thế setInterval bằng setTimeout đệ quy
+            // Chỉ bắt đầu đếm 3 giây cho lần tải tiếp theo SAU KHI lần hiện tại đã xong
+            setTimeout(fetchTopDonate, 3000); 
         }
     }
 
+    // Khởi động vòng lặp tải dữ liệu
     fetchTopDonate();
-    
-    // ĐẶT LẠI INTERVAL CỰC NHANH - 2 GIÂY / LẦN 
-    // Hệ thống sẽ nhận diện và tự duyệt thanh toán siêu tốc
-    setInterval(fetchTopDonate, 2000);
 
 </script>
 
